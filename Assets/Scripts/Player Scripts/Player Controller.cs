@@ -4,28 +4,57 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    [Header("References")]
     [SerializeField] Camera cam;
+
+    [Header("Movement Settings")]
     public float speed;
     public float sensitivity;
+
+    [Header("Dash Settings")]
+    public float dashingPower = 24f;
+    public float dashCooldown = 2.5f;
+    public float dashDuration = 0.75f;
+    private bool canDash = true;
+    private bool isDashing = false;
+
+    Rigidbody rb;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
+        Move(); 
+    }
+
+    private IEnumerator dash(Vector3 direction)
+    {
+        canDash = false;
+        isDashing = true;
+        rb.AddForce(direction * dashingPower, ForceMode.Impulse);
+        yield return new WaitForSeconds(dashDuration);
+        isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;        
     }
 
     void Move()
     {
-        float dx = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float dz = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        float dx = input.x * speed * Time.deltaTime;
+        float dz = input.z * speed * Time.deltaTime;
         transform.Translate(dx, 0, dz);
+
+        //Dash in players forward direction
+        Vector3 dashDirection = (input.x * transform.right + input.z * transform.forward).normalized;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(dash(dashDirection));
 
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * sensitivity;
