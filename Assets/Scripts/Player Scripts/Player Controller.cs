@@ -1,31 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    [Header("References")]
     [SerializeField] Camera cam;
+    [SerializeField] Animator anim;
+
+    [Header("Movement Settings")]
     public float speed;
     public float sensitivity;
+
+    [Header("Dash Settings")]
+    public float dashingPower = 24f;
+    public float dashCooldown = 2.5f;
+    public float dashDuration = 0.75f;
+    private bool canDash = true;
+    private bool isDashing = false;
+
+    Rigidbody rb;
+
+    public static PlayerController instance;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        EventBus<SwordHitEvent>.OnEvent += TakeHit;
+    }
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Swing");
+        }
+    }
+
+    void TakeHit(SwordHitEvent pEvent)
+    {
+        if (pEvent.hitTransform.name == transform.name) Debug.Log("Player got hit!");
+    }
+
+    private IEnumerator dash(Vector3 direction)
+    {
+        canDash = false;
+        isDashing = true;
+        rb.AddForce(direction * dashingPower, ForceMode.Impulse);
+        yield return new WaitForSeconds(dashDuration);
+        isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;        
     }
 
     void Move()
     {
-        float dx = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float dz = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        float dx = input.x * speed * Time.deltaTime;
+        float dz = input.z * speed * Time.deltaTime;
         transform.Translate(dx, 0, dz);
+
+        //Dash in players forward direction
+        Vector3 dashDirection = (input.x * transform.right + input.z * transform.forward).normalized;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(dash(dashDirection));
 
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * sensitivity;
@@ -49,4 +97,10 @@ public class PlayerController : MonoBehaviour
         //Rotate around the player up and down
         cam.transform.RotateAround(transform.position, transform.right, mouseY);
     }
+
+    void Attack()
+    {
+
+    }
+
 }
