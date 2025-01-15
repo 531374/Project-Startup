@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Camera cam;
+    [SerializeField] Animator anim;
 
     [Header("Movement Settings")]
     public float speed;
@@ -30,7 +32,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move(); 
+        Move();
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Swing");
+        }
     }
 
     private IEnumerator dash(Vector3 direction)
@@ -78,4 +84,10 @@ public class PlayerController : MonoBehaviour
         //Rotate around the player up and down
         cam.transform.RotateAround(transform.position, transform.right, mouseY);
     }
+
+    void Attack()
+    {
+
+    }
+
 }
