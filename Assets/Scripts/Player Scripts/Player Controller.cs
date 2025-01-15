@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController instance;
 
+    [SerializeField] private Stamina stamina;
 
     // Start is called before the first frame update
     void Start()
@@ -40,10 +41,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stamina.currentStamina <= 10) return;
+
         Move();
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("Swing");
+            stamina.ChangeStamina (5);
         }
     }
 
@@ -60,7 +64,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashDuration);
         isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
-        canDash = true;        
+        canDash = true; 
+        stamina.ChangeStamina (10);     
     }
 
     void Move()
