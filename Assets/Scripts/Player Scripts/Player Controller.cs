@@ -22,11 +22,19 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
+    public static PlayerController instance;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        EventBus<SwordHitEvent>.OnEvent += TakeHit;
+    }
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
     }
 
     // Update is called once per frame
@@ -37,6 +45,11 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger("Swing");
         }
+    }
+
+    void TakeHit(SwordHitEvent pEvent)
+    {
+        if (pEvent.hitTransform.name == transform.name) Debug.Log("Player got hit!");
     }
 
     private IEnumerator dash(Vector3 direction)
