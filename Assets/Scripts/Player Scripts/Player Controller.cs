@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown = 2.5f;
     public float dashDuration = 0.75f;
     private bool canDash = true;
-    private bool isDashing = false;
+    //private bool isDashing = false;
 
     Rigidbody rb;
 
@@ -59,10 +59,10 @@ public class PlayerController : MonoBehaviour
     private IEnumerator dash(Vector3 direction)
     {
         canDash = false;
-        isDashing = true;
+        //isDashing = true;
         rb.AddForce(direction * dashingPower, ForceMode.Impulse);
         yield return new WaitForSeconds(dashDuration);
-        isDashing = false;
+        //isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true; 
         stamina.ChangeStamina (10);     
