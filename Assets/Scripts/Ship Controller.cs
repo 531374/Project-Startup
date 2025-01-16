@@ -24,6 +24,11 @@ public class ShipController : MonoBehaviour
     Vector3 upDirection;
     Vector3 forwardDirection;
 
+    public Transform camTransform;
+    public Vector3 camOffset;
+    public float camSpeed = 1.0f;
+    public float camRotationSpeed = 1.0f;
+
     private void Start()
     {
         points = new List<GameObject>();
@@ -45,6 +50,21 @@ public class ShipController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         mask = LayerMask.GetMask("Ground");
+        camTransform.position = transform.position + camOffset;
+
+
+    }
+
+    private void Update()
+    {
+        Vector3 camPos = camTransform.position;
+        Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
+        camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
+
+        Quaternion camRotation = camTransform.rotation;
+        Vector3 lookDirection = rb.velocity.magnitude > 0.25f ? rb.velocity.normalized : transform.forward;
+        Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
+        camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
 
     private void FixedUpdate()
