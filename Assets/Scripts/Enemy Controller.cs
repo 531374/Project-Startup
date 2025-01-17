@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof (EnemyHealthMananger))]
 public class EnemyController : MonoBehaviour
 {
 
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour
     public float attackRange = 5.0f;
     public float speed = 5f;
     public float rotationSpeed = 10f;
+    public float damage = 5f;
 
 
     private bool detectedPlayer;
@@ -70,7 +72,6 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void OnDrawGizmos()

@@ -32,5 +32,12 @@ public class SwordHitEvent : Event
     {
         this.hitTransform = hitTransform;
         this.parent = parent;
+        GetHealthComponent (hitTransform, parent);
+    }
+
+    public void GetHealthComponent (Transform target, Transform parent)
+    {
+        if (target.tag == "Player")  target.GetComponent<PlayerHealthManager> ().TakeDamage (parent.GetComponent<EnemyController>().damage);
+        else if (target.tag == "Enemy") target.GetComponent <EnemyHealthMananger> ().TakeDamage (parent.GetComponent <PlayerController>().damage);
     }
 }
