@@ -1463,8 +1463,8 @@ MonoBehaviour:
   contactRadius: 0.25
   camTransform: {fileID: 330585546}
   camOffset: {x: 0, y: 10, z: -25}
-  camSpeed: 3
-  camRotationSpeed: 2
+  camSpeed: 6
+  camRotationSpeed: 4
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
