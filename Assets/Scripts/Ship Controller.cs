@@ -62,7 +62,7 @@ public class ShipController : MonoBehaviour
         camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
 
         Quaternion camRotation = camTransform.rotation;
-        Vector3 lookDirection = rb.velocity.magnitude > 0.25f ? rb.velocity.normalized : transform.forward;
+        Vector3 lookDirection = rb.velocity.magnitude > 5f ? rb.velocity.normalized : transform.forward;
         Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
         camTransform.rotation = Quaternion.Lerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
