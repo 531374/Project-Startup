@@ -132,6 +132,7 @@ public class BookManager : MonoBehaviour
     {
         if (isPaused)
         {
+            Debug.Log ("asd");
             Time.timeScale = 1;
             isPaused = false;
         }
