@@ -15,6 +15,8 @@ public class MapManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float detectionRadius = 150f;
 
+    [HideInInspector] public List<GameObject> visitedStructures = new List<GameObject> ();
+
     private void Start()
     {
         // Calculate the world bounds once at the start
@@ -26,6 +28,9 @@ public class MapManager : MonoBehaviour
     {
         foreach (var structure in GameObject.FindGameObjectsWithTag("Structure"))
         {
+            if (visitedStructures.Contains (structure)) continue;
+            else visitedStructures.Add (structure);
+            
             if (Vector3.Distance(player.position, structure.transform.position) > detectionRadius) continue;
 
             StructureIcon structureIcon = structure.GetComponent<StructureIcon>();

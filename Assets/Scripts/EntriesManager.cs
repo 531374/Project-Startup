@@ -1,48 +1,102 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EntriesManager : MonoBehaviour
 {
-    private Transform entries;
+    [SerializeField] private GameObject entryTextContainer;
+    [SerializeField] private MapManager mapManager;
+    [SerializeField] private TMP_Text textPref; // Prefab for TMP_Text
+    [SerializeField] private Transform entries; // Parent transform for text entries
     private float height;
     private float entryHeight;
-    private List<GameObject> entryList= new List<GameObject>();
-    // Start is called before the first frame update
+
+    private Dictionary<GameObject, JournalEntry> entriesAlreadyAdded = new Dictionary<GameObject, JournalEntry>();
+
     void Start()
     {
-        entries = this.transform.GetChild (0);    
+        // Ensure 'entries' is properly initialized
+        if (entries == null)
+        {
+            Debug.LogError("Entries transform is not assigned!");
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < entries.childCount; i++)
+        // Adjust height based on child objects
+        height = 0;
+        foreach (Transform child in entries)
         {
-            GameObject entry = entries.GetChild (i).gameObject;
-
-            if (entryList.Contains(entry)) continue;
-
-            entryList.Add(entry);
-
-            RectTransform rectTransform = entry.GetComponent<RectTransform>();
+            RectTransform rectTransform = child.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
-                // For UI elements with RectTransform
-                entryHeight = rectTransform.rect.height;
-                height += entryHeight;
+                height += rectTransform.rect.height;
             }
         }
-   
-
-        if (height != this.GetComponent<RectTransform> ().rect.height)
+        
+        foreach (GameObject structure in mapManager.visitedStructures)
         {
-            RectTransform rectTransform = this.GetComponent<RectTransform>();
-            Vector2 sizeDelta = rectTransform.sizeDelta;
-            sizeDelta.y = height; 
-            rectTransform.sizeDelta = sizeDelta;
+            // Skip if we already have this structure in our entries
+            if (entriesAlreadyAdded.ContainsKey(structure))
+            {
+                continue;
+            }
+
+            StructureIcon structureIcon = structure.GetComponent<StructureIcon>(); 
+            entriesAlreadyAdded.Add(structure, structureIcon.GetJournalEntry());
+
+            if (structureIcon == null) continue;
+
+            // Create new entry only for structures we haven't processed yet
+            TMP_Text newText = Instantiate(structureIcon.GetEntryName(), entries);
+
+            Button button = newText.gameObject.AddComponent<Button>();
+            button.onClick.AddListener(() => SetEntryText(structureIcon));
+            Debug.Log (button);
+        }
+
+
+        // Update the height of the parent RectTransform if it has changed
+        RectTransform rectTransformParent = this.GetComponent<RectTransform>();
+        if (height != rectTransformParent.rect.height)
+        {
+            Vector2 sizeDelta = rectTransformParent.sizeDelta;
+            sizeDelta.y = height;
+            rectTransformParent.sizeDelta = sizeDelta;
+        }
+    }
+
+   public void SetEntryText(StructureIcon entry)
+{
+        // First check if there are any children
+        if (entryTextContainer.transform.childCount > 0)
+        {
+            // Destroy existing child
+            GameObject childToDestroy = entryTextContainer.transform.GetChild(0).gameObject;
+            Destroy(childToDestroy);
+        }
+
+        // Create new text
+        TMP_Text newEntry = Instantiate(entry.GetEntryText(), entryTextContainer.transform);
+        RectTransform rectTransform = newEntry.GetComponent<RectTransform>();
+
+        // Make it fill the parent
+        rectTransform.anchorMin = Vector2.zero;  // (0,0)
+        rectTransform.anchorMax = Vector2.one;   // (1,1)
+        rectTransform.offsetMin = Vector2.zero;   // Left, Bottom
+        rectTransform.offsetMax = Vector2.zero;   // Right, Top
+        
+        // Optional: If you need to ensure the text fits
+        TextMeshProUGUI tmpText = newEntry.GetComponent<TextMeshProUGUI>();
+        if (tmpText != null)
+        {
+            tmpText.enableAutoSizing = true;
+            tmpText.overflowMode = TextOverflowModes.Overflow;
         }
     }
 }
