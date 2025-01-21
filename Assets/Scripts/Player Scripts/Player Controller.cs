@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float speed;
     [SerializeField] private float sensitivity;
+    [SerializeField] private float rotationSpeed;
 
     [Header("Dash Settings")]
     [SerializeField] private float dashingPower = 24f;
@@ -110,9 +111,11 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        input.Normalize();
 
         float dx = input.x * speed * Time.deltaTime;
         float dz = input.z * speed * Time.deltaTime;
+
         transform.Translate(dx, 0, dz);
 
         Vector3 dashDirection = (input.x * transform.right + input.z * transform.forward).normalized;
@@ -141,7 +144,7 @@ public class PlayerController : MonoBehaviour
         // Rotate around the player
         cam.transform.RotateAround(transform.position, transform.right, mouseY);
 
-        anim.SetFloat("Movement", input.magnitude);
+        anim.SetFloat("Movement", input.magnitude * Mathf.Sign(dz));
     }
 
     void TakeHit(SwordHitEvent pEvent)
