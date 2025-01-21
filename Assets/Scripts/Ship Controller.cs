@@ -29,10 +29,13 @@ public class ShipController : MonoBehaviour
     public float camSpeed = 1.0f;
     public float camRotationSpeed = 1.0f;
 
+    bool moveForward = false;
+    float steer = 0.0f;
+
     private void Start()
     {
         points = new List<GameObject>();
-        //In case of 10 by 5 create points between -5 - 5 and -2.5 - 2.5
+        //Divide points over the ship's (hitbox) surface
         Vector3 origin = -transform.localScale / 2f;
 
         for (int x = 0; x < numPointsPerAxis; x++)
@@ -57,26 +60,18 @@ public class ShipController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 camPos = camTransform.position;
-        Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
-        camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
-
-        Quaternion camRotation = camTransform.rotation;
-        Vector3 lookDirection = rb.velocity.magnitude > 5f ? rb.velocity.normalized : transform.forward;
-        Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
-        camTransform.rotation = Quaternion.Lerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
+        GetInput();
+        //MoveCamera();        
     }
 
     private void FixedUpdate()
     {
-
-        if (Input.GetKey(KeyCode.W))
+        if (moveForward)
         {
             rb.AddForce(transform.forward * forwardForce);
         }
 
-        float steer = Input.GetAxis("Horizontal") * steeringTorque;
-        rb.AddTorque(steer * transform.up);
+        rb.AddTorque(steer * steeringTorque * transform.up);
 
         for(int i = 0; i < points.Count; i++)
         {
@@ -91,6 +86,37 @@ public class ShipController : MonoBehaviour
                 rb.AddForceAtPosition(cancelGravity + force * transform.up, points[i].transform.position);
             }
         }
+    }
+
+    private void LateUpdate()
+    {
+        MoveCamera();
+    }
+
+    void GetInput()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveForward = true;
+        }
+        else
+        {
+            moveForward = false;
+        }
+
+        steer = Input.GetAxis("Horizontal");
+    }
+
+    void MoveCamera()
+    {
+        Vector3 camPos = camTransform.position;
+        Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
+        camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
+
+        Quaternion camRotation = camTransform.rotation;
+        Vector3 lookDirection = rb.velocity.magnitude > 5f ? rb.velocity.normalized : transform.forward;
+        Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
+        camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
 
 

@@ -49,13 +49,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Move();
         if (stamina.currentStamina <= 10) return;
 
-        Move();
         if (Input.GetMouseButtonDown(0))
         {
-            anim.SetTrigger("Swing");
-            stamina.ChangeStamina(5);
+            //anim.SetTrigger("Swing");
+            //stamina.ChangeStamina(5);
         }
 
         // Gradually return FOV to default if not dashing
@@ -127,21 +127,25 @@ public class PlayerController : MonoBehaviour
         {
             if (hitInfo.distance < 0.5f)
             {
+                //Camera can move up but not down
                 mouseY = Mathf.Max(mouseY, 0.0f);
             }
         }
 
         // Clamp rotation so you don't go over the player
         float dotProduct = Vector3.Dot(cam.transform.forward, Vector3.down);
+
+        //Camera can move down but not up
         if (dotProduct >= 0.75f) mouseY = Mathf.Min(mouseY, 0.0f);
 
-        // Rotate around the player up and down
+        // Rotate around the player
         cam.transform.RotateAround(transform.position, transform.right, mouseY);
+
+        anim.SetFloat("Movement", input.magnitude);
     }
 
     void TakeHit(SwordHitEvent pEvent)
     {
-        if (pEvent.hitTransform.name == transform.name) Debug.Log("Player got hit!");
     }
 
     void Attack()
