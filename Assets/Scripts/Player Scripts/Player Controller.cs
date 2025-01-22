@@ -8,11 +8,13 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] Camera cam;
     [SerializeField] Animator anim;
+    [SerializeField] Stamina stamina;
 
     [Header("Movement Settings")]
     [SerializeField] private float speed;
     [SerializeField] private float sensitivity;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float jumpStrength;
 
     [Header("Dash Settings")]
     [SerializeField] private float dashingPower = 24f;
@@ -33,7 +35,9 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController instance;
 
-    [SerializeField] private Stamina stamina;
+
+    private bool isGrounded;
+    private bool isJumping;
 
     private void Start()
     {
@@ -41,6 +45,9 @@ public class PlayerController : MonoBehaviour
         EventBus<SwordHitEvent>.OnEvent += TakeHit;
 
         defaultFov = cam.fieldOfView;
+
+        isGrounded = true;
+        isJumping = false;
     }
 
     private void Awake()
@@ -51,6 +58,8 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
+        JumpLogic();
+
         if (stamina.currentStamina <= 10) return;
 
         if (Input.GetMouseButtonDown(0))
@@ -66,8 +75,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void JumpLogic()
+    {
+        //Dogshit function
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetTrigger("Jump");
+        }
+
+        
+    }
+
     private IEnumerator dash(Vector3 direction)
     {
+        anim.SetTrigger("Roll");
+
+
         canDash = false;
 
         // Increase FOV for dash effect
@@ -104,6 +128,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown); // Wait for cooldown
         canDash = true;
         stamina.ChangeStamina(10); // Reduce stamina after dash
+    }
+
+    public void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+        isJumping = true;
     }
 
 
@@ -154,5 +184,26 @@ public class PlayerController : MonoBehaviour
     void Attack()
     {
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Terrain"))
+        {
+            if (isJumping && !isGrounded)
+            {
+                isGrounded = true;
+                isJumping = false;
+                anim.SetTrigger("Land");
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.transform.CompareTag("Terrain"))
+        {
+            isGrounded = false;
+        }
     }
 }
