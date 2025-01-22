@@ -12,6 +12,8 @@ public class EntriesManager : MonoBehaviour
     [SerializeField] private MapManager mapManager;
     [SerializeField] private TMP_Text textPref; // Prefab for TMP_Text
     [SerializeField] private Transform entries; // Parent transform for text entries
+
+    private StructureIcon currentlyOpenEntry; // Track currently open entry
     private float height;
     private float entryHeight;
 
@@ -28,7 +30,6 @@ public class EntriesManager : MonoBehaviour
 
     void Update()
     {
-        // Adjust height based on child objects
         height = 0;
         foreach (Transform child in entries)
         {
@@ -56,7 +57,7 @@ public class EntriesManager : MonoBehaviour
             TMP_Text newText = Instantiate(structureIcon.GetEntryName(), entries);
 
             Button button = newText.gameObject.AddComponent<Button>();
-            button.onClick.AddListener(() => SetEntryText(structureIcon));
+            button.onClick.AddListener(() => HandleEntryClick(structureIcon));
             Debug.Log (button);
         }
 
@@ -68,6 +69,31 @@ public class EntriesManager : MonoBehaviour
             Vector2 sizeDelta = rectTransformParent.sizeDelta;
             sizeDelta.y = height;
             rectTransformParent.sizeDelta = sizeDelta;
+        }
+    }
+
+    private void HandleEntryClick(StructureIcon entry)
+    {
+        if (currentlyOpenEntry == entry)
+        {
+            // If clicking the same entry that's already open, close it
+            ClearEntryText();
+            currentlyOpenEntry = null;
+        }
+        else
+        {
+            // Open the new entry
+            SetEntryText(entry);
+            currentlyOpenEntry = entry;
+        }
+    }
+
+    private void ClearEntryText()
+    {
+        if (entryTextContainer.transform.childCount > 0)
+        {
+            GameObject childToDestroy = entryTextContainer.transform.GetChild(0).gameObject;
+            Destroy(childToDestroy);
         }
     }
 
@@ -90,13 +116,5 @@ public class EntriesManager : MonoBehaviour
         rectTransform.anchorMax = Vector2.one;   // (1,1)
         rectTransform.offsetMin = Vector2.zero;   // Left, Bottom
         rectTransform.offsetMax = Vector2.zero;   // Right, Top
-        
-        // Optional: If you need to ensure the text fits
-        TextMeshProUGUI tmpText = newEntry.GetComponent<TextMeshProUGUI>();
-        if (tmpText != null)
-        {
-            tmpText.enableAutoSizing = true;
-            tmpText.overflowMode = TextOverflowModes.Overflow;
-        }
     }
 }
