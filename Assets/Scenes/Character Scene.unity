@@ -268,6 +268,7 @@ MonoBehaviour:
   anim: {fileID: 933181267}
   speed: 5
   sensitivity: 1
+  rotationSpeed: 0
   dashingPower: 24
   dashCooldown: 2.5
   dashDuration: 0.75
@@ -1676,51 +1677,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893581384}
   m_CullTransparentMesh: 1
---- !u!1 &933181264 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d0660193686611a4f8bc38cf6cb1c908,
-    type: 3}
-  m_PrefabInstance: {fileID: 1190609873}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &933181265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933181264}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18b9f1c2a10fd14ca718da52bff71ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 156441080}
-  anim: {fileID: 959600060}
-  speed: 5
-  sensitivity: 1
-  dashingPower: 24
-  dashCooldown: 2.5
-  dashDuration: 0.75
-  dashFovIncrease: 20
-  fovChangeSpeed: 5
-  damage: 10
-  stamina: {fileID: 372477298}
---- !u!114 &933181266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933181264}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b53acd5c0e2dd784da63ee108c90af3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 50
-  lerpSpeed: 5
-  slider: {fileID: 1861275500}
 --- !u!95 &933181267 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: d0660193686611a4f8bc38cf6cb1c908,
@@ -1809,6 +1765,7 @@ MonoBehaviour:
   anim: {fileID: 959600060}
   speed: 5
   sensitivity: 1
+  rotationSpeed: 0
   dashingPower: 24
   dashCooldown: 2.5
   dashDuration: 0.75
@@ -2095,18 +2052,15 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: cf2412d2e37af184cae92c57c86f65b6, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d0660193686611a4f8bc38cf6cb1c908,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d0660193686611a4f8bc38cf6cb1c908,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 933181266}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d0660193686611a4f8bc38cf6cb1c908,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 933181265}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0660193686611a4f8bc38cf6cb1c908, type: 3}
 --- !u!1 &1200972138
 GameObject:
