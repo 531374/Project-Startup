@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
         canDash = true;
         isDashing = false;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Awake()
@@ -68,6 +70,19 @@ public class PlayerController : MonoBehaviour
         Move();
         Interact();
         JumpLogic();
+
+        //Delete after 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if(Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
 
         if (stamina.currentStamina <= 10) return;
 
@@ -215,11 +230,16 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(cam.transform.position, Vector3.down, out RaycastHit hitInfo))
         {
-            if (hitInfo.distance < 0.5f)
+            if (hitInfo.distance <= 1f)
             {
                 //Camera can move up but not down
                 mouseY = Mathf.Max(mouseY, 0.0f);
             }
+        }
+        else
+        {
+            Physics.Raycast(cam.transform.position, Vector3.up, out RaycastHit hit);
+            cam.transform.position = new Vector3(cam.transform.position.x, hit.point.y + 1.0f, cam.transform.position.z);
         }
 
         // Clamp rotation so you don't go over the player
@@ -234,7 +254,7 @@ public class PlayerController : MonoBehaviour
         cam.transform.position = transform.position + cam.transform.rotation * cameraOffset;
 
 
-        anim.SetFloat("Movement", input.magnitude * Mathf.Sign(input.z));
+        anim.SetFloat("Movement", input.magnitude);
     }
 
     void TakeHit(SwordHitEvent pEvent)
