@@ -7,15 +7,23 @@ using UnityEngine.UI;
 
 public class BookManager : MonoBehaviour
 {
+    public static BookManager instance;
+
     [Header("References")]
     [SerializeField] private GameObject book;
     [SerializeField] private GameObject journal;
+    [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject miniMap;
     [SerializeField] private GameObject settings;
     [SerializeField] private AudioClip switchSound; // Reference to the sound clip
     [SerializeField] private AudioSource audioSource; // Reference to the AudioSource
 
-    public static bool isPaused = false;
+    [HideInInspector] public bool isPaused = false;
+
+    private void Awake ()
+    {
+        if (instance == null) instance = this;
+    }
 
 
     private void Update ()
@@ -27,30 +35,56 @@ public class BookManager : MonoBehaviour
     {
         if (Input.GetKeyDown (KeyCode.J))
         {
-            if (book.activeSelf == false && journal.activeSelf == false) book.SetActive (true);
+            if (book.activeSelf == false && journal.activeSelf == false) 
+            {
+                book.SetActive (true);
+                setJournal ();
+            }
             else if (book.activeSelf == true && journal.activeSelf == true) 
             {
-                book.SetActive (false);
                 ResumeGame ();
+                DisableJournal ();
+                book.SetActive (false);
             }
-            setJournal ();
+           
         } else if (Input.GetKeyDown (KeyCode.M))
         {
-            if (book.activeSelf == false && miniMap.activeSelf == false) book.SetActive (true);
+            if (book.activeSelf == false && miniMap.activeSelf == false) 
+            {
+                book.SetActive (true);
+                setMap ();
+            }
             else if (book.activeSelf == true && miniMap.activeSelf == true) 
             {
-                book.SetActive (false);
                 ResumeGame ();
+                DisableMap ();
+                book.SetActive (false);
             }
-            setMap ();
-        } else if (Input.GetKeyDown (KeyCode.Escape) && book.activeSelf == false)
+      
+        }else if (Input.GetKeyDown (KeyCode.I)) 
+        {
+            if (book.activeSelf == false && inventory.activeSelf == false)
+            { 
+                book.SetActive (true);
+                setInventory ();
+            }
+            else if (book.activeSelf == true && inventory.activeSelf == true) 
+            {
+                ResumeGame ();
+                DissableInventory ();
+                book.SetActive (false);
+            }
+         
+        }
+        else if (Input.GetKeyDown (KeyCode.Escape) && book.activeSelf == false)
         {
             book.SetActive (true);
             setSettings ();
         } else if (Input.GetKeyDown (KeyCode.Escape) && book.activeSelf == true)
         {
-            book.SetActive (false);
             ResumeGame ();
+            DisableSettings ();
+            book.SetActive (false);
         }
     }
 
@@ -58,16 +92,27 @@ public class BookManager : MonoBehaviour
     {
         PlaySound();
         EnableJournal();
+        DissableInventory ();
         DisableMap();
         DisableSettings();
         PauseGame ();
     }
 
+    public void setInventory()
+    {
+        PlaySound();
+        DisableJournal();
+        EnableInvetory();
+        DisableMap();
+        DisableSettings();
+        PauseGame ();
+    }
     public void setMap()
     {
         PlaySound();
         EnableMap();
         DisableJournal();
+        DissableInventory ();
         DisableSettings();
         PauseGame ();
     }
@@ -76,6 +121,7 @@ public class BookManager : MonoBehaviour
     {
         PlaySound();
         EnableSettings();
+        DissableInventory ();
         DisableJournal();
         DisableMap();
         PauseGame ();
@@ -89,6 +135,16 @@ public class BookManager : MonoBehaviour
     private void EnableJournal()
     {
         if (journal.activeSelf == false) journal.SetActive(true);
+    }
+
+    private void EnableInvetory ()
+    {
+        if (inventory.activeSelf == false) inventory.SetActive (true);
+    }
+
+    private void DissableInventory ()
+    {
+        if (inventory.activeSelf == true) inventory.SetActive (false);
     }
 
     private void DisableMap()
@@ -121,20 +177,13 @@ public class BookManager : MonoBehaviour
 
     private void PauseGame()
     {
-        if (!isPaused)
-        {
-            Time.timeScale = 0;
-            isPaused = false;
-        }
+        Time.timeScale = 0;
+        isPaused = true;
     }
 
     public void ResumeGame()
     {
-        if (isPaused)
-        {
-            Debug.Log ("asd");
-            Time.timeScale = 1;
-            isPaused = false;
-        }
+        Time.timeScale = 1;
+        isPaused = false;
     }
 }

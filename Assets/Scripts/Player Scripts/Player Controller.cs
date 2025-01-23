@@ -119,29 +119,40 @@ public class PlayerController : MonoBehaviour
         anim.ResetTrigger("Light Attack");
     }
 
-    private void Interact ()
+    private void Interact()
     {
-        if (Input.GetKeyDown (KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Collider[] colliders = Physics.OverlapSphere (this.transform.position, pickupRange);
+            Collider[] colliders = Physics.OverlapSphere(this.transform.position, pickupRange);
             
-            if (colliders.Length < 0) return;
+            if (colliders.Length <= 0) return;
+
+            Interactable closestInteractable = null;
+            float closestDistance = float.MaxValue;
 
             foreach (var collider in colliders)
             {
-                Interactable interactable = collider.gameObject.GetComponent <Interactable> ();
+                Interactable interactable = collider.gameObject.GetComponent<Interactable>();
 
 
-                if (interactable != null && Vector3.Distance (this.transform.position, interactable.transform.position) < interactable.radius)
+                if (interactable != null)
                 {
-                    Debug.Log (interactable);
-                    interactable.interacted = true;
+                    float distance = Vector3.Distance(this.transform.position, interactable.transform.position);
+                    
+                    if (distance < interactable.radius && distance < closestDistance)
+                    {
+                        closestInteractable = interactable;
+                        closestDistance = distance;
+                    }
                 }
-            } 
-            
+            }
+
+            if (closestInteractable != null)
+            {
+                closestInteractable.interacted = true;
+            }
         }
     }
-
     private void OnDrawGizmosSelected ()
     {
         Gizmos.color = Color.red;

@@ -10,8 +10,7 @@ public class ShipSceneSwitcher : InteractableObject
 
     private void Start ()
     {
-        player = GameObject.FindGameObjectWithTag ("Ship").transform;
-        if (player == null) player = GameObject.FindGameObjectWithTag ("Player").transform;
+        player = player ? GameObject.FindGameObjectWithTag ("Ship").transform : GameObject.FindGameObjectWithTag ("Player").transform;
     }
 
     protected override void Interact()

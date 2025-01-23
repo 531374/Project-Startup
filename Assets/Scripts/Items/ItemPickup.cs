@@ -11,7 +11,15 @@ public class ItemPickup : InteractableItem
 
     private void PickUp ()
     {
-        bool wasItemPickedUp = Inventory.instance.Add(item);
+        bool wasItemPickedUp = false;
+        if (item is CollectableItem)
+        {
+            wasItemPickedUp = Inventory.instance.AddCollectable((CollectableItem)item);
+        }
+        else if (item is Weapon)
+        {
+            wasItemPickedUp = Inventory.instance.AddWeapon ((Weapon)item);
+        }
 
         if (wasItemPickedUp) Destroy (gameObject);
     }

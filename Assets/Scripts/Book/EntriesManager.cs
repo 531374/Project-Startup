@@ -26,7 +26,7 @@ public class EntriesManager : MonoBehaviour
     void Start()
     {
 
-        rectTransformParent = this.GetComponent<RectTransform>();
+        rectTransformParent = entryTextContainer.GetComponent<RectTransform>();
         height = 0;
     }
 
@@ -39,7 +39,7 @@ public class EntriesManager : MonoBehaviour
                 if (children.Contains (child)) continue;
 
                 RectTransform rectTransform = child.GetComponent<RectTransform>();
-                if (rectTransform != null && rectTransform.rect.height > 0) // Avoid invalid heights
+                if (rectTransform != null && rectTransform.rect.height > 0)
                 {
                     height += rectTransform.rect.height;
                 }

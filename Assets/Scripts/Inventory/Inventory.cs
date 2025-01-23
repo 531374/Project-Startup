@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public int inventorySize;
+    public int collectablesInventorySize;
+    public int weaponInventorySize;
     public static Inventory instance { get; private set; }
 
     private void Awake ()
@@ -17,24 +18,43 @@ public class Inventory : MonoBehaviour
         instance = this;
     }
 
-    public List<Item> items= new List<Item>();
+    public List<CollectableItem> collectableItems= new List<CollectableItem>();
+    public List<Weapon> weapons= new List<Weapon>();
     public delegate void OnItemChanged ();
-    public OnItemChanged onItemChangedCallback;
+    public delegate void OnWeaponChanged ();
+    public OnItemChanged onCollectableItemChangedCallback;
+    public OnWeaponChanged onWeaponChangedCallback;
 
-    public bool Add (Item item)
+    public bool AddWeapon (Weapon weapon)
     {
-        if (items.Count >= inventorySize) return false;
+        if (weapons.Count >= weaponInventorySize) return false;
 
-        items.Add(item);
+        weapons.Add(weapon);
 
-        if (onItemChangedCallback != null) onItemChangedCallback.Invoke();
+        if (onWeaponChangedCallback != null) onWeaponChangedCallback.Invoke();
+
+        return true;
+    }
+    public void RemoveWeapon (Weapon weapon)
+    {
+        weapons.Remove(weapon);
+        if (onWeaponChangedCallback != null) onWeaponChangedCallback.Invoke(); 
+    }
+
+    public bool AddCollectable (CollectableItem item)
+    {
+        if (collectableItems.Count >= collectablesInventorySize) return false;
+
+        collectableItems.Add(item);
+
+        if (onCollectableItemChangedCallback != null) onCollectableItemChangedCallback.Invoke();
 
         return true;
     }
 
-    public void Remove (Item item)
+    public void RemoveCollectable (CollectableItem item)
     {
-        items.Remove(item);
-        if (onItemChangedCallback != null) onItemChangedCallback.Invoke(); 
+        collectableItems.Remove(item);
+        if (onCollectableItemChangedCallback != null) onCollectableItemChangedCallback.Invoke(); 
     }
 }
