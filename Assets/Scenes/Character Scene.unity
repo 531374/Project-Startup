@@ -266,13 +266,15 @@ MonoBehaviour:
   stamina: {fileID: 372477298}
   speed: 5
   sensitivity: 1
-  rotationSpeed: 0
   jumpStrength: 10
+  rotationSpeed: 10
   dashingPower: 24
   dashCooldown: 2.5
-  dashDuration: 0.75
+  dashDuration: 1
+  cameraOffset: {x: 0, y: 5, z: -15}
   dashFovIncrease: 20
   fovChangeSpeed: 5
+  pickupRange: 1
   damage: 10
 --- !u!114 &109887126
 MonoBehaviour:
@@ -303,7 +305,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 156441083}
   - {fileID: 933181268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -646,7 +647,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 109887127}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &164668467
 GameObject:
@@ -4408,3 +4409,4 @@ SceneRoots:
   - {fileID: 32471363}
   - {fileID: 372477302}
   - {fileID: 109887127}
+  - {fileID: 156441083}

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 [RequireComponent(typeof(PlayerHealthManager))]
@@ -13,16 +14,19 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float speed;
     [SerializeField] private float sensitivity;
-    [SerializeField] private float rotationSpeed;
     [SerializeField] private float jumpStrength;
+    [SerializeField] private float rotationSpeed;
 
     [Header("Dash Settings")]
     [SerializeField] private float dashingPower = 24f;
     [SerializeField] private float dashCooldown = 2.5f;
-    [SerializeField] private float dashDuration = 0.75f;
-    private bool canDash = true;
+    [SerializeField] private float dashDuration = 1f;
+
+    [HideInInspector] public bool isDashing;
+    private bool canDash;
 
     [Header("Camera Settings")]
+    [SerializeField] private Vector3 cameraOffset;
     [SerializeField] private float dashFovIncrease = 20f; // Amount by which FOV increases during dash
     [SerializeField] private float fovChangeSpeed = 5f;   // Speed of FOV change
 
@@ -50,6 +54,8 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = true;
         isJumping = false;
+        canDash = true;
+        isDashing = false;
     }
 
     private void Awake()
@@ -109,7 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         //Dogshit function
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
             anim.SetTrigger("Jump");
         }
@@ -117,11 +123,12 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private IEnumerator dash(Vector3 direction)
+    private IEnumerator roll(Vector3 direction)
     {
         anim.SetTrigger("Roll");
+        stamina.ChangeStamina(10); // Reduce stamina after dash
 
-
+        isDashing = true;
         canDash = false;
 
         // Increase FOV for dash effect
@@ -142,6 +149,8 @@ public class PlayerController : MonoBehaviour
             yield return null; // Wait for the next frame
         }
 
+        isDashing = false;
+
         // Stop dash movement (optional damping or reset velocity here if needed)
         rb.velocity = Vector3.zero;
 
@@ -157,7 +166,6 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(dashCooldown); // Wait for cooldown
         canDash = true;
-        stamina.ChangeStamina(10); // Reduce stamina after dash
     }
 
     public void Jump()
@@ -173,18 +181,37 @@ public class PlayerController : MonoBehaviour
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         input.Normalize();
 
-        float dx = input.x * speed * Time.deltaTime;
-        float dz = input.z * speed * Time.deltaTime;
+        Vector3 cameraRight = cam.transform.right;
+        Vector3 cameraForward = Vector3.Cross(cameraRight, Vector3.up);
+        Vector3 move = input.x * cameraRight + input.z * cameraForward;
 
-        transform.Translate(dx, 0, dz);
+        transform.Translate(move * speed * Time.deltaTime, Space.World);        
 
-        Vector3 dashDirection = (input.x * transform.right + input.z * transform.forward).normalized;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(dash(dashDirection));
+
+        Quaternion rotation = transform.rotation;
+        Quaternion targetRotation;
+
+        if(input != Vector3.zero)
+        {
+            targetRotation = Quaternion.LookRotation(input.x * cameraRight + input.z * cameraForward);
+        }
+        else if(input.z < 0.0f)
+        {
+            targetRotation = Quaternion.LookRotation(-cameraForward);
+        }
+        else
+        {
+            targetRotation = Quaternion.LookRotation(transform.forward);
+        }
+
+        transform.rotation = Quaternion.Lerp(rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+        Vector3 dashDirection = (input.x * cameraRight + input.z * cameraForward).normalized;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(roll(dashDirection));
 
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * sensitivity;
 
-        transform.Rotate(0, mouseX, 0);
 
         if (Physics.Raycast(cam.transform.position, Vector3.down, out RaycastHit hitInfo))
         {
@@ -202,9 +229,12 @@ public class PlayerController : MonoBehaviour
         if (dotProduct >= 0.75f) mouseY = Mathf.Min(mouseY, 0.0f);
 
         // Rotate around the player
-        cam.transform.RotateAround(transform.position, transform.right, mouseY);
+        cam.transform.RotateAround(transform.position, Vector3.up, mouseX);
+        cam.transform.RotateAround(transform.position, cam.transform.right, mouseY);
+        cam.transform.position = transform.position + cam.transform.rotation * cameraOffset;
 
-        anim.SetFloat("Movement", input.magnitude * Mathf.Sign(dz));
+
+        anim.SetFloat("Movement", input.magnitude * Mathf.Sign(input.z));
     }
 
     void TakeHit(SwordHitEvent pEvent)
