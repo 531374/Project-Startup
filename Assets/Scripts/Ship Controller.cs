@@ -11,6 +11,7 @@ public class ShipController : MonoBehaviour
     public float desiredHeight = 1.0f;
     public float spring = 100.0f;
     public float damp = 10.0f;
+    [SerializeField] private float pickupRange;
 
     Rigidbody rb;
 
@@ -61,6 +62,7 @@ public class ShipController : MonoBehaviour
     private void Update()
     {
         GetInput();
+        Interact ();
         //MoveCamera();        
     }
 
@@ -129,5 +131,33 @@ public class ShipController : MonoBehaviour
         {
             Gizmos.DrawSphere(points[i].transform.position, contactRadius);
         }
+    }
+
+    private void Interact ()
+    {
+        if (Input.GetKeyDown (KeyCode.E))
+        {
+            Collider[] colliders = Physics.OverlapSphere (this.transform.position, pickupRange);
+            
+            if (colliders.Length < 0) return;
+
+            foreach (var collider in colliders)
+            {
+                Interactable interactable = collider.gameObject.GetComponent <Interactable> ();
+
+
+                if (interactable != null && Vector3.Distance (this.transform.position, interactable.transform.position) < interactable.radius)
+                {
+                    interactable.interacted = true;
+                }
+            } 
+            
+        }
+    }
+
+    private void OnDrawGizmosSelected ()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere (transform.position + new Vector3 (0, this.GetComponent<Collider> ().bounds.size.y / 2, 0), pickupRange);
     }
 }

@@ -19,26 +19,35 @@ public class EntriesManager : MonoBehaviour
 
     private Dictionary<GameObject, JournalEntry> entriesAlreadyAdded = new Dictionary<GameObject, JournalEntry>();
 
+    RectTransform rectTransformParent;
+
+    private List<Transform> children = new List<Transform> ();
+
     void Start()
     {
-        // Ensure 'entries' is properly initialized
-        if (entries == null)
-        {
-            Debug.LogError("Entries transform is not assigned!");
-        }
+
+        rectTransformParent = this.GetComponent<RectTransform>();
+        height = 0;
     }
 
     void Update()
     {
-        height = 0;
-        foreach (Transform child in entries)
+        if (entries.childCount > 0)
         {
-            RectTransform rectTransform = child.GetComponent<RectTransform>();
-            if (rectTransform != null)
+            foreach (Transform child in entries)
             {
-                height += rectTransform.rect.height;
+                if (children.Contains (child)) continue;
+
+                RectTransform rectTransform = child.GetComponent<RectTransform>();
+                if (rectTransform != null && rectTransform.rect.height > 0) // Avoid invalid heights
+                {
+                    height += rectTransform.rect.height;
+                }
+
+                children.Add (child);
             }
         }
+
         
         foreach (GameObject structure in mapManager.visitedStructures)
         {
@@ -62,14 +71,13 @@ public class EntriesManager : MonoBehaviour
         }
 
 
-        // Update the height of the parent RectTransform if it has changed
-        RectTransform rectTransformParent = this.GetComponent<RectTransform>();
         if (height != rectTransformParent.rect.height)
         {
             Vector2 sizeDelta = rectTransformParent.sizeDelta;
             sizeDelta.y = height;
             rectTransformParent.sizeDelta = sizeDelta;
         }
+
     }
 
     private void HandleEntryClick(StructureIcon entry)
@@ -97,8 +105,8 @@ public class EntriesManager : MonoBehaviour
         }
     }
 
-   public void SetEntryText(StructureIcon entry)
-{
+    public void SetEntryText(StructureIcon entry)
+    {
         // First check if there are any children
         if (entryTextContainer.transform.childCount > 0)
         {

@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     public float damage = 10f;
 
-    private float defaultFov;  // The camera's default FOV
+    private float defaultFov; 
 
     Rigidbody rb;
 
@@ -111,9 +111,11 @@ public class PlayerController : MonoBehaviour
             {
                 Interactable interactable = collider.gameObject.GetComponent <Interactable> ();
 
+
                 if (interactable != null && Vector3.Distance (this.transform.position, interactable.transform.position) < interactable.radius)
                 {
-                    Debug.Log ("Interacting");
+                    Debug.Log (interactable);
+                    interactable.interacted = true;
                 }
             } 
             
