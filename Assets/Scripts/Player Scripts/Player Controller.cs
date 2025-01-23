@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isJumping;
 
+    private bool isAttacking;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
         canDash = true;
         isDashing = false;
+        isAttacking = false;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -88,8 +91,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //anim.SetTrigger("Swing");
-            //stamina.ChangeStamina(5);
+            anim.SetTrigger("Light Attack");
         }
 
         // Gradually return FOV to default if not dashing
@@ -97,6 +99,24 @@ public class PlayerController : MonoBehaviour
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
         }
+    }
+
+    public void StartAttack()
+    {
+        isAttacking = true;
+        anim.SetBool("isAttacking", isAttacking);
+    }
+
+    public void StopAttack()
+    {
+        isAttacking = false;
+        anim.SetBool("isAttacking", isAttacking);
+    }
+
+    public void FinalAttack()
+    {
+        //Prevent instantly attacking after last one
+        anim.ResetTrigger("Light Attack");
     }
 
     private void Interact ()
@@ -153,6 +173,12 @@ public class PlayerController : MonoBehaviour
 
         // Apply initial dash force
         rb.velocity = Vector3.zero; // Reset velocity for clean dash
+
+        if(direction == Vector3.zero)
+        {
+            direction = transform.forward;
+        }
+
         rb.AddForce(direction * dashingPower, ForceMode.Impulse);
 
         // Dash movement phase

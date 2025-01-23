@@ -13,6 +13,9 @@ public class ShipController : MonoBehaviour
     public float damp = 10.0f;
     [SerializeField] private float pickupRange;
 
+    [SerializeField] private Transform leftThing;
+    [SerializeField] private Transform rightThing;
+
     Rigidbody rb;
 
     public int numPointsPerAxis = 2;
@@ -64,6 +67,9 @@ public class ShipController : MonoBehaviour
         GetInput();
         Interact ();
         //MoveCamera();        
+
+        DeformTerrain ();
+
     }
 
     private void FixedUpdate()
@@ -152,6 +158,22 @@ public class ShipController : MonoBehaviour
                 }
             } 
             
+        }
+    }
+
+    void DeformTerrain()
+    {
+        if(rb.velocity.magnitude >= 0f)
+        {
+            if (Physics.Raycast(leftThing.position, -transform.up, out RaycastHit hitLeft))
+            {
+                if (hitLeft.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain)) terrain.DeformTerrainAtPoint(hitLeft.point);
+            }
+
+            if (Physics.Raycast(rightThing.position, -transform.up, out RaycastHit hitRight))
+            {
+                if (hitRight.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain1)) terrain1.DeformTerrainAtPoint(hitRight.point);
+            }
         }
     }
 
