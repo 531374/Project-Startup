@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashFovIncrease = 20f; // Amount by which FOV increases during dash
     [SerializeField] private float fovChangeSpeed = 5f;   // Speed of FOV change
 
+    [Header ("Interactable Settings")]
+    [SerializeField] public float pickupRange;
 
     public float damage = 10f;
 
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Move();
+        Interact();
         JumpLogic();
 
         if (stamina.currentStamina <= 10) return;
@@ -73,6 +76,33 @@ public class PlayerController : MonoBehaviour
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
         }
+    }
+
+    private void Interact ()
+    {
+        if (Input.GetKeyDown (KeyCode.E))
+        {
+            Collider[] colliders = Physics.OverlapSphere (this.transform.position, pickupRange);
+            
+            if (colliders.Length < 0) return;
+
+            foreach (var collider in colliders)
+            {
+                Interactable interactable = collider.gameObject.GetComponent <Interactable> ();
+
+                if (interactable != null && Vector3.Distance (this.transform.position, interactable.transform.position) < interactable.radius)
+                {
+                    Debug.Log ("Interacting");
+                }
+            } 
+            
+        }
+    }
+
+    private void OnDrawGizmosSelected ()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere (transform.position + new Vector3 (0, this.GetComponent<Collider> ().bounds.size.y / 2, 0), pickupRange);
     }
 
     private void JumpLogic()
