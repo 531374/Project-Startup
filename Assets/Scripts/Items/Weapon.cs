@@ -6,5 +6,5 @@ public class Weapon : Item
 {
     new public string name = "Weapon";
     public int attack = 2;
-    public int defense = 1;
+    public int durability = 1;
 }
