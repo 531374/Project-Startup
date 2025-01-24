@@ -20,6 +20,7 @@ public class WeaponInventoryManager : MonoBehaviour
     {
         effct = GetComponent<InventoryEffect> ();
         UpdateMidChild ();
+        effct.inventorySwaped = true;
     }
 
     // Update is called once per frame
@@ -39,22 +40,31 @@ public class WeaponInventoryManager : MonoBehaviour
         {
             inventoryParent.gameObject.SetActive (true);
             panel.gameObject.SetActive (true);
-            Time.timeScale = 0.5f;
+
+            weaponName.gameObject.SetActive (true);
+            weaponDmg.gameObject.SetActive (true);
+            weaponDurability.gameObject.SetActive (true);
+            Time.timeScale = 0.3f;
         } else if (Input.GetKeyUp (KeyCode.Tab))
         {
             inventoryParent.gameObject.SetActive (false);
             panel.gameObject.SetActive (false);
+            weaponName.gameObject.SetActive (false);
+            weaponDmg.gameObject.SetActive (false);
+            weaponDurability.gameObject.SetActive (false);
             Time.timeScale = 1f;
         }
     }
 
     private void UpdateMidChild ()
     {
-        if (effct.inventorySwaped == false) return;
-
         weaponName.text = "";
         weaponDmg.text = "";
         weaponDurability.text = "";
+
+
+        if (effct.inventorySwaped == false) return;
+
 
         foreach (Transform child in inventoryParent)
         {
@@ -68,6 +78,7 @@ public class WeaponInventoryManager : MonoBehaviour
                 child.GetChild (0).GetComponent <Image> ().color = color;
 
                 InventorySlot inventorySlot = boarder.GetComponent<InventorySlot>();
+                if (inventorySlot.item == null) return;
                 Weapon item = (Weapon)inventorySlot.item;
 
                 weaponName.text = item.name;
@@ -80,6 +91,7 @@ public class WeaponInventoryManager : MonoBehaviour
                 Color color = child.GetChild (0).GetComponent<Image> ().color;
                 color.a = 170;
                 child.GetChild (0).GetComponent <Image> ().color = color;
+
             }
         }
     }
