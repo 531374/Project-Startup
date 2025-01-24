@@ -17,12 +17,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpStrength;
     [SerializeField] private float rotationSpeed;
 
-    [Header("Dash Settings")]
-    [SerializeField] private float dashingPower = 24f;
-    [SerializeField] private float dashCooldown = 2.5f;
-    [SerializeField] private float dashDuration = 1f;
+    [Header ("Attack Setting")]
+    [SerializeField] private float normalAttackStaminaCost = 2f;
+    [SerializeField] private float heavyAttackStaminaCost = 7f;
 
-    [HideInInspector] public bool isDashing;
+    [Header("Roll Settings")]
+    [SerializeField] private float rollPower = 24f;
+    [SerializeField] private float rollDuration = 1f;
+    [SerializeField] private float rollStaminaCost = 10f;
+
+    [HideInInspector] public bool isRolling;
     private bool canDash;
 
     [Header("Camera Settings")]
@@ -57,7 +61,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = true;
         isJumping = false;
         canDash = true;
-        isDashing = false;
+        isRolling = false;
         isAttacking = false;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -73,8 +77,18 @@ public class PlayerController : MonoBehaviour
         Move();
         Interact();
         JumpLogic();
+        ShowHideCursor ();
+        Attack ();
 
-        //Delete after 
+        if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
+        }
+    }
+
+    //Delete after 
+    private void ShowHideCursor ()
+    {
         if (Input.GetKeyDown(KeyCode.X))
         {
             if(Cursor.lockState == CursorLockMode.Locked)
@@ -86,26 +100,24 @@ public class PlayerController : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
+    }
 
-        if (stamina.currentStamina <= 10) return;
-
-        if (Input.GetMouseButtonDown(0))
+    private void Attack ()
+    {
+        if (Input.GetMouseButtonDown(0) && stamina.currentStamina > normalAttackStaminaCost)
         {
+            stamina.TakeStamina (normalAttackStaminaCost);
             anim.SetTrigger("Light Attack");
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && stamina.currentStamina > heavyAttackStaminaCost)
         {
+            stamina.TakeStamina (heavyAttackStaminaCost);
             anim.SetTrigger("Heavy Attack");
-        }
-
-        // Gradually return FOV to default if not dashing
-        if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
         }
     }
 
+    //Are these functions even used ???
     public void StartAttack()
     {
         isAttacking = true;
@@ -181,56 +193,50 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator roll(Vector3 direction)
     {
+        if (stamina.currentStamina <= rollStaminaCost) yield return null;
+
         anim.applyRootMotion = false;
         anim.SetTrigger("Roll");
-        stamina.ChangeStamina(10); // Reduce stamina after dash
+        stamina.TakeStamina(rollStaminaCost);
 
-        isDashing = true;
+        isRolling = true;
         canDash = false;
 
-        // Increase FOV for dash effect
         float targetFov = defaultFov + dashFovIncrease;
 
-        // Apply initial dash force
-        rb.velocity = Vector3.zero; // Reset velocity for clean dash
-
-        if(direction == Vector3.zero)
+        if (direction == Vector3.zero)
         {
             direction = transform.forward;
         }
 
-        rb.AddForce(direction * dashingPower, ForceMode.Impulse);
+        rb.velocity = Vector3.zero;
+        rb.AddForce(direction * rollPower, ForceMode.Impulse);
 
-        // Dash movement phase
         float elapsedTime = 0f;
-        while (elapsedTime < dashDuration)
+        while (elapsedTime < rollDuration)
         {
-            // Smoothly adjust camera FOV during the dash
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFov, Time.deltaTime * fovChangeSpeed);
             elapsedTime += Time.deltaTime;
 
-            yield return null; // Wait for the next frame
+            yield return null;
         }
 
         anim.applyRootMotion = true;
-        isDashing = false;
+        isRolling = false;
 
-        // Stop dash movement (optional damping or reset velocity here if needed)
         rb.velocity = Vector3.zero;
 
-        // Slowing down phase: return FOV to default
         while (Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
-            yield return null; // Wait for the next frame
+            yield return null;
         }
 
-        // Ensure FOV is exactly at default (handle rounding errors)
         cam.fieldOfView = defaultFov;
 
-        yield return new WaitForSeconds(dashCooldown); // Wait for cooldown
         canDash = true;
     }
+
 
     public void Jump()
     {

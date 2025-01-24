@@ -47,7 +47,7 @@ public class Stamina : MonoBehaviour
         }
     }
 
-    public void ChangeStamina(float amount)
+    public void TakeStamina(float amount)
     {
         // Stop any ongoing fade-out
         if (fadeCoroutine != null)
