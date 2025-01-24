@@ -10621,10 +10621,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1510905054}
   - component: {fileID: 1510905053}
-  - component: {fileID: 1510905052}
-  - component: {fileID: 1510905051}
   - component: {fileID: 1510905050}
   - component: {fileID: 1510905049}
+  - component: {fileID: 1510905051}
+  - component: {fileID: 1510905052}
   m_Layer: 0
   m_Name: Parent
   m_TagString: Player
@@ -10722,10 +10722,12 @@ MonoBehaviour:
   sensitivity: 1
   jumpStrength: 10
   rotationSpeed: 10
-  dashingPower: 24
-  dashCooldown: 2.5
-  dashDuration: 1
-  isDashing: 0
+  normalAttackStaminaCost: 2
+  heavyAttackStaminaCost: 7
+  rollPower: 24
+  rollDuration: 1
+  rollStaminaCost: 10
+  isRolling: 0
   cameraOffset: {x: 0, y: 5, z: -15}
   dashFovIncrease: 20
   fovChangeSpeed: 5
