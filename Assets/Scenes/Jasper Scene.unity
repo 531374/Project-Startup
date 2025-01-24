@@ -13820,6 +13820,7 @@ GameObject:
   - component: {fileID: 2116332053}
   - component: {fileID: 2116332052}
   - component: {fileID: 2116332057}
+  - component: {fileID: 2116332058}
   m_Layer: 5
   m_Name: Weapon Inventory Canvas
   m_TagString: Untagged
@@ -13948,6 +13949,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2116332058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116332051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14847a9e8d97a2246a7a99360b842d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3758829235607516100
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -121,6 +121,8 @@ public class PlayerController : MonoBehaviour
 
     private void Interact()
     {
+        if (Input.GetKey (KeyCode.Tab)) return;
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, pickupRange);

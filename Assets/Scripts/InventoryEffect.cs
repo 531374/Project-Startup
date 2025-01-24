@@ -1,16 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryEffect : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    private Animator animator;
+
+    private void Start ()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Update ()
     {
-        if (Input.GetKeyDown (KeyCode.RightArrow))
+        if (Input.GetKey (KeyCode.Tab))
         {
-            animator.SetBool ("RightOnce", true);
+             if (Input.GetKeyDown (KeyCode.Q))
+            {
+                animator.SetTrigger ("Swap Right");
+            }
+            if (Input.GetKeyDown (KeyCode.E))
+            {
+                animator.SetTrigger ("Swap Left");
+            }
         }
     }
 }
