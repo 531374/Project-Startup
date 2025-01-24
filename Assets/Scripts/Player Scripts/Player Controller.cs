@@ -94,6 +94,11 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("Light Attack");
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            anim.SetTrigger("Heavy Attack");
+        }
+
         // Gradually return FOV to default if not dashing
         if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
         {
@@ -117,6 +122,7 @@ public class PlayerController : MonoBehaviour
     {
         //Prevent instantly attacking after last one
         anim.ResetTrigger("Light Attack");
+        anim.ResetTrigger("Heavy Attack");
     }
 
     private void Interact()
@@ -175,6 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator roll(Vector3 direction)
     {
+        anim.applyRootMotion = false;
         anim.SetTrigger("Roll");
         stamina.ChangeStamina(10); // Reduce stamina after dash
 
@@ -205,6 +212,7 @@ public class PlayerController : MonoBehaviour
             yield return null; // Wait for the next frame
         }
 
+        anim.applyRootMotion = true;
         isDashing = false;
 
         // Stop dash movement (optional damping or reset velocity here if needed)
@@ -241,7 +249,10 @@ public class PlayerController : MonoBehaviour
         Vector3 cameraForward = Vector3.Cross(cameraRight, Vector3.up);
         Vector3 move = input.x * cameraRight + input.z * cameraForward;
 
-        transform.Translate(move * speed * Time.deltaTime, Space.World);        
+        if (!isAttacking)
+        {
+            transform.Translate(move * speed * Time.deltaTime, Space.World);        
+        }
 
 
         Quaternion rotation = transform.rotation;
@@ -263,7 +274,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
         Vector3 dashDirection = (input.x * cameraRight + input.z * cameraForward).normalized;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) StartCoroutine(roll(dashDirection));
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isAttacking) StartCoroutine(roll(dashDirection));
 
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * sensitivity;
@@ -300,11 +311,6 @@ public class PlayerController : MonoBehaviour
 
     void TakeHit(SwordHitEvent pEvent)
     {
-    }
-
-    void Attack()
-    {
-
     }
 
     private void OnCollisionEnter(Collision collision)

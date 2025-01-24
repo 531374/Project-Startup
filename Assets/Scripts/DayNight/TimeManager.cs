@@ -1,5 +1,4 @@
 using System;
-using Skaillz.EditInline;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
@@ -18,7 +17,7 @@ public class TimeManager : MonoBehaviour {
     
     ColorAdjustments colorAdjustments;
     
-    [EditInline, SerializeField] TimeSettings timeSettings;
+    [SerializeField] TimeSettings timeSettings;
     
     public event Action OnSunrise {
         add => service.OnSunrise += value;
