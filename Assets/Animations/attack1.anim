@@ -38773,7 +38773,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: StartAttack
+    functionName: StartLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
