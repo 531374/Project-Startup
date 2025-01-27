@@ -33,7 +33,7 @@ public class MapManager : MonoBehaviour
             
             if (Vector3.Distance(player.position, structure.transform.position) > detectionRadius) continue;
 
-            StructureIcon structureIcon = structure.GetComponent<StructureIcon>();
+            Structure structureIcon = structure.GetComponent<Structure>();
             Sprite icon = structureIcon.GetIcon();
 
             // Create a new UI Image for the map icon

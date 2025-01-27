@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 
-public class StructureIcon : MonoBehaviour
+public class Structure : Interactable
 {
     [SerializeField] private Sprite icon; // Assign this in the Inspector
     public JournalEntry JournalEntry;
@@ -19,7 +19,6 @@ public class StructureIcon : MonoBehaviour
     private void Start ()
     {
         animManager = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<StructureAnimationManager> ();
-        Debug.Log (animManager);
         this.gameObject.tag = "Structure";
         animationEventTrigger.AddListener (() => animManager.PlayAnimation ());
         height = transform.localScale.y;
@@ -64,9 +63,9 @@ public class StructureIcon : MonoBehaviour
         return JournalEntry;
     }
 
-    private void OnDrawGizmosSelected ()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube (this.transform.position + new Vector3 (0, height / 2, 0), new Vector3 (detectionRange, detectionRange, detectionRange));
-    }
+    // private void OnDrawGizmosSelected ()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawCube (this.transform.position + new Vector3 (0, height / 2, 0), new Vector3 (detectionRange, detectionRange, detectionRange));
+    // }
 }

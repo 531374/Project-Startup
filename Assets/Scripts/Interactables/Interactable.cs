@@ -36,8 +36,9 @@ public class Interactable : MonoBehaviour
 
     private void ShowKeyCap ()
     {
-        if (keyCap == null && Vector3.Distance (player.position, transform.position) < radius)
+        if (keyCap == null && Vector3.Distance (transform.position, player.position) < radius)
         {
+            Debug.Log ("asd");
             keyCap = Instantiate (keyCapPrefab, transform.position + offset, Quaternion.identity, transform.GetChild(0).transform);
         } else if (keyCap != null && Vector3.Distance (player.position, transform.position) > radius)
         {

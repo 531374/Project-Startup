@@ -13,7 +13,7 @@ public class EntriesManager : MonoBehaviour
     [SerializeField] private TMP_Text textPref; // Prefab for TMP_Text
     [SerializeField] private Transform entries; // Parent transform for text entries
 
-    private StructureIcon currentlyOpenEntry; // Track currently open entry
+    private Structure currentlyOpenEntry; // Track currently open entry
     private float height;
     private float entryHeight;
 
@@ -57,7 +57,7 @@ public class EntriesManager : MonoBehaviour
                 continue;
             }
 
-            StructureIcon structureIcon = structure.GetComponent<StructureIcon>(); 
+            Structure structureIcon = structure.GetComponent<Structure>(); 
             entriesAlreadyAdded.Add(structure, structureIcon.GetJournalEntry());
 
             if (structureIcon == null) continue;
@@ -79,7 +79,7 @@ public class EntriesManager : MonoBehaviour
 
     }
 
-    private void HandleEntryClick(StructureIcon entry)
+    private void HandleEntryClick(Structure entry)
     {
         if (currentlyOpenEntry == entry)
         {
@@ -104,7 +104,7 @@ public class EntriesManager : MonoBehaviour
         }
     }
 
-    public void SetEntryText(StructureIcon entry)
+    public void SetEntryText(Structure entry)
     {
         // First check if there are any children
         if (entryTextContainer.transform.childCount > 0)

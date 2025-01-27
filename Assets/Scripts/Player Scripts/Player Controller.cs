@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] Animator anim;
     [SerializeField] Stamina stamina;
+    [SerializeField] Transform staminaImage;
 
     [Header("Movement Settings")]
     [SerializeField] private float speed;
@@ -80,6 +81,8 @@ public class PlayerController : MonoBehaviour
         ShowHideCursor ();
         Attack ();
 
+        //staminaImage.transform.LookAt (cam.transform);
+
         if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
@@ -149,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log ("asd");
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, pickupRange);
             
             if (colliders.Length <= 0) return;
@@ -200,7 +204,6 @@ public class PlayerController : MonoBehaviour
     private IEnumerator roll(Vector3 direction)
     {
         
-
         anim.applyRootMotion = false;
         anim.SetTrigger("Roll");
         stamina.TakeStamina(rollStaminaCost);
