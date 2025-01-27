@@ -106,23 +106,29 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && stamina.currentStamina > normalAttackStaminaCost)
         {
-            stamina.TakeStamina (normalAttackStaminaCost);
             anim.SetTrigger("Light Attack");
         }
 
         if (Input.GetMouseButtonDown(1) && stamina.currentStamina > heavyAttackStaminaCost)
         {
-            stamina.TakeStamina (heavyAttackStaminaCost);
             anim.SetTrigger("Heavy Attack");
         }
     }
 
-    //Are these functions even used ???
-    public void StartAttack()
+    public void StartLightAttack()
     {
+        stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
     }
+
+    public void StartHeavyAttack()
+    {
+        stamina.TakeStamina (heavyAttackStaminaCost);
+        isAttacking = true;
+        anim.SetBool("isAttacking", isAttacking);
+    }
+
 
     public void StopAttack()
     {
@@ -193,7 +199,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator roll(Vector3 direction)
     {
-        if (stamina.currentStamina <= rollStaminaCost) yield return null;
+        
 
         anim.applyRootMotion = false;
         anim.SetTrigger("Roll");
@@ -255,9 +261,13 @@ public class PlayerController : MonoBehaviour
         Vector3 cameraForward = Vector3.Cross(cameraRight, Vector3.up);
         Vector3 move = input.x * cameraRight + input.z * cameraForward;
 
+        float speedModifier = 1f;
+
+        if (stamina.currentStamina < 10.0f) speedModifier = 0.5f; 
+
         if (!isAttacking)
         {
-            transform.Translate(move * speed * Time.deltaTime, Space.World);        
+            transform.Translate(move * (speed * speedModifier) * Time.deltaTime, Space.World);        
         }
 
 
@@ -280,7 +290,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
         Vector3 dashDirection = (input.x * cameraRight + input.z * cameraForward).normalized;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isAttacking) StartCoroutine(roll(dashDirection));
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && !isAttacking && stamina.currentStamina > rollStaminaCost) StartCoroutine(roll(dashDirection));
 
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = -Input.GetAxis("Mouse Y") * sensitivity;
@@ -312,7 +322,7 @@ public class PlayerController : MonoBehaviour
         cam.transform.position = transform.position + cam.transform.rotation * cameraOffset;
 
 
-        anim.SetFloat("Movement", input.magnitude);
+        anim.SetFloat("Movement", input.magnitude * speedModifier);
     }
 
     void TakeHit(SwordHitEvent pEvent)

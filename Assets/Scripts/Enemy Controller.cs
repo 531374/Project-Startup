@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof (EnemyHealthMananger))]
+[RequireComponent(typeof(EnemyHealthMananger))]
 public class EnemyController : MonoBehaviour
 {
-
-
     [Header("References")]
     [SerializeField] Animator anim;
 
@@ -19,14 +17,12 @@ public class EnemyController : MonoBehaviour
     public float rotationSpeed = 10f;
     public float damage = 5f;
 
-
     private bool detectedPlayer;
 
     PlayerController player;
-
     EnemyHealthMananger health;
-
     NavMeshAgent agent;
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,13 +35,12 @@ public class EnemyController : MonoBehaviour
 
         EventBus<SwordHitEvent>.OnEvent += CheckHit;
 
-        health = GetComponent<EnemyHealthMananger>();   
+        health = GetComponent<EnemyHealthMananger>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         float playerDst = Vector3.Distance(player.transform.position, transform.position);  
 
         if(!detectedPlayer && playerDst < detectionRange)
@@ -90,7 +85,6 @@ public class EnemyController : MonoBehaviour
             health.TakeDamage(10f);
             if(health.currentHealth <= 0f)
             {
-                Debug.Log("Enemy died!");
                 Destroy(gameObject);
             }
         }
