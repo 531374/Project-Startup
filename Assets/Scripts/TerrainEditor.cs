@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class TerrainEditor : MonoBehaviour
 {
-
-    [SerializeField] float test = 0.0001f;
-
     Terrain terrain;
     TerrainData terrainData;
 
@@ -16,9 +14,7 @@ public class TerrainEditor : MonoBehaviour
 
     float[,] baseHeights;
 
-    List<TerrainCoord> changedTerrainCoords;
-
-    
+    Dictionary<Vector2Int, float> changedTerrainCoords;
 
 
     // Start is called before the first frame update
@@ -32,14 +28,11 @@ public class TerrainEditor : MonoBehaviour
         baseHeights = new float[resolution, resolution];
         baseHeights = terrainData.GetHeights(0, 0, resolution, resolution);
 
-        changedTerrainCoords = new List<TerrainCoord>();
+
+        changedTerrainCoords = new Dictionary<Vector2Int, float>();
 
         player = FindAnyObjectByType<ShipController>().transform;
     }
-
-
-
-
 
     // Update is called once per frame
     void Update()
@@ -52,20 +45,22 @@ public class TerrainEditor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        List<TerrainCoord> removedItems = new List<TerrainCoord>();
+        List<Vector2Int> removedItems = new List<Vector2Int>();
 
-        foreach(TerrainCoord coord in changedTerrainCoords)
+        foreach(KeyValuePair<Vector2Int, float> coord in changedTerrainCoords)
         {
-            if (Time.time - coord.Time > 2.0f) 
+            if (Time.time - coord.Value > 2.5f) 
             {
-                float[,] baseValue = new float[1, 1];
-                baseValue[0, 0] = coord.OldHeight;
-                terrainData.SetHeights(coord.Coord.x, coord.Coord.y, baseValue);
-                removedItems.Add(coord);
+                float[,] oldHeight = new float[1, 1];
+                oldHeight[0, 0] = baseHeights[coord.Key.y, coord.Key.x];
+                terrainData.SetHeights(coord.Key.x, coord.Key.y, oldHeight);
+                removedItems.Add(coord.Key);
             }
         }
+        
 
-        foreach (TerrainCoord item in removedItems)
+
+        foreach (Vector2Int item in removedItems)
         {
             changedTerrainCoords.Remove(item);
         }
@@ -76,58 +71,34 @@ public class TerrainEditor : MonoBehaviour
         Vector3 terrainPosition = terrain.transform.position;
         Vector3 terrainSize = terrainData.size;
         
-        float terrainX = (point.x - terrainPosition.x) / terrainSize.x;
-        float terrainZ = (point.z - terrainPosition.z) / terrainSize.z;
+        float terrainX = (point.x - terrainPosition.x) / terrainData.size.x;
+        float terrainZ = (point.z - terrainPosition.z) / terrainData.size.z;
 
-        int testX = Mathf.RoundToInt(terrainX * (terrainData.heightmapResolution - 1));
-        int testZ = Mathf.RoundToInt(terrainZ * (terrainData.heightmapResolution - 1));
+        int testX = Mathf.RoundToInt(terrainX * (terrainData.heightmapResolution));
+        int testZ = Mathf.RoundToInt(terrainZ * (terrainData.heightmapResolution));
 
-        TerrainCoord terrainCoord;
-        terrainCoord.Time = Time.time;
-        terrainCoord.Coord = new Vector2Int(testX, testZ);
-        float[,] heights = terrainData.GetHeights(testX, testZ, 1, 1);
-        terrainCoord.OldHeight = heights[0,0];
+        Vector2Int coord = new Vector2Int(testX, testZ);
 
-        if (terrainX < 0 || terrainX > 1 || terrainZ < 0 || terrainZ > 1)
+        int resolution = terrainData.heightmapResolution;
+
+        if (coord.x < 0 || coord.x >= resolution || coord.y < 0 || coord.y >= resolution)
         {
-            Debug.Log("Invalid Position");
             return;
         }
 
-        if (changedTerrainCoords.Contains(terrainCoord)) return;
+        if (changedTerrainCoords.ContainsKey(coord)) return;
 
-        changedTerrainCoords.Add(terrainCoord);
-
-        //float[,] heights = terrainData.GetHeights(testX, testZ, 1, 1);
-        heights[0, 0] = terrainCoord.OldHeight * 0.9f;
-
-        //float[,] newHeight = new float[1, 1];
-        //newHeight[0, 0] = baseHeights[terrainCoord.x, terrainCoord.y] - test;
-
-        terrainData.SetHeights(testX, testZ, heights);
+        changedTerrainCoords.Add(coord, Time.time);
+        float[,] newHeight = new float[1, 1];
+        newHeight[0,0] = terrainData.GetHeights(coord.x, coord.y, 1, 1)[0,0] - 0.0012f;
+        terrainData.SetHeights(coord.x, coord.y, newHeight);
     }
 
 
     //DO NOT REMOVE OR DISABLE OR WHATEVER PLEASE
     private void OnDisable()
     {
-
         //ONCE AGAIN VERY IMPORTANT DO NOT REMOVE
         terrainData.SetHeights(0, 0, baseHeights);
     }
-
-    //float SampleHeightTexture(Vector2 uv)
-    //{
-    //    int x = Mathf.Clamp(Mathf.FloorToInt(uv.x * heightMap.width), 0, heightMap.width - 1);
-    //    int y = Mathf.Clamp(Mathf.FloorToInt(uv.y * heightMap.height), 0, heightMap.height - 1);
-
-    //    return heightMap.GetPixel(x, y).r;
-    //}
-}
-
-struct TerrainCoord
-{
-    public Vector2Int Coord;
-    public float Time;
-    public float OldHeight;
 }
