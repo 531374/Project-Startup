@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isJumping;
 
-    private bool isAttacking;
+    public bool isAttacking;
 
     private void Start()
     {

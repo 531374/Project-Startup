@@ -163,7 +163,7 @@ public class ShipController : MonoBehaviour
 
     void DeformTerrain()
     {
-        if(rb.velocity.magnitude >= 5.0f)
+        if(rb.velocity.magnitude >= 2.5f)
         {
             if (Physics.Raycast(leftThing.position, -transform.up, out RaycastHit hitLeft))
             {
