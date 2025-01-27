@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Structure
   - Ship
+  - Weapon
   - GameManager
   layers:
   - Default

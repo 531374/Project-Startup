@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour
 
     PlayerController player;
 
+    EnemyHealthMananger health;
+
     NavMeshAgent agent;
 
     // Start is called before the first frame update
@@ -34,6 +36,10 @@ public class EnemyController : MonoBehaviour
         
         detectedPlayer = false;
         agent.speed = speed;
+
+        EventBus<SwordHitEvent>.OnEvent += CheckHit;
+
+        health = GetComponent<EnemyHealthMananger>();   
     }
 
     // Update is called once per frame
@@ -72,6 +78,24 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
+
+        anim.SetFloat("Move", agent.velocity.magnitude);
+
+    }
+
+    void CheckHit(SwordHitEvent pEvent)
+    {
+        if(pEvent.hitTransform == this.transform)
+        {
+            health.TakeDamage(10f);
+            if(health.currentHealth <= 0f)
+            {
+                Debug.Log("Enemy died!");
+                Destroy(gameObject);
+            }
+        }
+
+
     }
 
     private void OnDrawGizmos()

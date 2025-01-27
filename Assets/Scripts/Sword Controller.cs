@@ -5,20 +5,23 @@ using UnityEngine;
 public class SwordController : MonoBehaviour
 {
     // Start is called before the first frame update
+    PlayerController playerController;
+
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(playerController == null) playerController = PlayerController.instance;
         
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        SwordHitEvent hitEvent = new SwordHitEvent(other.transform, transform.parent);
+        if (!playerController.isAttacking) return;
+        SwordHitEvent hitEvent = new SwordHitEvent(other.transform, playerController.transform);
         EventBus<SwordHitEvent>.Publish(hitEvent);
     }
 }
