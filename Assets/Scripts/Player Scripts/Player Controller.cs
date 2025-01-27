@@ -117,7 +117,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //Are these functions even used ???
     public void StartAttack()
     {
         isAttacking = true;
@@ -193,8 +192,12 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator roll(Vector3 direction)
     {
-        if (stamina.currentStamina <= rollStaminaCost) yield return null;
-
+        
+        if (stamina.currentStamina <= rollStaminaCost) 
+        {
+            yield return null;
+        }
+        Debug.Log (isRolling);
         anim.applyRootMotion = false;
         anim.SetTrigger("Roll");
         stamina.TakeStamina(rollStaminaCost);
@@ -223,6 +226,7 @@ public class PlayerController : MonoBehaviour
 
         anim.applyRootMotion = true;
         isRolling = false;
+        canDash = true;
 
         rb.velocity = Vector3.zero;
 
@@ -233,8 +237,6 @@ public class PlayerController : MonoBehaviour
         }
 
         cam.fieldOfView = defaultFov;
-
-        canDash = true;
     }
 
 

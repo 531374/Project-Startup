@@ -67,7 +67,6 @@ public class EntriesManager : MonoBehaviour
 
             Button button = newText.gameObject.AddComponent<Button>();
             button.onClick.AddListener(() => HandleEntryClick(structureIcon));
-            Debug.Log (button);
         }
 
 
