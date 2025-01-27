@@ -175,6 +175,9 @@ MonoBehaviour:
   desiredHeight: 2
   spring: 10
   damp: 2
+  pickupRange: 0
+  leftThing: {fileID: 0}
+  rightThing: {fileID: 0}
   numPointsPerAxis: 4
   contactRadius: 0.25
   camTransform: {fileID: 1733785365}
@@ -652,7 +655,7 @@ Transform:
   m_GameObject: {fileID: 1866385575}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 82.38483, y: -0.10193378, z: 8.750111}
+  m_LocalPosition: {x: -40.4, y: 26.8, z: 8.750111}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
