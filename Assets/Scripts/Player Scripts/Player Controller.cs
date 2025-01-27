@@ -229,6 +229,7 @@ public class PlayerController : MonoBehaviour
 
         anim.applyRootMotion = true;
         isRolling = false;
+        canDash = true;
 
         rb.velocity = Vector3.zero;
 
@@ -239,8 +240,6 @@ public class PlayerController : MonoBehaviour
         }
 
         cam.fieldOfView = defaultFov;
-
-        canDash = true;
     }
 
 
