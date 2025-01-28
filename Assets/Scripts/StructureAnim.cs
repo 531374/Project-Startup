@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class StructureAnim : MonoBehaviour
 {
-    private PlayerController player;
+    private ShipController player;
     private Camera cam;
-    [SerializeField] private Vector3 offset; // Offset from the object
     private bool isAnimTriggered;
     private bool hasAnimEnded;
     [SerializeField] private float lerpSpeed = 1.0f; // Lerp speed
@@ -18,7 +17,7 @@ public class StructureAnim : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Ship").GetComponent<ShipController>();
         cam = Camera.main;
     }
 

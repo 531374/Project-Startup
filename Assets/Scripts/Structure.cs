@@ -24,7 +24,7 @@ public class Structure : Interactable
         height = transform.localScale.y;
     }
 
-    void Update ()
+    protected override void Update ()
     {
         triggerAnimation ();
     }
@@ -36,7 +36,7 @@ public class Structure : Interactable
 
         foreach (Collider collider in colliders)
         {
-            if (collider.CompareTag ("Player"))
+            if (collider.CompareTag ("Player") || collider.CompareTag ("Ship"))
             {
                 animationEventTrigger.Invoke ();
             }
@@ -63,9 +63,9 @@ public class Structure : Interactable
         return JournalEntry;
     }
 
-    // private void OnDrawGizmosSelected ()
-    // {
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawCube (this.transform.position + new Vector3 (0, height / 2, 0), new Vector3 (detectionRange, detectionRange, detectionRange));
-    // }
+    private void OnDrawGizmosSelected ()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube (this.transform.position + new Vector3 (0, height / 2, 0), new Vector3 (detectionRange, detectionRange, detectionRange));
+    }
 }

@@ -13,23 +13,23 @@ public class ShipSceneSwitcher : InteractableObject
 
     }
 
-    void Update ()
+    protected override void Update()
     {
-        if (Input.GetKeyDown (KeyCode.X) && SceneManager.GetActiveScene() == SceneManager.GetSceneByName ("Enemy Scene"))
+        base.Update();  // This will call Interact() and ShowKeyCap()
+        
+        if (interacted && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Enemy Scene"))
         {
-            SceneManager.LoadScene ("Open World");
+            SceneManager.LoadScene("Open World");
             interacted = false;
         }
-        else if (Input.GetKeyDown (KeyCode.X) && SceneManager.GetActiveScene() == SceneManager.GetSceneByName ("Open World"))
+        else if (interacted && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Open World"))
         {
-            SceneManager.LoadScene ("Enemy Scene");
+            SceneManager.LoadScene("Enemy Scene");
             interacted = false;
         }
     }
     protected override void Interact()
     {
         base.Interact();
-
-        
     }
 }

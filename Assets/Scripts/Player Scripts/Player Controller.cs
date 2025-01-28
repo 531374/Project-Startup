@@ -75,9 +75,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
-        Debug.Log(isJumping);
-
         Move();
         Interact();
         JumpLogic();
@@ -167,9 +164,7 @@ public class PlayerController : MonoBehaviour
 
     private void Interact()
     {
-        if (Input.GetKeyDown (KeyCode.Tab)) return;
-
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown (KeyCode.Tab))
         {
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, pickupRange);
             
@@ -225,6 +220,8 @@ public class PlayerController : MonoBehaviour
 
         anim.SetTrigger("Roll");
         stamina.TakeStamina(rollStaminaCost);
+
+        
 
         isRolling = true;
         canDash = false;
