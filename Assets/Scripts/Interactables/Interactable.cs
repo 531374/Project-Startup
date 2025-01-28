@@ -8,7 +8,7 @@ public class Interactable : MonoBehaviour
     [HideInInspector] public bool interacted;
 
     private Transform player;
-    private GameObject keyCap;
+    protected GameObject keyCap;
 
     private void Start ()
     {

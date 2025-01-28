@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
 
+        if (ship != null)
         isEnabled = !ship.GetComponent<ShipController>().isEnabled;
 
     }
@@ -82,9 +83,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
-        if (!isEnabled) return;
+        //if (!isEnabled) return;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && isEnabled)
         {
             if(Vector3.Distance(transform.position, ship.transform.position) < 25.0f)
             {

@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &32471360
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -610,7 +610,7 @@ Transform:
   m_GameObject: {fileID: 156441079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: -15}
+  m_LocalPosition: {x: 0, y: 7, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1727,7 +1727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &539307991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6612,6 +6612,7 @@ MonoBehaviour:
   anim: {fileID: 2016360086}
   stamina: {fileID: 372477298}
   staminaImage: {fileID: 1298438466}
+  ship: {fileID: 0}
   speed: 10
   sensitivity: 1
   jumpStrength: 10
@@ -6628,6 +6629,7 @@ MonoBehaviour:
   pickupRange: 7
   damage: 10
   isAttacking: 0
+  isEnabled: 0
 --- !u!114 &2016360088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6702,9 +6704,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1320727779}
+  - {fileID: 156441083}
   - {fileID: 32471363}
   - {fileID: 372477302}
-  - {fileID: 156441083}
   - {fileID: 1645831921}
   - {fileID: 2016360089}
   - {fileID: 539307995}

@@ -70,7 +70,7 @@ public class ShipController : MonoBehaviour
     {
         if (!isEnabled) return;
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             player.SetActive(true);
             playerCanvas.SetActive(true);
@@ -93,9 +93,6 @@ public class ShipController : MonoBehaviour
                 player.transform.position = transform.position + (transform.right * 15.0f);
             }
         }
-
-
-
 
         GetInput();
         Interact ();
@@ -188,7 +185,6 @@ public class ShipController : MonoBehaviour
             foreach (var collider in colliders)
             {
                 Interactable interactable = collider.gameObject.GetComponent <Interactable> ();
-
 
                 if (interactable != null && Vector3.Distance (this.transform.position, interactable.transform.position) < interactable.radius)
                 {
