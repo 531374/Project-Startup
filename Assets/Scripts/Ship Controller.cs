@@ -14,6 +14,8 @@ public class ShipController : MonoBehaviour
 
     [SerializeField] private Transform leftThing;
     [SerializeField] private Transform rightThing;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerCanvas;
 
     Rigidbody rb;
 
@@ -34,6 +36,8 @@ public class ShipController : MonoBehaviour
 
     bool moveForward = false;
     float steer = 0.0f;
+
+    public bool isEnabled;
 
     private void Start()
     {
@@ -58,11 +62,41 @@ public class ShipController : MonoBehaviour
         mask = LayerMask.GetMask("Ground");
         camTransform.position = transform.position + camOffset;
 
+        isEnabled = true;
 
     }
 
     private void Update()
     {
+        if (!isEnabled) return;
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            player.SetActive(true);
+            playerCanvas.SetActive(true);
+            this.isEnabled = false;
+            player.GetComponent<PlayerController>().isEnabled = true;
+
+            if(Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
+            {
+                if(hit.distance > 15.0f)
+                {
+                    player.transform.position = transform.position + (transform.right * 15.0f);
+                }
+                else
+                {
+                    player.transform.position = hit.point;
+                }
+            }
+            else
+            {
+                player.transform.position = transform.position + (transform.right * 15.0f);
+            }
+        }
+
+
+
+
         GetInput();
         Interact ();
         //MoveCamera();        
@@ -73,13 +107,7 @@ public class ShipController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (moveForward)
-        {
-            rb.AddForce(transform.forward * forwardForce);
-        }
-
-        rb.AddTorque(steer * steeringTorque * transform.up);
-
+        //Make sure ship keeps "floating" even when not enabled
         for(int i = 0; i < points.Count; i++)
         {
             if (Physics.Raycast(points[i].transform.position, -transform.up, out RaycastHit hitInfo, 5.0f, mask))
@@ -93,10 +121,21 @@ public class ShipController : MonoBehaviour
                 rb.AddForceAtPosition(cancelGravity + force * transform.up, points[i].transform.position);
             }
         }
+
+        if (!isEnabled) return;
+
+        if (moveForward)
+        {
+            rb.AddForce(transform.forward * forwardForce);
+        }
+
+        rb.AddTorque(steer * steeringTorque * transform.up);
+
     }
 
     private void LateUpdate()
     {
+        if(!isEnabled) return;
         MoveCamera();
     }
 

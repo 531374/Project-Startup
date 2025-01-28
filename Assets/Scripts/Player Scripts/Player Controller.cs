@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator anim;
     [SerializeField] Stamina stamina;
     [SerializeField] Transform staminaImage;
+    [SerializeField] GameObject ship;
 
     [Header("Movement Settings")]
     [SerializeField] private float speed;
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isAttacking;
 
+    public bool isEnabled;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -66,6 +69,9 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        isEnabled = !ship.GetComponent<ShipController>().isEnabled;
+
     }
 
     private void Awake()
@@ -75,15 +81,28 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        if (!isEnabled) return;
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if(Vector3.Distance(transform.position, ship.transform.position) < 25.0f)
+            {
+                isEnabled = false;
+                ship.GetComponent<ShipController>().isEnabled = true;
+
+                stamina.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+            }
+        }
+
+
         Move();
         Interact();
         JumpLogic();
         ShowHideCursor ();
         Attack ();
 
-        //staminaImage.transform.LookAt (cam.transform);
-
-        //staminaImage.transform.LookAt (cam.transform);
 
         if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
         {
@@ -259,11 +278,23 @@ public class PlayerController : MonoBehaviour
         cam.fieldOfView = defaultFov;
     }
 
+    IEnumerator jumpCooldown()
+    {
+        //Set to true after 10 frames
+        for(int i = 0; i < 10; i++)
+        {
+            yield return null;
+        }
+
+        isJumping = true;
+    }
+
 
     public void Jump()
     {
         rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
         isJumping = true;
+        //StartCoroutine(jumpCooldown());
     }
 
 
