@@ -11,6 +11,9 @@ public class StructureAnim : MonoBehaviour
     [SerializeField] private float lerpSpeed = 1.0f; // Lerp speed
     private Vector3 camStartPos;
     private Quaternion camStartRotation;
+    private Vector3 camOffsetPos;
+
+    [SerializeField] private Vector3 offset = new Vector3(0, 5, -5); // Offset for the camera position
 
     private const float positionThreshold = 0.1f;
     private const float rotationThreshold = 0.01f;
@@ -23,9 +26,13 @@ public class StructureAnim : MonoBehaviour
 
     void Update()
     {
-        // Animation-in progress: Rotate the camera toward the target
+        // Move the camera with offset and rotate it toward the target
         if (isAnimTriggered)
         {
+            // Move camera towards offset position
+            cam.transform.position = Vector3.Lerp(cam.transform.position, camOffsetPos, Time.unscaledDeltaTime * lerpSpeed);
+
+            // Rotate camera toward the target position
             Quaternion camRotation = cam.transform.rotation;
             Quaternion targetRotation = Quaternion.LookRotation(transform.GetChild(0).position - cam.transform.position);
             cam.transform.rotation = Quaternion.Lerp(camRotation, targetRotation, Time.unscaledDeltaTime * lerpSpeed);
@@ -54,8 +61,12 @@ public class StructureAnim : MonoBehaviour
         Time.timeScale = 0;
         isAnimTriggered = true;
 
+        // Store the camera's current position and rotation
         camStartPos = cam.transform.position;
         camStartRotation = cam.transform.rotation;
+
+        // Calculate the new offset position for the camera
+        camOffsetPos = camStartPos + offset;
     }
 
     public void OnAnimationEnd()

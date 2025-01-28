@@ -15,7 +15,7 @@ public class ShipSceneSwitcher : InteractableObject
 
     protected override void Update()
     {
-        base.Update();  // This will call Interact() and ShowKeyCap()
+        base.Update();
         
         if (interacted && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Enemy Scene"))
         {
