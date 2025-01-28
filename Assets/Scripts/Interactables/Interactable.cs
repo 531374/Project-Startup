@@ -12,7 +12,7 @@ public class Interactable : MonoBehaviour
 
     private void Start ()
     {
-        
+        player = GameObject.FindGameObjectWithTag ("Player").transform;
     }
 
     private void OnDrawGizmosSelected ()
@@ -21,10 +21,8 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawWireSphere (transform.position, radius);
     }
 
-    private void Update ()
+    void Update ()
     {
-        if (player == null) player = GameObject.FindGameObjectWithTag ("Player").transform;
-
         Interact ();
         ShowKeyCap ();
     }
@@ -35,10 +33,10 @@ public class Interactable : MonoBehaviour
     }
 
     private void ShowKeyCap ()
-    {
+    {   
+        Debug.Log (player);
         if (keyCap == null && Vector3.Distance (transform.position, player.position) < radius)
         {
-            Debug.Log ("asd");
             keyCap = Instantiate (keyCapPrefab, transform.position + offset, Quaternion.identity, transform.GetChild(0).transform);
         } else if (keyCap != null && Vector3.Distance (player.position, transform.position) > radius)
         {

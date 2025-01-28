@@ -128,14 +128,14 @@ public class EnemyController : MonoBehaviour
 
     void CheckHit(SwordHitEvent pEvent)
     {
-        if (pEvent.hitTransform == this.transform)
-        {
-            health.TakeDamage(10f);
-            if (health.currentHealth <= 0f)
-            {
-                Destroy(gameObject);
-            }
-        }
+        // if (pEvent.hitTransform == this.transform)
+        // {
+        //     health.TakeDamage(10f);
+        //     if (health.currentHealth <= 0f)
+        //     {
+        //         Destroy(gameObject);
+        //     }
+        // }
     }
 
     private void OnDrawGizmos()

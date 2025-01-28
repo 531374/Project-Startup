@@ -5,15 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Jasper Scene.unity
-    guid: 9d338ed025b55124aa294ae92fa20cd9
+    path: Assets/Scenes/MainMenu.unity
+    guid: 2d3a7f7eb1c942e49b63c3433478463d
   - enabled: 1
-    path: Assets/Scenes/Ship.unity
-    guid: d0940b559fa7f2f458d5978d43623b33
+    path: Assets/Scenes/Enemy Scene.unity
+    guid: 45c648dc911082e48bd0439d6a0421cc
+  - enabled: 1
+    path: Assets/Scenes/Open World.unity
+    guid: 220b44ffb7d0e5c44a37b88616f3fc4f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 3103c854b6334704da1483739decaf7c,
       type: 2}

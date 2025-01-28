@@ -19,13 +19,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed;
 
     [Header ("Attack Setting")]
-    [SerializeField] private float normalAttackStaminaCost = 2f;
-    [SerializeField] private float heavyAttackStaminaCost = 7f;
+    [SerializeField] private float normalAttackStaminaCost = 5f;
+    [SerializeField] private float heavyAttackStaminaCost = 10f;
 
     [Header("Roll Settings")]
     [SerializeField] private float rollPower = 24f;
     [SerializeField] private float rollDuration = 1f;
-    [SerializeField] private float rollStaminaCost = 10f;
+    [SerializeField] private float rollStaminaCost = 15f;
 
     [HideInInspector] public bool isRolling;
     private bool canDash;
@@ -83,11 +83,21 @@ public class PlayerController : MonoBehaviour
 
         //staminaImage.transform.LookAt (cam.transform);
 
+        //staminaImage.transform.LookAt (cam.transform);
+
         if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
         }
+
+        AnimatorTransitionInfo transitionInfo = anim.GetAnimatorTransitionInfo(0);
+
+        if (anim.IsInTransition (0) && anim.GetBool ("isAttacking"))
+        {
+            isAttacking = false;
+        }
     }
+
 
     //Delete after 
     private void ShowHideCursor ()
@@ -123,6 +133,7 @@ public class PlayerController : MonoBehaviour
         stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
+
     }
 
     public void StartHeavyAttack()
@@ -146,13 +157,17 @@ public class PlayerController : MonoBehaviour
         anim.ResetTrigger("Heavy Attack");
     }
 
+    public void ResetTriggerCollider ()
+    {
+        anim.SetBool ("CanCollide", true);
+    }
+
     private void Interact()
     {
-        if (Input.GetKey (KeyCode.Tab)) return;
+        if (Input.GetKeyDown (KeyCode.Tab)) return;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log ("asd");
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, pickupRange);
             
             if (colliders.Length <= 0) return;
@@ -163,8 +178,6 @@ public class PlayerController : MonoBehaviour
             foreach (var collider in colliders)
             {
                 Interactable interactable = collider.gameObject.GetComponent<Interactable>();
-
-
                 if (interactable != null)
                 {
                     float distance = Vector3.Distance(this.transform.position, interactable.transform.position);
@@ -204,7 +217,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator roll(Vector3 direction)
     {
         
-        anim.applyRootMotion = false;
+        if (stamina.currentStamina <= rollStaminaCost) 
+        {
+            yield return null;
+        }
+
         anim.SetTrigger("Roll");
         stamina.TakeStamina(rollStaminaCost);
 
@@ -230,7 +247,6 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        anim.applyRootMotion = true;
         isRolling = false;
         canDash = true;
 

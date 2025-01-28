@@ -6,7 +6,7 @@ public class SwordController : MonoBehaviour
 {
     // Start is called before the first frame update
     PlayerController playerController;
-
+    [SerializeField] private Animator anim;
     void Start()
     {
     }
@@ -18,11 +18,21 @@ public class SwordController : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (!playerController.isAttacking) return;
+    private void OnTriggerEnter(Collider other)
+    {   
+        if (!anim.GetBool("isAttacking") && !other.isTrigger && !other.gameObject.CompareTag ("Enemy")) return;
+
         SwordHitEvent hitEvent = new SwordHitEvent(other.transform, playerController.transform);
-        EventBus<SwordHitEvent>.Publish(hitEvent);
+
+        if (anim.GetBool ("CanCollide") && anim.GetBool ("isAttacking")) 
+        {
+            other.GetComponent <EnemyHealthMananger> ().TakeDamage (playerController.damage);
+            Debug.Log ("asd");
+            anim.SetBool ("CanCollide", false);
+        }
+
+
+       // EventBus<SwordHitEvent>.Publish(hitEvent);
     }
 }
 
@@ -35,7 +45,7 @@ public class SwordHitEvent : Event
     {
         this.hitTransform = hitTransform;
         this.parent = parent;
-        GetHealthComponent (hitTransform, parent);
+        //GetHealthComponent (hitTransform, parent);
     }
 
     public void GetHealthComponent (Transform target, Transform parent)

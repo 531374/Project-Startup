@@ -10,22 +10,26 @@ public class ShipSceneSwitcher : InteractableObject
 
     private void Start ()
     {
-        player = player ? GameObject.FindGameObjectWithTag ("Ship").transform : GameObject.FindGameObjectWithTag ("Player").transform;
+
     }
 
+    void Update ()
+    {
+        if (Input.GetKeyDown (KeyCode.X) && SceneManager.GetActiveScene() == SceneManager.GetSceneByName ("Enemy Scene"))
+        {
+            SceneManager.LoadScene ("Open World");
+            interacted = false;
+        }
+        else if (Input.GetKeyDown (KeyCode.X) && SceneManager.GetActiveScene() == SceneManager.GetSceneByName ("Open World"))
+        {
+            SceneManager.LoadScene ("Enemy Scene");
+            interacted = false;
+        }
+    }
     protected override void Interact()
     {
         base.Interact();
 
-        if (interacted && SceneManager.GetActiveScene() == SceneManager.GetSceneByName ("Jasper Scene"))
-        {
-            SceneManager.LoadScene ("Ship");
-            interacted = false;
-        }
-        else if (interacted && SceneManager.GetActiveScene() == SceneManager.GetSceneByName ("Ship"))
-        {
-            SceneManager.LoadScene ("Jasper Scene");
-            interacted = false;
-        }
+        
     }
 }
