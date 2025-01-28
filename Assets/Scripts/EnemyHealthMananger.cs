@@ -10,6 +10,7 @@ public class EnemyHealthMananger : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] public float currentHealth;
     [SerializeField] private float lerpSpeed = 5f;
+
     [Header ("References")]
     [SerializeField] private Slider slider;
 
