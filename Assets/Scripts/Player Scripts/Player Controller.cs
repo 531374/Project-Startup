@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        Debug.Log(isJumping);
+
         Move();
         Interact();
         JumpLogic();
@@ -152,7 +155,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log ("asd");
             Collider[] colliders = Physics.OverlapSphere(this.transform.position, pickupRange);
             
             if (colliders.Length <= 0) return;
@@ -197,8 +199,6 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger("Jump");
         }
-
-        
     }
 
     private IEnumerator roll(Vector3 direction)
@@ -267,9 +267,9 @@ public class PlayerController : MonoBehaviour
 
         if (stamina.currentStamina < 10.0f) speedModifier = 0.5f; 
 
-        if (!isAttacking)
+        if (!isAttacking && !isJumping)
         {
-            transform.Translate(move * (speed * speedModifier) * Time.deltaTime, Space.World);        
+            transform.Translate(move * (speed * speedModifier) * Time.deltaTime, Space.World);
         }
 
 

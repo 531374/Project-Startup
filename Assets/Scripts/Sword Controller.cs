@@ -18,7 +18,7 @@ public class SwordController : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (!playerController.isAttacking) return;
         SwordHitEvent hitEvent = new SwordHitEvent(other.transform, playerController.transform);
