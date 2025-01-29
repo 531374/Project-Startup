@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //if (!isEnabled) return;
-
+        
         if (Input.GetKeyDown(KeyCode.E) && isEnabled)
         {
             if(Vector3.Distance(transform.position, ship.transform.position) < 25.0f)
