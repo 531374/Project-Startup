@@ -14,6 +14,10 @@ public class WeaponsInventoryUI : MonoBehaviour
     InventorySlot[] slots;
     private InventorySlot displayingSlot = null;
 
+    private void Start()
+    {
+        inventory = Inventory.instance;
+    }
 
     void OnEnable ()
     {
@@ -21,6 +25,9 @@ public class WeaponsInventoryUI : MonoBehaviour
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
         inventory.onWeaponChangedCallback += UpdateUI;
     }
+
+
+
     void OnDisable ()
     {
         inventory.onWeaponChangedCallback -= UpdateUI;

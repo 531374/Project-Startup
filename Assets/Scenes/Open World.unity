@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c00a96858f18c48a2263d24074ce30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardForce: 100
+  forwardForce: 150
   steeringTorque: 25
   desiredHeight: 2
   spring: 30
@@ -455,7 +455,8 @@ MonoBehaviour:
   rightThing: {fileID: 426463493}
   player: {fileID: 583890829}
   playerCanvas: {fileID: 933734264}
-  keyCapPrefab: {fileID: 0}
+  keyCapPrefab: {fileID: 1789556046428513232, guid: a2d3fa8f17de2654aae49e59e3784362,
+    type: 3}
   numPointsPerAxis: 4
   contactRadius: 0.25
   camTransform: {fileID: 738057801}
@@ -571,7 +572,7 @@ Transform:
   m_GameObject: {fileID: 240762246}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 53.4, y: 32.3, z: 246.9}
+  m_LocalPosition: {x: -226, y: 32.3, z: 246.9}
   m_LocalScale: {x: 5, y: 1, z: 9}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -906,7 +907,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301443969}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28487a3e6d3667c49b0093bce87b076a, type: 3}
   m_Name: 
@@ -9209,6 +9210,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7468770652608346936, guid: 6d21f8243eb03bc4ab6410c8e8e4fb85,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8043806512688465647, guid: 6d21f8243eb03bc4ab6410c8e8e4fb85,
         type: 3}

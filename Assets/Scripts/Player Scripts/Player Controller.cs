@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController instance;
 
+    private PlayerHealthManager health;
+
 
     private bool isGrounded;
     private bool isJumping;
@@ -56,11 +58,11 @@ public class PlayerController : MonoBehaviour
     public bool isAttacking;
 
     public bool isEnabled;
+    public bool canBeHit;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        EventBus<SwordHitEvent>.OnEvent += TakeHit;
 
         defaultFov = cam.fieldOfView;
 
@@ -75,20 +77,18 @@ public class PlayerController : MonoBehaviour
         if (ship != null)
         isEnabled = !ship.GetComponent<ShipController>().isEnabled;
 
+        canBeHit = true;
+
     }
 
     private void Awake()
     {
+        health = GetComponent<PlayerHealthManager>();
         if (instance == null) instance = this;
     }
 
     private void Update()
     {
-
-        if (Input.GetKeyDown (KeyCode.X))
-        {
-            SceneManager.LoadScene (1);
-        }
         //if (!isEnabled) return;
 
         if (Input.GetKeyDown(KeyCode.E) && isEnabled)
@@ -114,13 +114,6 @@ public class PlayerController : MonoBehaviour
         if (canDash && Mathf.Abs(cam.fieldOfView - defaultFov) > 0.01f)
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
-        }
-
-        AnimatorTransitionInfo transitionInfo = anim.GetAnimatorTransitionInfo(0);
-
-        if (anim.IsInTransition (0) && anim.GetBool ("isAttacking"))
-        {
-            isAttacking = false;
         }
     }
 
@@ -156,6 +149,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartLightAttack()
     {
+        anim.applyRootMotion = true;
         stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
@@ -164,6 +158,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartHeavyAttack()
     {
+        anim.applyRootMotion = true;
         stamina.TakeStamina (heavyAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
@@ -172,6 +167,7 @@ public class PlayerController : MonoBehaviour
 
     public void StopAttack()
     {
+        anim.applyRootMotion = false;
         isAttacking = false;
         anim.SetBool("isAttacking", isAttacking);
     }
@@ -188,10 +184,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool ("CanCollide", true);
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
-    }
+    
 
     private void Interact()
     {
@@ -384,16 +377,6 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Movement", input.magnitude * speedModifier);
     }
 
-    void TakeHit(SwordHitEvent pEvent)
-    {
-
-    }
-
-    private void OnDisable()
-    {
-        EventBus<SwordHitEvent>.OnEvent -= TakeHit;
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Terrain"))
@@ -405,6 +388,30 @@ public class PlayerController : MonoBehaviour
                 anim.SetTrigger("Land");
             }
         }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.transform.CompareTag("Leg"))
+        {
+            if (other.transform.GetComponentInParent<EnemyController>().isAttacking && canBeHit)
+            {
+                health.TakeDamage(10);
+                canBeHit = false;
+            }
+        }
+
+        if (other.transform.CompareTag("Stinger"))
+        {
+            if (other.transform.GetComponentInParent<EnemyController>().isAttacking && canBeHit)
+            {
+                health.TakeDamage(25);
+                canBeHit = false;
+            }
+        }
+
     }
 
     private void OnCollisionExit(Collision collision)

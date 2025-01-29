@@ -111,7 +111,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _AtmosphereThickness: 0.68
-    - _Blend: 0.69823396
+    - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
     - _BumpScale: 1
