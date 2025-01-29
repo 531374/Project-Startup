@@ -26,8 +26,6 @@ public class WeaponsInventoryUI : MonoBehaviour
         inventory.onWeaponChangedCallback += UpdateUI;
     }
 
-
-
     void OnDisable ()
     {
         inventory.onWeaponChangedCallback -= UpdateUI;
@@ -80,11 +78,5 @@ public class WeaponsInventoryUI : MonoBehaviour
                 slots[i].ClearSlot();
             }
         }
-    }
-
-    public void PressRight ()
-    {
-        if (Input.GetKey (KeyCode.LeftArrow))
-        animator.Play("InventoryAnim", 0, 0.5f);
     }
 }

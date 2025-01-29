@@ -25,8 +25,12 @@ public class Interactable : MonoBehaviour
     {
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player")?.transform ?? GameObject.FindGameObjectWithTag("Ship").transform;
+            //player = GameObject.FindGameObjectWithTag("Player")?.transform ?? GameObject.FindGameObjectWithTag("Ship").transform;
+            player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            if (player == null) player = GameObject.FindGameObjectWithTag("Ship")?.transform;
+            if (player == null) return;
         }
+
 
         Interact ();
         ShowKeyCap ();

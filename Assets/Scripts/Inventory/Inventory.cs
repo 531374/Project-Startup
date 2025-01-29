@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,15 +7,17 @@ public class Inventory : MonoBehaviour
     public int collectablesInventorySize;
     public int weaponInventorySize;
     public static Inventory instance { get; private set; }
-
     private void Awake()
     {
         if (instance != null && instance != this)
+        if (instance != null && instance != this)
         {
+            Destroy(gameObject); // Destroy duplicate instances
             Destroy(gameObject); // Destroy duplicate instances
             return;
         }
         instance = this;
+        DontDestroyOnLoad(gameObject); // Make this object persistent across scenes
         DontDestroyOnLoad(gameObject); // Make this object persistent across scenes
     }
 
@@ -24,6 +25,7 @@ public class Inventory : MonoBehaviour
     public List<Weapon> weapons = new List<Weapon>();
     public delegate void OnItemChanged();
     public delegate void OnWeaponChanged();
+
     public OnItemChanged onCollectableItemChangedCallback;
     public OnWeaponChanged onWeaponChangedCallback;
 
@@ -51,6 +53,7 @@ public class Inventory : MonoBehaviour
 
     }
 
+
     public bool AddWeapon(Weapon weapon)
     {
         Debug.Log ("2");
@@ -65,6 +68,7 @@ public class Inventory : MonoBehaviour
     public void RemoveWeapon(Weapon weapon)
     {
         weapons.Remove(weapon);
+        if (onWeaponChangedCallback != null) onWeaponChangedCallback.Invoke();
         if (onWeaponChangedCallback != null) onWeaponChangedCallback.Invoke();
     }
 
@@ -81,6 +85,7 @@ public class Inventory : MonoBehaviour
     public void RemoveCollectable(CollectableItem item)
     {
         collectableItems.Remove(item);
+        if (onCollectableItemChangedCallback != null) onCollectableItemChangedCallback.Invoke();
         if (onCollectableItemChangedCallback != null) onCollectableItemChangedCallback.Invoke();
     }
 }

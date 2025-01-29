@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-
 [RequireComponent(typeof(PlayerHealthManager))]
 public class PlayerController : MonoBehaviour
 {
@@ -21,7 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpStrength;
     [SerializeField] private float rotationSpeed;
 
-    [Header ("Attack Setting")]
+    [Header("Attack Setting")]
+    [SerializeField] private float baseDamage = 10.0f;
+    [SerializeField] private float heavyAttackDamageModifier = 1.5f;
     [SerializeField] private float normalAttackStaminaCost = 5f;
     [SerializeField] private float heavyAttackStaminaCost = 10f;
 
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour
     [Header ("Interactable Settings")]
     [SerializeField] public float pickupRange;
 
-    public float damage = 10f;
+    public float damage;
 
     private float defaultFov; 
 
@@ -78,6 +79,8 @@ public class PlayerController : MonoBehaviour
         isEnabled = !ship.GetComponent<ShipController>().isEnabled;
 
         canBeHit = true;
+
+        damage = baseDamage;
 
     }
 
@@ -118,19 +121,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    //Delete after 
+    //Now dont delete this
     private void ShowHideCursor ()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (BookManager.instance.isBookOpened && Cursor.lockState == CursorLockMode.Locked)
         {
-            if(Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (!BookManager.instance.isBookOpened && Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -149,6 +149,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartLightAttack()
     {
+        damage = baseDamage;
         anim.applyRootMotion = true;
         stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
@@ -158,6 +159,7 @@ public class PlayerController : MonoBehaviour
 
     public void StartHeavyAttack()
     {
+        damage = baseDamage * heavyAttackDamageModifier;
         anim.applyRootMotion = true;
         stamina.TakeStamina (heavyAttackStaminaCost);
         isAttacking = true;
@@ -167,6 +169,7 @@ public class PlayerController : MonoBehaviour
 
     public void StopAttack()
     {
+        damage = baseDamage;
         anim.applyRootMotion = false;
         isAttacking = false;
         anim.SetBool("isAttacking", isAttacking);
@@ -245,7 +248,6 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Roll");
         stamina.TakeStamina(rollStaminaCost);
 
-        
 
         isRolling = true;
         canDash = false;
@@ -306,6 +308,8 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (BookManager.instance.isBookOpened) return;
+
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         input.Normalize();
 
@@ -393,7 +397,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (isRolling) return;
+
         if (other.transform.CompareTag("Leg"))
         {
             if (other.transform.GetComponentInParent<EnemyController>().isAttacking && canBeHit)

@@ -13,6 +13,9 @@ public class ShipController : MonoBehaviour
     public float desiredHeight = 1.0f;
     public float spring = 100.0f;
     public float damp = 10.0f;
+
+    float test = 4.0f;
+
     [SerializeField] private float pickupRange;
 
     [SerializeField] private Transform leftThing;
@@ -168,6 +171,8 @@ public class ShipController : MonoBehaviour
 
     void MoveCamera()
     {
+        if (BookManager.instance.isBookOpened) return;
+
         Vector3 camPos = camTransform.position;
         Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
         camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
