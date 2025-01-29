@@ -118,19 +118,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    //Delete after 
+    //Now dont delete this
     private void ShowHideCursor ()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (BookManager.instance.isBookOpened && Cursor.lockState == CursorLockMode.Locked)
         {
-            if(Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (!BookManager.instance.isBookOpened && Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -306,6 +303,8 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (BookManager.instance.isBookOpened) return;
+
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         input.Normalize();
 

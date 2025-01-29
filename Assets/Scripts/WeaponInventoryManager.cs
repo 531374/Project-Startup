@@ -15,12 +15,14 @@ public class WeaponInventoryManager : MonoBehaviour
     [SerializeField] private TMP_Text weaponDurability;
     private InventoryEffect effct;
     private Transform midSlot;
+    private BookManager book;
     // Start is called before the first frame update
     void Start()
     {
         effct = GetComponent<InventoryEffect> ();
         UpdateMidChild ();
         effct.inventorySwaped = true;
+        book = BookManager.instance;
     }
 
     // Update is called once per frame
@@ -36,7 +38,7 @@ public class WeaponInventoryManager : MonoBehaviour
 
     private void SetInv ()
     {
-        if (Input.GetKey (KeyCode.Tab))
+        if (Input.GetKey (KeyCode.Tab) && !book.isBookOpened)
         {
             inventoryParent.gameObject.SetActive (true);
             panel.gameObject.SetActive (true);

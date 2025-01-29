@@ -81,10 +81,4 @@ public class WeaponsInventoryUI : MonoBehaviour
             }
         }
     }
-
-    public void PressRight ()
-    {
-        if (Input.GetKey (KeyCode.LeftArrow))
-        animator.Play("InventoryAnim", 0, 0.5f);
-    }
 }

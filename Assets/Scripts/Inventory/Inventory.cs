@@ -53,7 +53,6 @@ public class Inventory : MonoBehaviour
 
     public bool AddWeapon(Weapon weapon)
     {
-        Debug.Log ("2");
         if (weapons.Count >= weaponInventorySize) return false;
 
         weapons.Add(weapon);
