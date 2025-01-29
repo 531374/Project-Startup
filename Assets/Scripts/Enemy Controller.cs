@@ -29,6 +29,8 @@ public class EnemyController : MonoBehaviour
     public bool isAttacking;
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +40,6 @@ public class EnemyController : MonoBehaviour
         detectedPlayer = false;
         agent.speed = speed;
 
-        EventBus<SwordHitEvent>.OnEvent += CheckHit;
 
         health = GetComponent<EnemyHealthMananger>();
 
@@ -52,6 +53,7 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         //Debug.Log(isAttacking + " " + PlayerController.instance.canBeHit);
+        if (player == null) return;
 
         if (!detectedPlayer && playerInAttackRange)
         {
@@ -102,7 +104,7 @@ public class EnemyController : MonoBehaviour
 
     public void SwitchLegs()
     {
-        PlayerController.instance.canBeHit = true;
+        player.canBeHit = true;
     }
 
     public void StartAttack()
@@ -113,7 +115,7 @@ public class EnemyController : MonoBehaviour
     public void StopAttack()
     {
         isAttacking = false;
-        PlayerController.instance.canBeHit = true;
+        player.canBeHit = true;
         lastAttack = Time.time;
     }
 
@@ -138,22 +140,6 @@ public class EnemyController : MonoBehaviour
         anim.SetFloat("Move", agent.velocity.magnitude);
     }
 
-    void CheckHit(SwordHitEvent pEvent)
-    {
-        // if (pEvent.hitTransform == this.transform)
-        // {
-        //     health.TakeDamage(10f);
-        //     if (health.currentHealth <= 0f)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        // }
-    }
-
-    private void OnDisable()
-    {
-        EventBus<SwordHitEvent>.OnEvent -= CheckHit;
-    }
 
     private void OnDrawGizmos()
     {
