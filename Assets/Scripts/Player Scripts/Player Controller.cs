@@ -3,8 +3,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.SceneManagement;
-
 
 [RequireComponent(typeof(PlayerHealthManager))]
 public class PlayerController : MonoBehaviour
