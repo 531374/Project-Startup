@@ -55,7 +55,13 @@ ExportedObj/
 # Unity3D generated file on crash reports
 sysinfo.txt
 
+#FMOD Cache & Build Files
+FMODStudioCache.asset
+*.bank
+*.fspro.user
+*.fspro.workspace
 fmod_editor.log
+
 
 # Builds
 *.apk
