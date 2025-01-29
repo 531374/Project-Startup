@@ -10673,6 +10673,7 @@ MonoBehaviour:
   FullScreenToggle: {fileID: 2008697019}
   newGameLevel: 
   loadGameLevel: 
+  mainmenuLevel: MainMenu
   volumeValue: {fileID: 312180016}
   volumeSlider: {fileID: 488127583}
   defaultVolume: 0.5
@@ -10684,6 +10685,7 @@ MonoBehaviour:
   fpsToggle: {fileID: 1623329746}
   resolutionDropdown: {fileID: 402801685}
   FpsDisplay: {fileID: 1233788510}
+  pauseMenu: {fileID: 1573967164}
 --- !u!1 &1670891422
 GameObject:
   m_ObjectHideFlags: 0

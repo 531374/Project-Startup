@@ -3474,19 +3474,7 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1485563788}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: ToggleFPSDisplay
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
 --- !u!1 &463135038
 GameObject:
@@ -5926,7 +5914,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485563788}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: VolumeReset
+        m_MethodName: ResetButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6537,30 +6525,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1485563788}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: NewGameScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 209576914}
-        m_TargetAssemblyTypeName: GoToPlayScene, Assembly-CSharp
-        m_MethodName: GoToMainScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9285,18 +9249,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1458234822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9847,8 +9799,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   qualityDropdown: {fileID: 935798591}
   FullScreenToggle: {fileID: 854886051}
-  newGameLevel: Jasper Scene
+  newGameLevel: PauseMenu
   loadGameLevel: 
+  mainmenuLevel: 
   volumeValue: {fileID: 40357658}
   volumeSlider: {fileID: 1611547628}
   defaultVolume: 0.5
@@ -9860,6 +9813,7 @@ MonoBehaviour:
   fpsToggle: {fileID: 452439750}
   resolutionDropdown: {fileID: 1463244553}
   FpsDisplay: {fileID: 2026983118}
+  pauseMenu: {fileID: 0}
 --- !u!4 &1485563789
 Transform:
   m_ObjectHideFlags: 0
@@ -9959,7 +9913,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485563788}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: VolumeReset
+        m_MethodName: ResetButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11251,7 +11205,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1485563788}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: VolumeReset
+        m_MethodName: ResetButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12301,16 +12255,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1faa10ba214d6934b902b99ae9a6ebfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canUse: 0
-  menuController: {fileID: 0}
-  volumeTextValue: {fileID: 0}
-  volumeSlider: {fileID: 0}
-  qualityDropdown: {fileID: 0}
-  FullScreenToggle: {fileID: 0}
-  fpsToggle: {fileID: 0}
-  invertY: {fileID: 0}
-  SensValue: {fileID: 0}
-  SensSlider: {fileID: 0}
+  canUse: 1
+  menuController: {fileID: 1485563788}
+  volumeTextValue: {fileID: 40357658}
+  volumeSlider: {fileID: 1611547628}
+  qualityDropdown: {fileID: 935798591}
+  FullScreenToggle: {fileID: 854886051}
+  fpsToggle: {fileID: 452439750}
+  invertY: {fileID: 279023519}
+  SensValue: {fileID: 1677765528}
+  SensSlider: {fileID: 1030658439}
 --- !u!4 &1824527629
 Transform:
   m_ObjectHideFlags: 0
