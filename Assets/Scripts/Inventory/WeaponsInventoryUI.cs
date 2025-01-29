@@ -14,6 +14,7 @@ public class WeaponsInventoryUI : MonoBehaviour
     InventorySlot[] slots;
     private InventorySlot displayingSlot = null;
 
+
     void OnEnable ()
     {
         inventory = Inventory.instance;

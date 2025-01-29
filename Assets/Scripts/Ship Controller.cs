@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using FMODUnity;
+using UnityEngine.SceneManagement;
 
 public class ShipController : MonoBehaviour
 {
@@ -74,6 +75,11 @@ public class ShipController : MonoBehaviour
         camTransform.position = transform.position + camOffset;
 
         isEnabled = true;
+
+        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
+        player.GetComponent<PlayerController>().isEnabled = false;
+        player.SetActive(false);
+        playerCanvas.SetActive(false);
     }
 
     private void Update()

@@ -11,7 +11,7 @@ public class Structure : InteractableObject
 {
     [SerializeField] private Sprite icon; // Assign this in the Inspector
     public JournalEntry JournalEntry;
-    private UnityEvent animationEventTrigger = new UnityEvent ();
+    private UnityEvent animationEventTrigger;
     [SerializeField] private float detectionRange;
     private LayerMask playerLayer = 7;
     [SerializeField]private float height = 0f;
@@ -22,10 +22,16 @@ public class Structure : InteractableObject
 
     private void Start ()
     {
-        animManager = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<StructureAnimationManager> ();
+        Debug.Log(animManager);
         this.gameObject.tag = "Structure";
-        animationEventTrigger.AddListener (() => animManager.PlayAnimation ());
+
+        animManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StructureAnimationManager>();
+        animationEventTrigger = new UnityEvent();
+        animationEventTrigger.AddListener(animManager.PlayAnimation);
+
         height = transform.localScale.y;
+
+        
     }
 
     protected override void Update ()
@@ -46,6 +52,12 @@ public class Structure : InteractableObject
         {
             if (interiorPrefab != null)
             {
+                PlayerPrefs.SetFloat("PlayerX", player.position.x);
+                PlayerPrefs.SetFloat("PlayerY", player.position.y); 
+                PlayerPrefs.SetFloat("PlayerZ", player.position.z);
+                PlayerPrefs.Save();
+
+
                 // Start scene loading asynchronously
                 AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
 
@@ -98,6 +110,7 @@ public class Structure : InteractableObject
         {
             if (collider.CompareTag ("Player") || collider.CompareTag ("Ship"))
             {
+                
                 animationEventTrigger.Invoke ();
             }
         }

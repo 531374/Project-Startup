@@ -188,6 +188,11 @@ public class PlayerController : MonoBehaviour
         anim.SetBool ("CanCollide", true);
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
+    }
+
     private void Interact()
     {
         if (Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown (KeyCode.Tab))

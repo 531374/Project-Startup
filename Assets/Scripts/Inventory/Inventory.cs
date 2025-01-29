@@ -16,7 +16,6 @@ public class Inventory : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate instances
             return;
         }
-
         instance = this;
         DontDestroyOnLoad(gameObject); // Make this object persistent across scenes
     }
