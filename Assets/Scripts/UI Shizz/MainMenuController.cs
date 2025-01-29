@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.VisualScripting;
 
 
 public class MainMenuController : MonoBehaviour
@@ -16,10 +17,16 @@ public class MainMenuController : MonoBehaviour
     [Header ("Main Menu Functions")] 
     public string newGameLevel;
     public string loadGameLevel;
+    public string mainmenuLevel;
 
     public void NewGameScene()
     {
         SceneManager.LoadScene(newGameLevel);
+    }
+
+    public void MainMenuScene()
+    {
+        SceneManager.LoadScene(mainmenuLevel);
     }
 
     public void LoadGameScene()
@@ -198,7 +205,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Update()
     {
-        time += Time.deltaTime;
+        time += Time.unscaledDeltaTime;
         frameCount++;
         if (time >= pollingTime)
         {
@@ -208,7 +215,20 @@ public class MainMenuController : MonoBehaviour
             time -= pollingTime;
             frameCount = 0;
         }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                isPaused = !isPaused;
+                Time.timeScale = isPaused ? 0 : 1;
+                pauseMenu.SetActive(isPaused);
+            }
     }
+
+        //PAUSE MENU
+        [SerializeField] GameObject pauseMenu = null;
+        bool isPaused;
+
+
 
 
 }

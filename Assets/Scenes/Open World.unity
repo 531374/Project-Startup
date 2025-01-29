@@ -808,7 +808,6 @@ GameObject:
   - component: {fileID: 301443970}
   - component: {fileID: 301443974}
   - component: {fileID: 301443973}
-  - component: {fileID: 301443972}
   - component: {fileID: 301443971}
   m_Layer: 0
   m_Name: GameManager
@@ -847,22 +846,6 @@ MonoBehaviour:
   anim: {fileID: 1793948435}
   animationSpeed: 0.2
   offset: {x: 20, y: 25, z: 0}
---- !u!114 &301443972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301443969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aab22bb45d3946d459cd7f23d9271163, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectablesInventorySize: 25
-  weaponInventorySize: 3
-  collectableItems: []
-  weapons: []
 --- !u!114 &301443973
 MonoBehaviour:
   m_ObjectHideFlags: 0

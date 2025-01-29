@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
 public class LoadPrefs : MonoBehaviour
 {
+    public static LoadPrefs instance;
+
     [SerializeField] private bool canUse=false;
     [SerializeField] private MainMenuController menuController;
 
@@ -25,6 +28,20 @@ public class LoadPrefs : MonoBehaviour
     [SerializeField] private Slider SensSlider = null;
 
     private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy (gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad (gameObject);
+
+        InitializePrefs();
+    }
+
+    void InitializePrefs ()     
     {
         if (canUse)
         {
@@ -60,12 +77,12 @@ public class LoadPrefs : MonoBehaviour
                 }
                 else
                 {
-                    Screen.fullScreen= false;
-                    FullScreenToggle.isOn= false;
+                    Screen.fullScreen = false;
+                    FullScreenToggle.isOn = false;
                 }
             }
 
-            if(PlayerPrefs.HasKey("masterSens"))
+            if (PlayerPrefs.HasKey("masterSens"))
             {
                 float localSensitivity = PlayerPrefs.GetFloat("masterSens");
 
@@ -74,7 +91,7 @@ public class LoadPrefs : MonoBehaviour
                 menuController.mainSens = Mathf.RoundToInt(localSensitivity);
             }
 
-            if(PlayerPrefs.HasKey("masterInvertY"))
+            if (PlayerPrefs.HasKey("masterInvertY"))
             {
                 if (PlayerPrefs.GetInt("masterInvertY") == 1)
                 {
@@ -89,7 +106,7 @@ public class LoadPrefs : MonoBehaviour
 
             if (PlayerPrefs.HasKey("displayFPS"))
             {
-                if(PlayerPrefs.GetInt("displayFPS") == 1)
+                if (PlayerPrefs.GetInt("displayFPS") == 1)
                 {
                     fpsToggle.isOn = true;
                 }
@@ -101,6 +118,21 @@ public class LoadPrefs : MonoBehaviour
             }
         }
     }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitializePrefs();
+    }
+
 
 
 }

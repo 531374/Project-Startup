@@ -3300,7 +3300,7 @@ GameObject:
   - component: {fileID: 1039302686}
   m_Layer: 0
   m_Name: Inventory Manager
-  m_TagString: GameManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8276,7 +8276,7 @@ MonoBehaviour:
   currentHealth: 0
   lerpSpeed: 5
   slider: {fileID: 422115066}
-  damageSoundEmitter: {fileID: 1647765166}
+  damageSoundEmitter: {fileID: 0}
 --- !u!4 &2016360089
 Transform:
   m_ObjectHideFlags: 0
@@ -8292,7 +8292,6 @@ Transform:
   m_Children:
   - {fileID: 1722783210}
   - {fileID: 1687109810}
-  - {fileID: 1647765167}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2023873234
