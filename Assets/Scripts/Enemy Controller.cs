@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent;
 
     float lastAttack;
-    bool isAttacking;
+    public bool isAttacking;
 
 
     // Start is called before the first frame update
@@ -51,6 +51,8 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(isAttacking + " " + PlayerController.instance.canBeHit);
+
         if (!detectedPlayer && playerInAttackRange)
         {
             detectedPlayer = true;
@@ -73,16 +75,15 @@ public class EnemyController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo) && playerInAttackRange)
             {
                 if (hitInfo.transform.name == "Player")
                 {
-                    anim.SetTrigger("Swing");
+                    AttackLogic();
                 }
             }
         }
 
-        AttackLogic();
         AnimationLogic();
 
     }
@@ -91,7 +92,7 @@ public class EnemyController : MonoBehaviour
     {
         if(!isAttacking && Time.time - lastAttack >= attackCooldown)
         {
-            isAttacking = true;
+            //isAttacking = true;
             int random = Random.Range(0, 2);
 
             if (random == 0) anim.SetTrigger("Sting");
@@ -99,9 +100,20 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void SwitchLegs()
+    {
+        PlayerController.instance.canBeHit = true;
+    }
+
+    public void StartAttack()
+    {
+        isAttacking = true;
+    }
+
     public void StopAttack()
     {
         isAttacking = false;
+        PlayerController.instance.canBeHit = true;
         lastAttack = Time.time;
     }
 
