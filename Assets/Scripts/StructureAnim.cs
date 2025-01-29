@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class StructureAnim : MonoBehaviour
 {
+    [SerializeField] private bool isTower;
     private MonoBehaviour player;
-    private Camera cam;
+    [SerializeField] private Camera cam;
     private bool isAnimTriggered;
     private bool hasAnimEnded;
     [SerializeField] private float lerpSpeed = 1.0f; // Lerp speed
@@ -29,12 +30,13 @@ public class StructureAnim : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Ship").GetComponent<ShipController>();
         }
-        Debug.Log (player);
-        cam = Camera.main;
+        //cam = Camera.main;
     }
 
     void Update()
     {
+        if (!isTower) return;
+
         // Move the camera with offset and rotate it toward the target
         if (isAnimTriggered)
         {

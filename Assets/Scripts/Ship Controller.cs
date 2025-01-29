@@ -210,7 +210,6 @@ public class ShipController : MonoBehaviour
             foreach (var collider in colliders)
             {
                 Interactable interactable = collider.gameObject.GetComponent<Interactable>();
-
                 if (interactable != null && Vector3.Distance(transform.position, interactable.transform.position) < interactable.radius)
                 {
                     interactable.interacted = true;
