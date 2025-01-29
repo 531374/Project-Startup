@@ -6,18 +6,24 @@ public class InventorySlot : MonoBehaviour
     public Image icon;
     [HideInInspector] public Item item;
 
-    public void AddItem (Item newItem)
+    public void AddItem(Item newItem)
     {
         item = newItem;
-        icon.sprite = item.icon;
-        icon.enabled = true;
+        if (icon != null) // Check if the icon reference is valid
+        {
+            icon.sprite = item.icon;
+            icon.enabled = true;
+        }
     }
 
-    public void ClearSlot ()
+    public void ClearSlot()
     {
         item = null;
 
-        icon.sprite = null;
-        icon.enabled = false;
+        if (icon != null) // Check if the icon reference is valid
+        {
+            icon.sprite = null;
+            icon.enabled = false;
+        }
     }
 }

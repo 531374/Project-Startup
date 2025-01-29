@@ -1,6 +1,8 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(PlayerHealthManager))]
@@ -83,6 +85,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
+        if (Input.GetKeyDown (KeyCode.X))
+        {
+            SceneManager.LoadScene (1);
+        }
         //if (!isEnabled) return;
 
         if (Input.GetKeyDown(KeyCode.E) && isEnabled)
@@ -180,6 +186,11 @@ public class PlayerController : MonoBehaviour
     public void ResetTriggerCollider ()
     {
         anim.SetBool ("CanCollide", true);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
     }
 
     private void Interact()
@@ -375,6 +386,12 @@ public class PlayerController : MonoBehaviour
 
     void TakeHit(SwordHitEvent pEvent)
     {
+
+    }
+
+    private void OnDisable()
+    {
+        EventBus<SwordHitEvent>.OnEvent -= TakeHit;
     }
 
     private void OnCollisionEnter(Collision collision)

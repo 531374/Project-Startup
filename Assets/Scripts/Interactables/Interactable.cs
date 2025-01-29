@@ -7,7 +7,7 @@ public class Interactable : MonoBehaviour
     public float radius = 3f;
     [HideInInspector] public bool interacted;
 
-    private Transform player;
+    protected Transform player;
     protected GameObject keyCap;
 
     private void Start ()

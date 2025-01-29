@@ -13,19 +13,17 @@ public class WeaponsInventoryUI : MonoBehaviour
     Inventory inventory;
     InventorySlot[] slots;
     private InventorySlot displayingSlot = null;
-    // Start is called before the first frame update
-    void Start()
+
+
+    void OnEnable ()
     {
         inventory = Inventory.instance;
-        inventory.onWeaponChangedCallback += UpdateUI;
-
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
-
-
-        // foreach (var slot in slots)
-        // {
-        //     slot.GetComponent<Button> ().onClick.AddListener (() => DisplayInformation (slot));
-        // }
+        inventory.onWeaponChangedCallback += UpdateUI;
+    }
+    void OnDisable ()
+    {
+        inventory.onWeaponChangedCallback -= UpdateUI;
     }
 
     private void DisplayInformation (InventorySlot slot)

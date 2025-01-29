@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CollectablesInventoryUI : MonoBehaviour
 {
@@ -10,8 +11,31 @@ public class CollectablesInventoryUI : MonoBehaviour
     Inventory inventory;
     InventorySlot[] slots;
     private InventorySlot displayingSlot = null;
-    // Start is called before the first frame update
+
+    private void OnEnable()
+    {
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the sceneLoaded event
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reinitialize the UI references
+        InitializeUI();
+    }
+
     void Start()
+    {
+        InitializeUI();
+    }
+
+    private void InitializeUI()
     {
         inventory = Inventory.instance;
         inventory.onCollectableItemChangedCallback += UpdateUI;
@@ -20,22 +44,25 @@ public class CollectablesInventoryUI : MonoBehaviour
 
         foreach (var slot in slots)
         {
-            slot.GetComponent<Button> ().onClick.AddListener (() => DisplayInformation (slot));
+            slot.GetComponent<Button>().onClick.AddListener(() => DisplayInformation(slot));
         }
+
+        // Force an update of the UI when the scene loads
+        UpdateUI();
     }
 
-    private void DisplayInformation (InventorySlot slot)
+    private void DisplayInformation(InventorySlot slot)
     {
         if (slot.item == null)
         {
-            itemName.gameObject.SetActive (false);
-            itemDescription.gameObject.SetActive (false);
+            itemName.gameObject.SetActive(false);
+            itemDescription.gameObject.SetActive(false);
             itemName.text = "";
             itemDescription.text = "";
             displayingSlot = null;
             return;
         }
-        
+
         if (displayingSlot != slot)
         {
             itemName.gameObject.SetActive(true);
@@ -56,17 +83,17 @@ public class CollectablesInventoryUI : MonoBehaviour
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
             displayingSlot = null;
         }
-
     }
 
-    void UpdateUI ()
+    void UpdateUI()
     {
-        for (int i =0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             if (i < inventory.collectableItems.Count)
             {
                 slots[i].AddItem(inventory.collectableItems[i]);
-            } else
+            }
+            else
             {
                 slots[i].ClearSlot();
             }
