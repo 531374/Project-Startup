@@ -171,6 +171,8 @@ public class ShipController : MonoBehaviour
 
     void MoveCamera()
     {
+        if (BookManager.instance.isBookOpened) return;
+
         Vector3 camPos = camTransform.position;
         Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
         camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);

@@ -17,7 +17,7 @@ public class BookManager : MonoBehaviour
     [SerializeField] private GameObject settings;
     [SerializeField] private AudioClip switchSound; // Reference to the sound clip
     [SerializeField] private AudioSource audioSource; // Reference to the AudioSource
-
+    public bool isBookOpened;
     [HideInInspector] public bool isPaused = false;
 
     private void Awake ()
@@ -29,6 +29,9 @@ public class BookManager : MonoBehaviour
     private void Update ()
     {
         OpenBook ();
+
+        if (book.activeSelf && !isBookOpened) isBookOpened = true;
+        else if (!book.activeSelf && isBookOpened) isBookOpened = false;
     }
 
     private void OpenBook ()
