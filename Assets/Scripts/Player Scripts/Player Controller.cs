@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(PlayerHealthManager))]
@@ -83,6 +84,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
+        if (Input.GetKeyDown (KeyCode.X))
+        {
+            SceneManager.LoadScene (1);
+        }
         //if (!isEnabled) return;
 
         if (Input.GetKeyDown(KeyCode.E) && isEnabled)

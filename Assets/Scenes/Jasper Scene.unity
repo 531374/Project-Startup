@@ -1904,6 +1904,7 @@ MonoBehaviour:
   JournalEntry: {fileID: 11400000, guid: 77740067f6ac41f4c95ab3cafd419cd1, type: 2}
   detectionRange: 100
   height: 25
+  interiorPrefab: {fileID: 0}
 --- !u!65 &58455771
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2805,8 +2806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8610ed8e6c4f643b8fa43c26c16ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 60, y: 5, z: 0}
   lerpSpeed: 6
+  offset: {x: 60, y: 5, z: 0}
 --- !u!1 &189773667
 GameObject:
   m_ObjectHideFlags: 0
@@ -6570,7 +6571,6 @@ GameObject:
   - component: {fileID: 854434201}
   - component: {fileID: 854434202}
   - component: {fileID: 854434203}
-  - component: {fileID: 854434204}
   - component: {fileID: 854434205}
   m_Layer: 0
   m_Name: GameManager
@@ -6664,22 +6664,6 @@ MonoBehaviour:
   nightAmbientLight: {r: 0, g: 0, b: 0, a: 0}
   skyboxMaterial: {fileID: 2100000, guid: 9cb110b34a0d2b147a841ddebfa34ae5, type: 2}
   timeSettings: {fileID: 11400000, guid: c11df7fa6ef56d44fbc4cd49be86cdd4, type: 2}
---- !u!114 &854434204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 854434199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aab22bb45d3946d459cd7f23d9271163, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectablesInventorySize: 25
-  weaponInventorySize: 3
-  collectableItems: []
-  weapons: []
 --- !u!114 &854434205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7378,6 +7362,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933194005}
   m_CullTransparentMesh: 1
+--- !u!1 &938481363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 938481365}
+  - component: {fileID: 938481364}
+  m_Layer: 0
+  m_Name: Inventory Manager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &938481364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938481363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab22bb45d3946d459cd7f23d9271163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectablesInventorySize: 25
+  weaponInventorySize: 3
+  collectableItems: []
+  weapons: []
+--- !u!4 &938481365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938481363}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1033.0696, y: 808.4729, z: 467.17407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &943000116
 GameObject:
   m_ObjectHideFlags: 0
@@ -10677,6 +10709,7 @@ MonoBehaviour:
   JournalEntry: {fileID: 11400000, guid: 62b7aa7a5d908e74381ede9e65b7265b, type: 2}
   detectionRange: 0
   height: 0
+  interiorPrefab: {fileID: 0}
 --- !u!65 &1446370122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11198,6 +11231,7 @@ MonoBehaviour:
   anim: {fileID: 1510905051}
   stamina: {fileID: 1510905055}
   staminaImage: {fileID: 345492916}
+  ship: {fileID: 0}
   speed: 5
   sensitivity: 1
   jumpStrength: 10
@@ -11214,6 +11248,7 @@ MonoBehaviour:
   pickupRange: 10
   damage: 10
   isAttacking: 0
+  isEnabled: 0
 --- !u!114 &1510905053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14979,6 +15014,7 @@ SceneRoots:
   - {fileID: 3758829235607516100}
   - {fileID: 2032654511}
   - {fileID: 1510905054}
+  - {fileID: 938481365}
   - {fileID: 1043279483}
   - {fileID: 352142634}
   - {fileID: 2098887270}
