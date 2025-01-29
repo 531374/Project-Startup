@@ -22,7 +22,6 @@ public class Structure : InteractableObject
 
     private void Start ()
     {
-        Debug.Log(animManager);
         this.gameObject.tag = "Structure";
 
         animManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StructureAnimationManager>();

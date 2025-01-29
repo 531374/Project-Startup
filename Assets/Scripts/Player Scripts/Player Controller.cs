@@ -84,13 +84,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
-        if (Input.GetKeyDown (KeyCode.X))
-        {
-            SceneManager.LoadScene (1);
-        }
         //if (!isEnabled) return;
-
+        
         if (Input.GetKeyDown(KeyCode.E) && isEnabled)
         {
             if(Vector3.Distance(transform.position, ship.transform.position) < 25.0f)

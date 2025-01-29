@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StructureAnim : MonoBehaviour
 {
-    private ShipController player;
+    private MonoBehaviour player;
     private Camera cam;
     private bool isAnimTriggered;
     private bool hasAnimEnded;
@@ -20,7 +20,16 @@ public class StructureAnim : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Ship").GetComponent<ShipController>();
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent <PlayerController> ();
+        }
+
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Ship").GetComponent<ShipController>();
+        }
+        Debug.Log (player);
         cam = Camera.main;
     }
 
