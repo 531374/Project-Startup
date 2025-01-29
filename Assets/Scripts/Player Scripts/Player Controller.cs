@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(PlayerHealthManager))]

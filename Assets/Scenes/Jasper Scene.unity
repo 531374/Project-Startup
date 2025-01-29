@@ -1945,6 +1945,7 @@ MonoBehaviour:
   detectionRange: 100
   height: 25
   interiorPrefab: {fileID: 0}
+  interiorPrefab: {fileID: 0}
 --- !u!65 &58455771
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2848,6 +2849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lerpSpeed: 6
+  offset: {x: 60, y: 5, z: 0}
   offset: {x: 60, y: 5, z: 0}
 --- !u!1 &189773667
 GameObject:
@@ -7607,6 +7609,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &938481363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 938481365}
+  - component: {fileID: 938481364}
+  m_Layer: 0
+  m_Name: Inventory Manager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &938481364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938481363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab22bb45d3946d459cd7f23d9271163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectablesInventorySize: 25
+  weaponInventorySize: 3
+  collectableItems: []
+  weapons: []
+--- !u!4 &938481365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938481363}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1033.0696, y: 808.4729, z: 467.17407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &943000116
 GameObject:
   m_ObjectHideFlags: 0
@@ -11132,6 +11182,7 @@ MonoBehaviour:
   detectionRange: 0
   height: 0
   interiorPrefab: {fileID: 0}
+  interiorPrefab: {fileID: 0}
 --- !u!65 &1446370122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11684,6 +11735,7 @@ MonoBehaviour:
   anim: {fileID: 1510905051}
   stamina: {fileID: 1510905055}
   staminaImage: {fileID: 345492916}
+  ship: {fileID: 0}
   ship: {fileID: 0}
   speed: 5
   sensitivity: 1
@@ -15469,6 +15521,7 @@ SceneRoots:
   - {fileID: 3758829235607516100}
   - {fileID: 2032654511}
   - {fileID: 1510905054}
+  - {fileID: 938481365}
   - {fileID: 938481365}
   - {fileID: 1043279483}
   - {fileID: 352142634}

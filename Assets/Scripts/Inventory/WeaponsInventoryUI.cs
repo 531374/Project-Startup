@@ -26,8 +26,6 @@ public class WeaponsInventoryUI : MonoBehaviour
         inventory.onWeaponChangedCallback += UpdateUI;
     }
 
-
-
     void OnDisable ()
     {
         inventory.onWeaponChangedCallback -= UpdateUI;
