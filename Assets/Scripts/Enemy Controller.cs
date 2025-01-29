@@ -75,16 +75,15 @@ public class EnemyController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo) && playerInAttackRange)
             {
                 if (hitInfo.transform.name == "Player")
                 {
-                    anim.SetTrigger("Swing");
+                    AttackLogic();
                 }
             }
         }
 
-        AttackLogic();
         AnimationLogic();
 
     }

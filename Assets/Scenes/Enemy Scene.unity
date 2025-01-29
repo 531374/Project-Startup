@@ -8262,7 +8262,7 @@ GameObject:
   - component: {fileID: 2016360085}
   - component: {fileID: 2016360084}
   m_Layer: 7
-  m_Name: Parent
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8389,7 +8389,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   lerpSpeed: 5
-  slider: {fileID: 422115066}
+  slider: {fileID: 1861275500}
   damageSoundEmitter: {fileID: 0}
 --- !u!4 &2016360089
 Transform:
