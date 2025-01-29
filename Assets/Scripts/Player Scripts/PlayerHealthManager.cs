@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class PlayerHealthManager : MonoBehaviour
 {
@@ -10,8 +11,10 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
     [SerializeField] private float lerpSpeed = 5f;
+
     [Header ("References")]
     [SerializeField] private Slider slider;
+    [SerializeField] private StudioEventEmitter damageSoundEmitter;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,11 @@ public class PlayerHealthManager : MonoBehaviour
     public void TakeDamage (float value)
     {
         currentHealth -= value;
+
+        if (damageSoundEmitter != null)
+        {
+            damageSoundEmitter.Play();
+        }
     }
 
     public void Heal (float value)

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using FMODUnity;
+
 public class ShipController : MonoBehaviour
 {
     public float forwardForce = 10.0f;
@@ -17,39 +19,44 @@ public class ShipController : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject playerCanvas;
 
-    Rigidbody rb;
+    private Rigidbody rb;
 
     public int numPointsPerAxis = 2;
     public float contactRadius = 0.25f;
 
-    List<GameObject> points;
+    private List<GameObject> points;
 
-    LayerMask mask;
+    private LayerMask mask;
 
-    Vector3 upDirection;
-    Vector3 forwardDirection;
+    private Vector3 upDirection;
+    private Vector3 forwardDirection;
 
     public Transform camTransform;
     public Vector3 camOffset;
     public float camSpeed = 1.0f;
     public float camRotationSpeed = 1.0f;
 
-    bool moveForward = false;
-    float steer = 0.0f;
+    private bool moveForward = false;
+    private float steer = 0.0f;
 
     public bool isEnabled;
+
+    // Reference to the FMOD Event Emitter on the child GameObject
+    [SerializeField] private StudioEventEmitter sandBoatEmitter;
+    
+    private bool isMoving = false;
+    private float movementThreshold = 0.1f;
 
     private void Start()
     {
         points = new List<GameObject>();
-        //Divide points over the ship's (hitbox) surface
         Vector3 origin = -transform.localScale / 2f;
 
         for (int x = 0; x < numPointsPerAxis; x++)
         {
             for (int z = 0; z < numPointsPerAxis; z++)
             {
-                Vector3 pointPosition = transform.position + origin + new Vector3(x * (transform.localScale.x/(numPointsPerAxis - 1)), 0, z * (transform.localScale.z/(numPointsPerAxis - 1)));
+                Vector3 pointPosition = transform.position + origin + new Vector3(x * (transform.localScale.x / (numPointsPerAxis - 1)), 0, z * (transform.localScale.z / (numPointsPerAxis - 1)));
                 GameObject point = new GameObject("Point");
                 point.transform.parent = transform;
                 point.transform.position = pointPosition;
@@ -63,7 +70,6 @@ public class ShipController : MonoBehaviour
         camTransform.position = transform.position + camOffset;
 
         isEnabled = true;
-
     }
 
     private void Update()
@@ -77,16 +83,9 @@ public class ShipController : MonoBehaviour
             this.isEnabled = false;
             player.GetComponent<PlayerController>().isEnabled = true;
 
-            if(Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
+            if (Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
             {
-                if(hit.distance > 15.0f)
-                {
-                    player.transform.position = transform.position + (transform.right * 15.0f);
-                }
-                else
-                {
-                    player.transform.position = hit.point;
-                }
+                player.transform.position = hit.distance > 15.0f ? transform.position + (transform.right * 15.0f) : hit.point;
             }
             else
             {
@@ -95,17 +94,13 @@ public class ShipController : MonoBehaviour
         }
 
         GetInput();
-        Interact ();
-        //MoveCamera();        
-
-        DeformTerrain ();
-
+        Interact();
+        DeformTerrain();
     }
 
     private void FixedUpdate()
     {
-        //Make sure ship keeps "floating" even when not enabled
-        for(int i = 0; i < points.Count; i++)
+        for (int i = 0; i < points.Count; i++)
         {
             if (Physics.Raycast(points[i].transform.position, -transform.up, out RaycastHit hitInfo, 5.0f, mask))
             {
@@ -121,32 +116,36 @@ public class ShipController : MonoBehaviour
 
         if (!isEnabled) return;
 
+        bool wasMoving = isMoving;
+        isMoving = rb.velocity.magnitude > movementThreshold && moveForward;
+
+        // Handle sound state changes using the Event Emitter
+        if (isMoving && !wasMoving)
+        {
+            sandBoatEmitter.Play();
+        }
+        else if (!isMoving && wasMoving)
+        {
+            sandBoatEmitter.Stop();
+        }
+
         if (moveForward)
         {
             rb.AddForce(transform.forward * forwardForce);
         }
 
         rb.AddTorque(steer * steeringTorque * transform.up);
-
     }
 
     private void LateUpdate()
     {
-        if(!isEnabled) return;
+        if (!isEnabled) return;
         MoveCamera();
     }
 
     void GetInput()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveForward = true;
-        }
-        else
-        {
-            moveForward = false;
-        }
-
+        moveForward = Input.GetKey(KeyCode.W);
         steer = Input.GetAxis("Horizontal");
     }
 
@@ -162,6 +161,10 @@ public class ShipController : MonoBehaviour
         camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
 
+    private void OnDestroy()
+    {
+        sandBoatEmitter.Stop();
+    }
 
     private void OnDrawGizmos()
     {
@@ -174,30 +177,29 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    private void Interact ()
+    private void Interact()
     {
-        if (Input.GetKeyDown (KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Collider[] colliders = Physics.OverlapSphere (this.transform.position, pickupRange);
-            
+            Collider[] colliders = Physics.OverlapSphere(transform.position, pickupRange);
+
             if (colliders.Length < 0) return;
 
             foreach (var collider in colliders)
             {
-                Interactable interactable = collider.gameObject.GetComponent <Interactable> ();
+                Interactable interactable = collider.gameObject.GetComponent<Interactable>();
 
-                if (interactable != null && Vector3.Distance (this.transform.position, interactable.transform.position) < interactable.radius)
+                if (interactable != null && Vector3.Distance(transform.position, interactable.transform.position) < interactable.radius)
                 {
                     interactable.interacted = true;
                 }
-            } 
-            
+            }
         }
     }
 
     void DeformTerrain()
     {
-        if(rb.velocity.magnitude >= 2.5f)
+        if (rb.velocity.magnitude >= 2.5f)
         {
             if (Physics.Raycast(leftThing.position, -transform.up, out RaycastHit hitLeft))
             {
@@ -211,9 +213,10 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected ()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere (transform.position + new Vector3 (0, this.GetComponent<Collider> ().bounds.size.y / 2, 0), pickupRange);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0, GetComponent<Collider>().bounds.size.y / 2, 0), pickupRange);
     }
 }
+

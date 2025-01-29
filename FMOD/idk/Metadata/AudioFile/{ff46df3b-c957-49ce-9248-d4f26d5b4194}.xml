@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{ff46df3b-c957-49ce-9248-d4f26d5b4194}">
+		<property name="assetPath">
+			<value>bomba.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.22462585034013605</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1b9c2ecf-b823-4bf8-bb6f-640b4b4f2880}</destination>
+		</relationship>
+	</object>
+</objects>

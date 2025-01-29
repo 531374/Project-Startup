@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{6a678663-e439-4b69-9574-1a1ee546c070}">
+		<property name="assetPath">
+			<value>wood creaking.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>131.184</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1b9c2ecf-b823-4bf8-bb6f-640b4b4f2880}</destination>
+		</relationship>
+	</object>
+</objects>
