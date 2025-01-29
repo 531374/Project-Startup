@@ -138,6 +138,11 @@ public class EnemyController : MonoBehaviour
         // }
     }
 
+    private void OnDisable()
+    {
+        EventBus<SwordHitEvent>.OnEvent -= CheckHit;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

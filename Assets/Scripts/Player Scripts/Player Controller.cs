@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -380,6 +381,12 @@ public class PlayerController : MonoBehaviour
 
     void TakeHit(SwordHitEvent pEvent)
     {
+
+    }
+
+    private void OnDisable()
+    {
+        EventBus<SwordHitEvent>.OnEvent -= TakeHit;
     }
 
     private void OnCollisionEnter(Collision collision)

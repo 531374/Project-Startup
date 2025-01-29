@@ -18,6 +18,7 @@ public class ShipController : MonoBehaviour
     [SerializeField] private Transform rightThing;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject playerCanvas;
+    [SerializeField] private GameObject keyCapPrefab;
 
     private Rigidbody rb;
 
@@ -37,9 +38,12 @@ public class ShipController : MonoBehaviour
     public float camRotationSpeed = 1.0f;
 
     private bool moveForward = false;
+    private bool moveBackward = false;
     private float steer = 0.0f;
 
     public bool isEnabled;
+
+    private GameObject keyCap;
 
     // Reference to the FMOD Event Emitter on the child GameObject
     [SerializeField] private StudioEventEmitter sandBoatEmitter;
@@ -74,6 +78,7 @@ public class ShipController : MonoBehaviour
 
     private void Update()
     {
+        ShowKeyCap();
         if (!isEnabled) return;
 
         if (Input.GetKeyDown(KeyCode.B))
@@ -133,6 +138,10 @@ public class ShipController : MonoBehaviour
         {
             rb.AddForce(transform.forward * forwardForce);
         }
+        else if (moveBackward)
+        {
+            rb.AddForce(-transform.forward * forwardForce * 0.25f);
+        }
 
         rb.AddTorque(steer * steeringTorque * transform.up);
     }
@@ -146,6 +155,8 @@ public class ShipController : MonoBehaviour
     void GetInput()
     {
         moveForward = Input.GetKey(KeyCode.W);
+        moveBackward = Input.GetKey(KeyCode.S);
+
         steer = Input.GetAxis("Horizontal");
     }
 
@@ -157,6 +168,7 @@ public class ShipController : MonoBehaviour
 
         Quaternion camRotation = camTransform.rotation;
         Vector3 lookDirection = rb.velocity.magnitude > 5f ? rb.velocity.normalized : transform.forward;
+        if (moveBackward) lookDirection = transform.forward;
         Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
         camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
@@ -211,6 +223,21 @@ public class ShipController : MonoBehaviour
                 if (hitRight.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain1)) terrain1.DeformTerrainAtPoint(hitRight.point);
             }
         }
+    }
+
+    private void ShowKeyCap()
+    {
+        if (isEnabled) return;
+        if (keyCap == null && Vector3.Distance(transform.position, player.transform.position) < 15.0f)
+        {
+            keyCap = Instantiate(keyCapPrefab, transform.position + new Vector3(0, 10.0f, 0), Quaternion.identity, transform);
+        }
+        else if (keyCap != null && Vector3.Distance(player.transform.position, transform.position) > 150.0f)
+        {
+            Destroy(keyCap);
+        }
+
+        if (keyCap != null) keyCap.transform.LookAt(Camera.main.transform.position);
     }
 
     private void OnDrawGizmosSelected()
