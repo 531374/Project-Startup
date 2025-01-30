@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6641005179316675314}
   - component: {fileID: 5352336115633441242}
   m_Layer: 5
-  m_Name: Aasd
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,18 +65,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Idk man pls just work
-
-    Idk man pls just work
-
-    Idk man pls just
-    work
-
-    Idk man pls just work
-
-    Idk man pls just work
-
-'
+  m_text: "First temple built to honor the celestial cycle, its foundations laid
+    when the sands were still young. The ancients believed it was a gateway\u2014a
+    place where the sun first touched the earth at the dawn of creation.\r\n\r\nCarved
+    from giant pieces of limestone, its towering spires once caught the light at
+    every sunrise, reflecting weird patterns upon the desert sands. The temple housed
+    the Solstice Flame, a fire said to burn forever. It was here that the earliest
+    scholars deciphered the sky\u2019s movements, etching their knowledge into Scarab
+    Cores now lost to time."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb7f46c94942b2b4eb20e935998fec2f, type: 2}
   m_sharedMaterial: {fileID: -4410014955813652257, guid: eb7f46c94942b2b4eb20e935998fec2f,

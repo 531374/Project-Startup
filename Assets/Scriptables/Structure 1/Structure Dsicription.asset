@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 267527bb81026d94a9cb3ab3e6f4350c, type: 3}
-  m_Name: ASD
+  m_Name: Structure Dsicription
   m_EditorClassIdentifier: 
   entryName: {fileID: 5352336115633441242, guid: 430ebe5c1d20b9e4082295ca8b7594dc,
     type: 3}

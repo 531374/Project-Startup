@@ -13,10 +13,7 @@ EditorBuildSettings:
     guid: 45c648dc911082e48bd0439d6a0421cc
   - enabled: 1
     path: Assets/Scenes/Open World.unity
-    guid: 220b44ffb7d0e5c44a37b88616f3fc4f
-  - enabled: 1
-    path: Assets/Scenes/PauseMenu.unity
-    guid: 5a2306d4ec9da414a87a8583ea3c2b0a
+    guid: cf144bd7c77b5ab43bfb3acf6cb9d087
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 3103c854b6334704da1483739decaf7c,
       type: 2}
