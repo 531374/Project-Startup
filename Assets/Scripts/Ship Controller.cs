@@ -174,7 +174,7 @@ public class ShipController : MonoBehaviour
         }
         else if (moveBackward)
         {
-            rb.AddForce(-transform.forward * forwardForce * 0.25f);
+            rb.AddForce(-transform.forward * forwardForce * 0.5f);
         }
 
         rb.AddTorque(steer * steeringTorque * transform.up);
