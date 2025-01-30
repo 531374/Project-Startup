@@ -27,7 +27,20 @@ public class EnemyHealthMananger : MonoBehaviour
     void Update()
     {
         if (slider.value != currentHealth) slider.value = Mathf.Lerp (slider.value, currentHealth, Time.deltaTime * lerpSpeed);
+
+        Die ();
     }
+
+    private void Die ()
+    {
+        if (slider.value <= 0 )
+        {
+            Destroy (slider);
+            Destroy (gameObject);
+        }
+    }
+        
+    
 
     public void TakeDamage (float value)
     {
