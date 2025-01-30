@@ -49,6 +49,7 @@ public class BookManager : MonoBehaviour
 
     private void OpenBook ()
     {
+
         if (Input.GetKeyDown (KeyCode.J))
         {
             if (book.activeSelf == false && journal.activeSelf == false) 
