@@ -60,6 +60,7 @@ public class ShipController : MonoBehaviour
         points = new List<GameObject>();
         Vector3 origin = -transform.localScale / 2f;
 
+        //Create points along the bottom side of the ship, which are used for keeping it "floating"
         for (int x = 0; x < numPointsPerAxis; x++)
         {
             for (int z = 0; z < numPointsPerAxis; z++)
@@ -114,16 +115,20 @@ public class ShipController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Apply a force to many points on the bottom side of the ship
         for (int i = 0; i < points.Count; i++)
         {
             if (Physics.Raycast(points[i].transform.position, -transform.up, out RaycastHit hitInfo, 5.0f, mask))
             {
+                //Negate gravity (a bit)
                 Vector3 cancelGravity = rb.mass * Physics.gravity * 0.2f;
 
+                //Calculate force to give
                 float yDifference = (hitInfo.point.y + desiredHeight) - points[i].transform.position.y;
                 float force = yDifference * spring;
                 force -= rb.GetPointVelocity(points[i].transform.position).y * damp;
 
+                //At it to the location of the point on the ship
                 rb.AddForceAtPosition(cancelGravity + force * transform.up, points[i].transform.position);
             }
         }
@@ -177,6 +182,7 @@ public class ShipController : MonoBehaviour
         Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
         camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
 
+        //Camera follows direction or ship forward
         Quaternion camRotation = camTransform.rotation;
         Vector3 lookDirection = moveForward ? rb.velocity.normalized : transform.forward;
         Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
