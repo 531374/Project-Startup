@@ -22,16 +22,6 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-        }
-
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Ship").transform;
-        }
-
         foreach (Transform child in map.transform)
         {
             icons.Add (child.gameObject);
@@ -40,11 +30,33 @@ public class MapManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (var structure in GameObject.FindGameObjectsWithTag("Structure"))
+        
+        if (player == null)
         {
-            
+            GameObject foundPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (foundPlayer != null)
+            {
+                player = foundPlayer.transform;
+                Debug.Log("Player found: " + player.name);
+            }
+        }
+
+        if (player == null)
+        {
+            GameObject foundShip = GameObject.FindGameObjectWithTag("Ship");
+            if (foundShip != null)
+            {
+                player = foundShip.transform;
+                Debug.Log("Ship found: " + player.name);
+            }
+        }
+
+
+        foreach (var structure in GameObject.FindGameObjectsWithTag("Structure"))
+        {   
+           
             if (visitedStructures.Contains (structure)) continue;
-            else if (Vector3.Distance(player.position, structure.transform.position) > detectionRadius)visitedStructures.Add (structure);
+            else if (Vector3.Distance(player.position, structure.transform.position) < detectionRadius) visitedStructures.Add (structure);
             
         }
 
