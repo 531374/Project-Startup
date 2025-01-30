@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: FMOD/idk/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638738328417839098
+  lastModified: 638737421001348935
   FileSizes:
   - Name: Desktop
-    Value: 1042
+    Value: 946
   Exists: 1
 --- !u!114 &-4596335037395932796
 MonoBehaviour:
@@ -196,42 +196,13 @@ MonoBehaviour:
   - {fileID: 2322555639456739072}
   - {fileID: -24139362588764225}
   - {fileID: -4596335037395932796}
-  - {fileID: 3542823567029948036}
-  - {fileID: 1525496058362440471}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2754138498678027273}
   StringsBanks:
   - {fileID: -8493210147681548919}
-  cacheTime: 638738328417839098
+  cacheTime: 638737516810782104
   cacheVersion: 131622
---- !u!114 &1525496058362440471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/EnemyDamageTaken
-  m_EditorClassIdentifier: 
-  Path: event:/EnemyDamageTaken
-  Guid:
-    Data1: -1646793302
-    Data2: 1322788508
-    Data3: -878819919
-    Data4: 1136466620
-  Banks:
-  - {fileID: 2754138498678027273}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1000
 --- !u!114 &2111007811008259808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,38 +272,11 @@ MonoBehaviour:
   Path: FMOD/idk/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638738328417813875
+  lastModified: 638737516810782104
   FileSizes:
   - Name: Desktop
-    Value: 48863264
+    Value: 48739488
   Exists: 1
---- !u!114 &3542823567029948036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/PlayerAttack
-  m_EditorClassIdentifier: 
-  Path: event:/PlayerAttack
-  Guid:
-    Data1: -208028111
-    Data2: 1268537035
-    Data3: 2000588961
-    Data4: 2110616992
-  Banks:
-  - {fileID: 2754138498678027273}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 2000
 --- !u!114 &6378607659569219466
 MonoBehaviour:
   m_ObjectHideFlags: 0
