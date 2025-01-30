@@ -1,3 +1,4 @@
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -28,6 +29,8 @@ public class EnemyController : MonoBehaviour
     float lastAttack;
     public bool isAttacking;
 
+    [SerializeField] private StudioEventEmitter CombatMusicSoundEmitter;
+
 
 
 
@@ -54,11 +57,6 @@ public class EnemyController : MonoBehaviour
     {
         //Debug.Log(isAttacking + " " + PlayerController.instance.canBeHit);
         if (player == null) return;
-
-        if (!detectedPlayer && playerInAttackRange)
-        {
-            detectedPlayer = true;
-        }
 
         if (detectedPlayer && !playerInAttackRange)
         {
@@ -123,6 +121,11 @@ public class EnemyController : MonoBehaviour
     {
         float playerDst = Vector3.Distance(player.transform.position, transform.position);
 
+        if(!detectedPlayer && playerDst <= detectionRange)
+        {
+            detectedPlayer = true;
+        }
+        
         if (!playerInAttackRange && playerDst <= attackRange)
         {
             anim.SetTrigger("PlayerInRange");

@@ -15,12 +15,12 @@ MonoBehaviour:
   Path: FMOD/idk/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638737444666382307
+  lastModified: 638738369614546018
   FileSizes:
   - Name: Desktop
-    Value: 946
+    Value: 1232
   Exists: 1
---- !u!114 &-4596335037395932796
+--- !u!114 &-7891825253582188776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30,14 +30,68 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Windy Desert
+  m_Name: event:/SandBoatMovement
   m_EditorClassIdentifier: 
-  Path: event:/Windy Desert
+  Path: event:/SandBoatMovement
   Guid:
-    Data1: -890848513
-    Data2: 1337025994
-    Data3: 1371299489
-    Data4: 2083143820
+    Data1: 1257148635
+    Data2: 1112611637
+    Data3: 887206830
+    Data4: 644451864
+  Banks:
+  - {fileID: 2754138498678027273}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 8000
+--- !u!114 &-5927509958769914604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/EnemyDeath
+  m_EditorClassIdentifier: 
+  Path: event:/EnemyDeath
+  Guid:
+    Data1: 667840487
+    Data2: 1243424846
+    Data3: -663489646
+    Data4: 50739969
+  Banks:
+  - {fileID: 2754138498678027273}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2321
+--- !u!114 &-5410904762780868148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/CombatMusic
+  m_EditorClassIdentifier: 
+  Path: event:/CombatMusic
+  Guid:
+    Data1: -306772222
+    Data2: 1269828195
+    Data3: 2122087836
+    Data4: 994823394
   Banks:
   - {fileID: 2754138498678027273}
   IsStream: 1
@@ -46,7 +100,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 3601084
+  Length: 138000
 --- !u!114 &-4395788265780264792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +148,60 @@ MonoBehaviour:
   - Name: Desktop
     Value: 48739488
   Exists: 1
+--- !u!114 &-3363469260258710698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerDeath
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerDeath
+  Guid:
+    Data1: -821048760
+    Data2: 1197245064
+    Data3: -113897047
+    Data4: 9382635
+  Banks:
+  - {fileID: 2754138498678027273}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6112
+--- !u!114 &-2941863161102917672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerAttackHeavy
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerAttackHeavy
+  Guid:
+    Data1: 1677572292
+    Data2: 1129187354
+    Data3: 1626057622
+    Data4: 1765115873
+  Banks:
+  - {fileID: 2754138498678027273}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 700
 --- !u!114 &-2600167825086396564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +229,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 224
---- !u!114 &-1880615541271582391
+--- !u!114 &-352463811404892816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,24 +239,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/PlayerDamageTaken
+  m_Name: event:/EnemyDamageTaken
   m_EditorClassIdentifier: 
-  Path: event:/PlayerDamageTaken
+  Path: event:/EnemyDamageTaken
   Guid:
-    Data1: -186076601
-    Data2: 1287929415
-    Data3: 1476018352
-    Data4: 1992894988
+    Data1: -1646793302
+    Data2: 1322788508
+    Data3: -878819919
+    Data4: 1136466620
   Banks:
   - {fileID: 2754138498678027273}
-  IsStream: 0
+  IsStream: 1
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 224
---- !u!114 &-24139362588764225
+  Length: 1000
+--- !u!114 &-150380345593979316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,19 +299,25 @@ MonoBehaviour:
   - {fileID: -8493210147681548919}
   - {fileID: 2754138498678027273}
   EditorEvents:
-  - {fileID: -1880615541271582391}
-  - {fileID: 2111007811008259808}
-  - {fileID: 2322555639456739072}
-  - {fileID: -24139362588764225}
-  - {fileID: -4596335037395932796}
+  - {fileID: 3295948914665988500}
+  - {fileID: 7899309936768771081}
+  - {fileID: -352463811404892816}
+  - {fileID: -7891825253582188776}
+  - {fileID: -150380345593979316}
+  - {fileID: 376231000116050672}
+  - {fileID: 6638309270021448899}
+  - {fileID: -2941863161102917672}
+  - {fileID: -3363469260258710698}
+  - {fileID: -5927509958769914604}
+  - {fileID: -5410904762780868148}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2754138498678027273}
   StringsBanks:
   - {fileID: -8493210147681548919}
-  cacheTime: 638737515581097190
+  cacheTime: 638738369614546018
   cacheVersion: 131622
---- !u!114 &2111007811008259808
+--- !u!114 &376231000116050672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,50 +327,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/OminousSound
+  m_Name: event:/Windy Desert
   m_EditorClassIdentifier: 
-  Path: event:/OminousSound
+  Path: event:/Windy Desert
   Guid:
-    Data1: 1781191587
-    Data2: 1124446255
-    Data3: 568885931
-    Data4: -2082231619
+    Data1: -890848513
+    Data2: 1337025994
+    Data3: 1371299489
+    Data4: 2083143820
   Banks:
   - {fileID: 2754138498678027273}
   IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 21459
---- !u!114 &2322555639456739072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SandBoatMovement
-  m_EditorClassIdentifier: 
-  Path: event:/SandBoatMovement
-  Guid:
-    Data1: 1257148635
-    Data2: 1112611637
-    Data3: 887206830
-    Data4: 644451864
-  Banks:
-  - {fileID: 2754138498678027273}
-  IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 8000
+  Length: 3601084
 --- !u!114 &2754138498678027273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,11 +359,38 @@ MonoBehaviour:
   Path: FMOD/idk/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638737515581097190
+  lastModified: 638738369614530717
   FileSizes:
   - Name: Desktop
-    Value: 48739488
+    Value: 53659008
   Exists: 1
+--- !u!114 &3295948914665988500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerDamageTaken
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerDamageTaken
+  Guid:
+    Data1: -186076601
+    Data2: 1287929415
+    Data3: 1476018352
+    Data4: 1992894988
+  Banks:
+  - {fileID: 2754138498678027273}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 224
 --- !u!114 &6378607659569219466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +418,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 548
+--- !u!114 &6638309270021448899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerAttackLight
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerAttackLight
+  Guid:
+    Data1: -208028111
+    Data2: 1268537035
+    Data3: 2000588961
+    Data4: 2110616992
+  Banks:
+  - {fileID: 2754138498678027273}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 700
 --- !u!114 &6679132705747507661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +512,33 @@ MonoBehaviour:
     Data4: -2082231619
   Banks:
   - {fileID: -3559122297308342759}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 21459
+--- !u!114 &7899309936768771081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OminousSound
+  m_EditorClassIdentifier: 
+  Path: event:/OminousSound
+  Guid:
+    Data1: 1781191587
+    Data2: 1124446255
+    Data3: 568885931
+    Data4: -2082231619
+  Banks:
+  - {fileID: 2754138498678027273}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1

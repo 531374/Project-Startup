@@ -17,7 +17,7 @@ public class MainMenuController : MonoBehaviour
     [Header ("Main Menu Functions")] 
     public string newGameLevel;
     public string loadGameLevel;
-    public string mainmenuLevel;
+    public string mainMenuLevel;
 
     public void NewGameScene()
     {
@@ -26,7 +26,7 @@ public class MainMenuController : MonoBehaviour
 
     public void MainMenuScene()
     {
-        SceneManager.LoadScene(mainmenuLevel);
+        SceneManager.LoadScene(mainMenuLevel);
     }
 
     public void LoadGameScene()

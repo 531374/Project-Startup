@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class ShipController : MonoBehaviour
 {
+
+    static bool initialized = false;
+
     public float forwardForce = 10.0f;
     public float steeringTorque = 10.0f;
 
@@ -14,14 +17,12 @@ public class ShipController : MonoBehaviour
     public float spring = 100.0f;
     public float damp = 10.0f;
 
-    float test = 4.0f;
-
     [SerializeField] private float pickupRange;
 
     [SerializeField] private Transform leftThing;
     [SerializeField] private Transform rightThing;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject playerCanvas;
+    //[SerializeField] private GameObject player;
+    //[SerializeField] private GameObject playerCanvas;
     [SerializeField] private GameObject keyCapPrefab;
 
     private Rigidbody rb;
@@ -55,6 +56,21 @@ public class ShipController : MonoBehaviour
     private bool isMoving = false;
     private float movementThreshold = 0.1f;
 
+    private void Awake()
+    {
+        if (!initialized)
+        {
+            Vector3 spawnPosition = new Vector3(-485.7816f, 23.0f, 529.4454f);
+
+            PlayerPrefs.SetFloat("PlayerX", spawnPosition.x);
+            PlayerPrefs.SetFloat("PlayerY", spawnPosition.y);
+            PlayerPrefs.SetFloat("PlayerZ", spawnPosition.z);
+            PlayerPrefs.Save();
+
+            initialized = true;
+        }
+    }
+
     private void Start()
     {
         points = new List<GameObject>();
@@ -76,19 +92,23 @@ public class ShipController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         mask = LayerMask.GetMask("Ground");
-        camTransform.position = transform.position + camOffset;
 
         isEnabled = true;
 
         transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
-        player.GetComponent<PlayerController>().isEnabled = false;
-        player.SetActive(false);
-        playerCanvas.SetActive(false);
+        camTransform.position = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
+        camTransform.rotation = transform.rotation;
+
+        Cursor.lockState = CursorLockMode.Locked;
+
+        //player.GetComponent<PlayerController>().isEnabled = false;
+        //player.SetActive(false);
+        //playerCanvas.SetActive(false);
     }
 
     private void Update()
     {
-        ShowKeyCap();
+        //ShowKeyCap();
         // if (!isEnabled) return;
 
         // if (Input.GetKeyDown(KeyCode.B))
@@ -154,7 +174,7 @@ public class ShipController : MonoBehaviour
         }
         else if (moveBackward)
         {
-            rb.AddForce(-transform.forward * forwardForce * 0.25f);
+            rb.AddForce(-transform.forward * forwardForce * 0.5f);
         }
 
         rb.AddTorque(steer * steeringTorque * transform.up);
@@ -184,7 +204,7 @@ public class ShipController : MonoBehaviour
 
         //Camera follows direction or ship forward
         Quaternion camRotation = camTransform.rotation;
-        Vector3 lookDirection = moveForward ? rb.velocity.normalized : transform.forward;
+        Vector3 lookDirection = moveForward && rb.velocity.magnitude > 2.5f ? rb.velocity.normalized : transform.forward;
         Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
         camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
@@ -230,30 +250,37 @@ public class ShipController : MonoBehaviour
         {
             if (Physics.Raycast(leftThing.position, -transform.up, out RaycastHit hitLeft))
             {
-                if (hitLeft.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain)) terrain.DeformTerrainAtPoint(hitLeft.point);
+                if(hitLeft.collider is TerrainCollider)
+                {
+                    if (hitLeft.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain)) terrain.DeformTerrainAtPoint(hitLeft.point);
+                }
             }
 
             if (Physics.Raycast(rightThing.position, -transform.up, out RaycastHit hitRight))
             {
-                if (hitRight.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain1)) terrain1.DeformTerrainAtPoint(hitRight.point);
+                if (hitLeft.collider is TerrainCollider)
+                {
+                    if (hitRight.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain1)) terrain1.DeformTerrainAtPoint(hitRight.point);
+
+                }
             }
         }
     }
 
-    private void ShowKeyCap()
-    {
-        if (isEnabled) return;
-        if (keyCap == null && Vector3.Distance(transform.position, player.transform.position) < 15.0f)
-        {
-            keyCap = Instantiate(keyCapPrefab, transform.position + new Vector3(0, 10.0f, 0), Quaternion.identity, transform);
-        }
-        else if (keyCap != null && Vector3.Distance(player.transform.position, transform.position) > 150.0f)
-        {
-            Destroy(keyCap);
-        }
+    //private void ShowKeyCap()
+    //{
+    //    if (isEnabled) return;
+    //    if (keyCap == null && Vector3.Distance(transform.position, player.transform.position) < 15.0f)
+    //    {
+    //        keyCap = Instantiate(keyCapPrefab, transform.position + new Vector3(0, 10.0f, 0), Quaternion.identity, transform);
+    //    }
+    //    else if (keyCap != null && Vector3.Distance(player.transform.position, transform.position) > 150.0f)
+    //    {
+    //        Destroy(keyCap);
+    //    }
 
-        if (keyCap != null) keyCap.transform.LookAt(Camera.main.transform.position);
-    }
+    //    if (keyCap != null) keyCap.transform.LookAt(Camera.main.transform.position);
+    //}
 
     private void OnDrawGizmosSelected()
     {

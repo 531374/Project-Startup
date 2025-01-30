@@ -15,6 +15,7 @@ public class PlayerHealthManager : MonoBehaviour
     [Header ("References")]
     [SerializeField] private Slider slider;
     [SerializeField] private StudioEventEmitter damageSoundEmitter;
+    [SerializeField] private StudioEventEmitter deathSoundEmitter;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +39,13 @@ public class PlayerHealthManager : MonoBehaviour
         if (slider.value <= 0 )
         {
            Destroy (gameObject);
+
+            if (deathSoundEmitter != null)
+            {
+                deathSoundEmitter.Play();
+            }
         }
+
     }
 
     public void TakeDamage (float value)

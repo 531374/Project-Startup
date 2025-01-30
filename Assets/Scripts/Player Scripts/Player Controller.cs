@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,6 +26,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float heavyAttackDamageModifier = 1.5f;
     [SerializeField] private float normalAttackStaminaCost = 5f;
     [SerializeField] private float heavyAttackStaminaCost = 10f;
+
+    [SerializeField] private StudioEventEmitter LightAttackSoundEmitter;
+    [SerializeField] private StudioEventEmitter HeavyAttackSoundEmitter;
 
     [Header("Roll Settings")]
     [SerializeField] private float rollPower = 24f;
@@ -60,6 +64,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isEnabled;
     public bool canBeHit;
+
+    private Vector3 input;
 
     private void Start()
     {
@@ -109,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
         Move();
         Interact();
-        JumpLogic();
+        //JumpLogic();
         ShowHideCursor ();
         Attack ();
 
@@ -154,6 +160,10 @@ public class PlayerController : MonoBehaviour
         stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
+        if (LightAttackSoundEmitter != null)
+        {
+            LightAttackSoundEmitter.Play();
+        }
 
     }
 
@@ -164,6 +174,10 @@ public class PlayerController : MonoBehaviour
         stamina.TakeStamina (heavyAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
+        if (HeavyAttackSoundEmitter != null)
+        {
+            HeavyAttackSoundEmitter.Play();
+        }
     }
 
 
@@ -233,7 +247,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            anim.SetTrigger("Jump");
+            //anim.SetTrigger("Jump");
         }
     }
 
@@ -315,17 +329,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 cameraRight = cam.transform.right;
         Vector3 cameraForward = Vector3.Cross(cameraRight, Vector3.up);
-        Vector3 move = input.x * cameraRight + input.z * cameraForward;
-
-        float speedModifier = 1f;
-
-        if (stamina.currentStamina < 10.0f) speedModifier = 0.5f; 
-
-        if (!isAttacking && !isJumping)
-        {
-            transform.Translate(move * (speed * speedModifier) * Time.deltaTime, Space.World);
-        }
-
+        this.input = input.x * cameraRight + input.z * cameraForward;
 
         Quaternion rotation = transform.rotation;
         Quaternion targetRotation;
@@ -378,7 +382,36 @@ public class PlayerController : MonoBehaviour
         cam.transform.position = transform.position + cam.transform.rotation * cameraOffset;
 
 
-        anim.SetFloat("Movement", input.magnitude * speedModifier);
+        
+    }
+
+    private void FixedUpdate()
+    {
+
+        if (!isAttacking && !isJumping)
+        {
+            float speedModifier = 1f;
+            if (stamina.currentStamina < 10.0f) speedModifier = 0.5f;
+
+            Vector3 movement = input * (speed * speedModifier) * Time.fixedDeltaTime;
+
+            if (rb.SweepTest(movement.normalized, out RaycastHit hit, movement.magnitude))
+            {
+                // Project movement onto the collision surface (sliding effect)
+                Vector3 slideDirection = Vector3.ProjectOnPlane(movement, hit.normal);
+                rb.MovePosition(rb.position + slideDirection);
+            }
+            else
+            {
+                rb.MovePosition(rb.position + movement);
+            }
+
+
+            //rb.MovePosition(rb.position + input * (speed * speedModifier) * Time.fixedDeltaTime);
+
+            anim.SetFloat("Movement", input.normalized.magnitude * speedModifier);
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
