@@ -44,6 +44,7 @@ public class PlayerHealthManager : MonoBehaviour
     public void TakeDamage (float value)
     {
         currentHealth -= value;
+        Debug.Log("bomba is triggered");
 
         if (damageSoundEmitter != null)
         {

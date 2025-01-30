@@ -393,7 +393,7 @@ MonoBehaviour:
   sourceProjectPath: FMOD/idk/idk.fspro
   sourceBankPath: FMOD/idk/Build
   sourceBankPathUnformatted: 
-  BankRefreshCooldown: 5
+  BankRefreshCooldown: 1
   ShowBankRefreshWindow: 1
   AutomaticEventLoading: 1
   BankLoadType: 0

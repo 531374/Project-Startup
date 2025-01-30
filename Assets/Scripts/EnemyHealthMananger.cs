@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using FMODUnity;
 using UnityEngine.UI;
 
 public class EnemyHealthMananger : MonoBehaviour
@@ -10,6 +11,8 @@ public class EnemyHealthMananger : MonoBehaviour
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] public float currentHealth;
     [SerializeField] private float lerpSpeed = 5f;
+
+    [SerializeField] private StudioEventEmitter damageSoundEmitter;
 
     [Header ("References")]
     [SerializeField] private Slider slider;
@@ -45,6 +48,11 @@ public class EnemyHealthMananger : MonoBehaviour
     public void TakeDamage (float value)
     {
         currentHealth -= value;
+
+        if (damageSoundEmitter != null)
+        {
+            damageSoundEmitter.Play();
+        }
     }
 
     public void Heal (float value)
