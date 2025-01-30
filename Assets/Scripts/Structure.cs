@@ -78,8 +78,8 @@ public class Structure : InteractableObject
                         }
 
                         // Optional: Instantiate the prefab in the loaded scene
-                        GameObject interior = Instantiate(interiorPrefab);
-                        SceneManager.MoveGameObjectToScene(interior, loadedScene);
+                        //GameObject interior = Instantiate(interiorPrefab);
+                        //SceneManager.MoveGameObjectToScene(interior, loadedScene);
                     }
                 };
             }

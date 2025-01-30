@@ -99,6 +99,8 @@ public class ShipController : MonoBehaviour
         camTransform.position = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
         camTransform.rotation = transform.rotation;
 
+        Cursor.lockState = CursorLockMode.Locked;
+
         //player.GetComponent<PlayerController>().isEnabled = false;
         //player.SetActive(false);
         //playerCanvas.SetActive(false);

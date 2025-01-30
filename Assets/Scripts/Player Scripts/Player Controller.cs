@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         Move();
         Interact();
-        JumpLogic();
+        //JumpLogic();
         ShowHideCursor ();
         Attack ();
 
@@ -143,15 +143,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && stamina.currentStamina > normalAttackStaminaCost)
         {
             anim.SetTrigger("Light Attack");
-
-
         }
 
         if (Input.GetMouseButtonDown(1) && stamina.currentStamina > heavyAttackStaminaCost)
         {
             anim.SetTrigger("Heavy Attack");
-
-
         }
     }
 
@@ -249,7 +245,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            anim.SetTrigger("Jump");
+            //anim.SetTrigger("Jump");
         }
     }
 
@@ -341,7 +337,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.Translate(move * (speed * speedModifier) * Time.deltaTime, Space.World);
         }
-
 
         Quaternion rotation = transform.rotation;
         Quaternion targetRotation;
