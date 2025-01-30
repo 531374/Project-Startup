@@ -44,7 +44,7 @@ public class Structure : InteractableObject
     {
         if (interacted)
         {
-            Debug.Log ("asd");
+            //Debug.Log ("asd");
             if (interiorPrefab != null)
             {
                 PlayerPrefs.SetFloat("PlayerX", player.position.x);
@@ -69,7 +69,7 @@ public class Structure : InteractableObject
 
                         if (targetObject != null)
                         {
-                            Debug.Log($"Found object: {targetObject.name}");
+                            //Debug.Log($"Found object: {targetObject.name}");
                             targetObject.transform.position = new Vector3 (0, 7, -15);
                         }
                         else

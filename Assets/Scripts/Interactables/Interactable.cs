@@ -29,7 +29,6 @@ public class Interactable : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
             if (player == null) player = GameObject.FindGameObjectWithTag("Ship")?.transform;
             if (player == null) return;
-            Debug.Log (player);
         }
 
 

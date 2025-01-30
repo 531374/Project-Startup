@@ -184,7 +184,7 @@ public class ShipController : MonoBehaviour
 
         //Camera follows direction or ship forward
         Quaternion camRotation = camTransform.rotation;
-        Vector3 lookDirection = moveForward ? rb.velocity.normalized : transform.forward;
+        Vector3 lookDirection = moveForward && rb.velocity.magnitude > 2.5f ? rb.velocity.normalized : transform.forward;
         Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
         camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
@@ -230,12 +230,19 @@ public class ShipController : MonoBehaviour
         {
             if (Physics.Raycast(leftThing.position, -transform.up, out RaycastHit hitLeft))
             {
-                if (hitLeft.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain)) terrain.DeformTerrainAtPoint(hitLeft.point);
+                if(hitLeft.collider is TerrainCollider)
+                {
+                    if (hitLeft.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain)) terrain.DeformTerrainAtPoint(hitLeft.point);
+                }
             }
 
             if (Physics.Raycast(rightThing.position, -transform.up, out RaycastHit hitRight))
             {
-                if (hitRight.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain1)) terrain1.DeformTerrainAtPoint(hitRight.point);
+                if (hitLeft.collider is TerrainCollider)
+                {
+                    if (hitRight.transform.TryGetComponent<TerrainEditor>(out TerrainEditor terrain1)) terrain1.DeformTerrainAtPoint(hitRight.point);
+
+                }
             }
         }
     }

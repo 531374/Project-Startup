@@ -27,7 +27,6 @@ public class SwordController : MonoBehaviour
         if (anim.GetBool ("CanCollide") && anim.GetBool ("isAttacking") && other.CompareTag("Enemy")) 
         {
             other.GetComponent <EnemyHealthMananger> ().TakeDamage (playerController.damage);
-            Debug.Log(playerController.damage);
             anim.SetBool ("CanCollide", false);
         }
     }
