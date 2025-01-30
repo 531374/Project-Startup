@@ -47,166 +47,159 @@ public class BookManager : MonoBehaviour
         else if (!book.activeSelf && isBookOpened) isBookOpened = false;
     }
 
-    private void OpenBook ()
+    private void OpenBook()
     {
 
         if (Input.GetKeyDown (KeyCode.J))
         {
-            if (book.activeSelf == false && journal.activeSelf == false) 
+            if (!journal.activeSelf)
             {
-                book.SetActive (true);
-                setJournal ();
+                setJournal();
             }
-            else if (book.activeSelf == true && journal.activeSelf == true) 
+            else
             {
-                ResumeGame ();
-                DisableJournal ();
-                book.SetActive (false);
+                ResumeGame();
+                DisableJournal();
             }
-           
-        } else if (Input.GetKeyDown (KeyCode.M))
-        {
-            if (book.activeSelf == false && miniMap.activeSelf == false) 
-            {
-                book.SetActive (true);
-                setMap ();
-            }
-            else if (book.activeSelf == true && miniMap.activeSelf == true) 
-            {
-                ResumeGame ();
-                DisableMap ();
-                book.SetActive (false);
-            }
-      
-        }else if (Input.GetKeyDown (KeyCode.I)) 
-        {
-            if (book.activeSelf == false && inventory.activeSelf == false)
-            { 
-                book.SetActive (true);
-                setInventory ();
-            }
-            else if (book.activeSelf == true && inventory.activeSelf == true) 
-            {
-                ResumeGame ();
-                DissableInventory ();
-                book.SetActive (false);
-            }
-         
         }
-        else if (Input.GetKeyDown (KeyCode.Escape) && book.activeSelf == false)
+        else if (Input.GetKeyDown(KeyCode.M))
         {
-            book.SetActive (true);
-            setSettings ();
-        } else if (Input.GetKeyDown (KeyCode.Escape) && book.activeSelf == true)
+            if (!miniMap.activeSelf)
+            {
+                setMap();
+            }
+            else
+            {
+                ResumeGame();
+                DisableMap();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.I))
         {
-            ResumeGame ();
-            DisableSettings ();
-            book.SetActive (false);
+            if (!inventory.activeSelf)
+            {
+                setInventory();
+            }
+            else
+            {
+                ResumeGame();
+                DisableInventory();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!settings.activeSelf)
+            {
+                setSettings();
+            }
+            else
+            {
+                ResumeGame();
+                DisableSettings();
+            }
         }
     }
+
 
     public void setJournal()
     {
         PlaySound();
         EnableJournal();
-        DissableInventory ();
+        DisableInventory();
         DisableMap();
         DisableSettings();
-        PauseGame ();
-        if (!EventSystem.current.currentSelectedGameObject == journalButton)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            journalButton.image.sprite = journalSelectedButton;
-        }
+        PauseGame();
+
+        EventSystem.current.SetSelectedGameObject(null);
+        journalButton.transform.GetChild(0).GetComponent<Image> ().sprite = journalSelectedButton;
     }
 
     public void setInventory()
     {
         PlaySound();
+        EnableInventory();
         DisableJournal();
-        EnableInvetory();
         DisableMap();
         DisableSettings();
-        PauseGame ();
-        if (!EventSystem.current.currentSelectedGameObject == inventoryButton)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            inventoryButton.image.sprite = inventorySelectedButton;
-        }
+        PauseGame();
+
+        EventSystem.current.SetSelectedGameObject(null);
+        inventoryButton.transform.GetChild(0).GetComponent<Image> ().sprite = inventorySelectedButton;
     }
+
     public void setMap()
     {
         PlaySound();
         EnableMap();
         DisableJournal();
-        DissableInventory ();
+        DisableInventory();
         DisableSettings();
-        PauseGame ();
-        if (!EventSystem.current.currentSelectedGameObject == mapButton)
-        {   
-            EventSystem.current.SetSelectedGameObject(null);
-            mapButton.image.sprite = mapSelectedButton;
-        }
+        PauseGame();
+
+        EventSystem.current.SetSelectedGameObject(null);
+        mapButton.transform.GetChild(0).GetComponent<Image>().sprite = mapSelectedButton;
     }
 
     public void setSettings()
     {
         PlaySound();
         EnableSettings();
-        DissableInventory ();
+        DisableInventory();
         DisableJournal();
         DisableMap();
-        PauseGame ();
-        if (!EventSystem.current.currentSelectedGameObject == settingsButton)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            settingsButton.image.sprite = settingsSelectedButton;
-        }
+        PauseGame();
 
+        EventSystem.current.SetSelectedGameObject(null);
+        settingsButton.transform.GetChild(0).GetComponent<Image> ().sprite = settingsSelectedButton;
     }
 
-    private void DisableJournal()
-    {
-        if (journal.activeSelf == true) journal.SetActive(false);
-        journalButton.image.sprite = journalImage;
-    }
 
     private void EnableJournal()
     {
-        if (journal.activeSelf == false) journal.SetActive(true);
+        book.SetActive(true);
+        journal.SetActive(true);
     }
 
-    private void EnableInvetory ()
+    private void EnableInventory()
     {
-        if (inventory.activeSelf == false) inventory.SetActive (true);
+        book.SetActive(true);
+        inventory.SetActive(true);
     }
 
-    private void DissableInventory ()
+    private void EnableMap()
     {
-        if (inventory.activeSelf == true) inventory.SetActive (false);
+        book.SetActive(true);
+        miniMap.SetActive(true);
+    }
+
+    private void EnableSettings()
+    {
+        book.SetActive(true);
+        settings.SetActive(true);
+    }
+
+        private void DisableJournal()
+    {
+        journal.SetActive(false);
+        journalButton.image.sprite = journalImage;
+    }
+
+    private void DisableInventory()
+    {
+        inventory.SetActive(false);
         inventoryButton.image.sprite = inventoryImage;
     }
 
     private void DisableMap()
     {
-        if (miniMap.activeSelf == true) miniMap.SetActive(false);
+        miniMap.SetActive(false);
         mapButton.image.sprite = mapImage;
-    }
-
-    private void EnableMap()
-    {
-        if (miniMap.activeSelf == false) miniMap.SetActive(true);
     }
 
     private void DisableSettings()
     {
-        if (settings.activeSelf == true) settings.SetActive(false);
+        settings.SetActive(false);
         settingsButton.image.sprite = settingsImage;
-    }
-
-    private void EnableSettings()
-    {
-        if (settings.activeSelf == false) settings.SetActive(true);
     }
 
     private void PlaySound()

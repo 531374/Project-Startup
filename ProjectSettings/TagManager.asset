@@ -13,6 +13,7 @@ TagManager:
   - GameManager
   - Leg
   - Stinger
+  - UICam
   layers:
   - Default
   - TransparentFX

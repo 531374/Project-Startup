@@ -19,6 +19,11 @@ public class InventorySlot : MonoBehaviour
             isSelected = true;
             this.icon.sprite = item.selectedIcon;
         }
+        else if (isSelected)
+        {
+            isSelected = false;
+            this.icon.sprite = item.icon;
+        }
 
     }
     public void AddItem(Item newItem)
