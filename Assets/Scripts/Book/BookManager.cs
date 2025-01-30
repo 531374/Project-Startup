@@ -60,6 +60,7 @@ public class BookManager : MonoBehaviour
             {
                 ResumeGame();
                 DisableJournal();
+                book.SetActive (false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.M))
@@ -72,6 +73,7 @@ public class BookManager : MonoBehaviour
             {
                 ResumeGame();
                 DisableMap();
+                book.SetActive (false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.I))
@@ -84,6 +86,7 @@ public class BookManager : MonoBehaviour
             {
                 ResumeGame();
                 DisableInventory();
+                book.SetActive (false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
@@ -96,10 +99,17 @@ public class BookManager : MonoBehaviour
             {
                 ResumeGame();
                 DisableSettings();
+                book.SetActive (false);
             }
         }
     }
 
+    public void ResumeGameFromSettings ()
+    {
+        ResumeGame();
+        DisableSettings();
+        book.SetActive (false);
+    }
 
     public void setJournal()
     {
@@ -152,7 +162,6 @@ public class BookManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         settingsButton.transform.GetChild(0).GetComponent<Image> ().sprite = settingsSelectedButton;
     }
-
 
     private void EnableJournal()
     {

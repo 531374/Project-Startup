@@ -216,19 +216,15 @@ public class MainMenuController : MonoBehaviour
             frameCount = 0;
         }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                isPaused = !isPaused;
-                Time.timeScale = isPaused ? 0 : 1;
-                pauseMenu.SetActive(isPaused);
-            }
+            // if (Input.GetKeyDown(KeyCode.Escape))
+            // {
+            //     isPaused = !isPaused;
+            //     Time.timeScale = isPaused ? 0 : 1;
+            //     pauseMenu.SetActive(isPaused);
+            // }
     }
 
         //PAUSE MENU
         [SerializeField] GameObject pauseMenu = null;
         bool isPaused;
-
-
-
-
 }
