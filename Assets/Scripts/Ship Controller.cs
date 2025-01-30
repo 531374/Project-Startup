@@ -95,7 +95,7 @@ public class ShipController : MonoBehaviour
 
         isEnabled = true;
 
-        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY") + 2.0f, PlayerPrefs.GetFloat("PlayerZ"));
+        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX") - 5.0f, PlayerPrefs.GetFloat("PlayerY") + 5.0f, PlayerPrefs.GetFloat("PlayerZ"));
         camTransform.position = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
         camTransform.rotation = transform.rotation;
 

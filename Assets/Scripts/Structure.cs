@@ -98,17 +98,17 @@ public class Structure : InteractableObject
 
     void triggerAnimation ()
     {
-        Collider[] colliders = Physics.OverlapBox (this.transform.position + new Vector3 (0, height, 0), 
-                                                  new Vector3 (detectionRange /2, detectionRange / 2, detectionRange / 2) ,Quaternion.identity, playerLayer);
+        // Collider[] colliders = Physics.OverlapBox (this.transform.position + new Vector3 (0, height, 0), 
+        //                                           new Vector3 (detectionRange /2, detectionRange / 2, detectionRange / 2) ,Quaternion.identity, playerLayer);
 
-        foreach (Collider collider in colliders)
-        {
-            if (collider.CompareTag ("Player") || collider.CompareTag ("Ship"))
-            {
+        // foreach (Collider collider in colliders)
+        // {
+        //     if (collider.CompareTag ("Player") || collider.CompareTag ("Ship"))
+        //     {
                 
-                animationEventTrigger.Invoke ();
-            }
-        }
+        //         animationEventTrigger.Invoke ();
+        //     }
+        // }
     }
 
     public Sprite GetIcon()
