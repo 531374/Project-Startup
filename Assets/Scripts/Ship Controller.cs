@@ -62,11 +62,11 @@ public class ShipController : MonoBehaviour
     {
         if (!initialized)
         {
-            transform.position = new Vector3(-485.7816f, 17.17063f, 529.4454f);
+            Vector3 spawnPosition = new Vector3(-485.7816f, 23.0f, 529.4454f);
 
-            PlayerPrefs.SetFloat("PlayerX", transform.position.x);
-            PlayerPrefs.SetFloat("PlayerY", transform.position.y);
-            PlayerPrefs.SetFloat("PlayerZ", transform.position.z);
+            PlayerPrefs.SetFloat("PlayerX", spawnPosition.x);
+            PlayerPrefs.SetFloat("PlayerY", spawnPosition.y);
+            PlayerPrefs.SetFloat("PlayerZ", spawnPosition.z);
             PlayerPrefs.Save();
 
             initialized = true;
