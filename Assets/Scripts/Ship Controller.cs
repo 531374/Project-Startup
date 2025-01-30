@@ -17,8 +17,6 @@ public class ShipController : MonoBehaviour
     public float spring = 100.0f;
     public float damp = 10.0f;
 
-    float test = 4.0f;
-
     [SerializeField] private float pickupRange;
 
     [SerializeField] private Transform leftThing;
