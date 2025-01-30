@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,6 +26,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float heavyAttackDamageModifier = 1.5f;
     [SerializeField] private float normalAttackStaminaCost = 5f;
     [SerializeField] private float heavyAttackStaminaCost = 10f;
+
+    [SerializeField] private StudioEventEmitter LightAttackSoundEmitter;
+    [SerializeField] private StudioEventEmitter HeavyAttackSoundEmitter;
 
     [Header("Roll Settings")]
     [SerializeField] private float rollPower = 24f;
@@ -139,11 +143,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && stamina.currentStamina > normalAttackStaminaCost)
         {
             anim.SetTrigger("Light Attack");
+
+
         }
 
         if (Input.GetMouseButtonDown(1) && stamina.currentStamina > heavyAttackStaminaCost)
         {
             anim.SetTrigger("Heavy Attack");
+
+
         }
     }
 
@@ -154,6 +162,10 @@ public class PlayerController : MonoBehaviour
         stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
+        if (LightAttackSoundEmitter != null)
+        {
+            LightAttackSoundEmitter.Play();
+        }
 
     }
 
@@ -164,6 +176,10 @@ public class PlayerController : MonoBehaviour
         stamina.TakeStamina (heavyAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
+        if (HeavyAttackSoundEmitter != null)
+        {
+            HeavyAttackSoundEmitter.Play();
+        }
     }
 
 

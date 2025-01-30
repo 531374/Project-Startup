@@ -111,7 +111,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{617ecabf-aec7-453e-9d55-53f9ae6e1fec}">
 		<property name="volume">
-			<value>-10</value>
+			<value>-5</value>
 		</property>
 		<property name="name">
 			<value>Ship through sand</value>

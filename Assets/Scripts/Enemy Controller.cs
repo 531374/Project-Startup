@@ -1,3 +1,4 @@
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -27,6 +28,8 @@ public class EnemyController : MonoBehaviour
 
     float lastAttack;
     public bool isAttacking;
+
+    [SerializeField] private StudioEventEmitter CombatMusicSoundEmitter;
 
 
 
@@ -59,6 +62,7 @@ public class EnemyController : MonoBehaviour
         {
             detectedPlayer = true;
         }
+
 
         if (detectedPlayer && !playerInAttackRange)
         {

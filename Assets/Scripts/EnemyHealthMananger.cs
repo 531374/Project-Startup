@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class EnemyHealthMananger : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class EnemyHealthMananger : MonoBehaviour
 
     [Header ("References")]
     [SerializeField] private Slider slider;
+    [SerializeField] private StudioEventEmitter damageSoundEmitter;
+    [SerializeField] private StudioEventEmitter deathSoundEmitter;
 
     // Start is called before the first frame update
     void Start()
@@ -35,8 +38,14 @@ public class EnemyHealthMananger : MonoBehaviour
     {
         if (slider.value <= 0 )
         {
+            if (deathSoundEmitter != null)
+            {
+                deathSoundEmitter.Play();
+            }
             Destroy (slider);
             Destroy (gameObject);
+
+
         }
     }
         
@@ -45,6 +54,11 @@ public class EnemyHealthMananger : MonoBehaviour
     public void TakeDamage (float value)
     {
         currentHealth -= value;
+
+        if (damageSoundEmitter != null)
+        {
+            damageSoundEmitter.Play();
+        }
     }
 
     public void Heal (float value)
