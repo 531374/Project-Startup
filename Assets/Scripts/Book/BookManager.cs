@@ -41,6 +41,7 @@ public class BookManager : MonoBehaviour
 
     private void Update ()
     {
+        
         OpenBook ();
 
         if (book.activeSelf && !isBookOpened) isBookOpened = true;
@@ -61,6 +62,7 @@ public class BookManager : MonoBehaviour
                 ResumeGame();
                 DisableJournal();
                 book.SetActive (false);
+                Cursor.lockState = CursorLockMode.Locked;
             }
         }
         else if (Input.GetKeyDown(KeyCode.M))
@@ -74,6 +76,7 @@ public class BookManager : MonoBehaviour
                 ResumeGame();
                 DisableMap();
                 book.SetActive (false);
+                Cursor.lockState = CursorLockMode.Locked;
             }
         }
         else if (Input.GetKeyDown(KeyCode.I))
@@ -87,6 +90,7 @@ public class BookManager : MonoBehaviour
                 ResumeGame();
                 DisableInventory();
                 book.SetActive (false);
+                Cursor.lockState = CursorLockMode.Locked;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
@@ -100,6 +104,7 @@ public class BookManager : MonoBehaviour
                 ResumeGame();
                 DisableSettings();
                 book.SetActive (false);
+                Cursor.lockState = CursorLockMode.Locked;
             }
         }
     }
@@ -122,6 +127,7 @@ public class BookManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         journalButton.transform.GetChild(0).GetComponent<Image> ().sprite = journalSelectedButton;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void setInventory()
@@ -135,6 +141,7 @@ public class BookManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         inventoryButton.transform.GetChild(0).GetComponent<Image> ().sprite = inventorySelectedButton;
+         Cursor.lockState = CursorLockMode.None;
     }
 
     public void setMap()
@@ -148,6 +155,7 @@ public class BookManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         mapButton.transform.GetChild(0).GetComponent<Image>().sprite = mapSelectedButton;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void setSettings()
@@ -161,6 +169,7 @@ public class BookManager : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         settingsButton.transform.GetChild(0).GetComponent<Image> ().sprite = settingsSelectedButton;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void EnableJournal()

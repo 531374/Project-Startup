@@ -65,14 +65,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "First temple built to honor the celestial cycle, its foundations laid
-    when the sands were still young. The ancients believed it was a gateway\u2014a
-    place where the sun first touched the earth at the dawn of creation.\r\n\r\nCarved
-    from giant pieces of limestone, its towering spires once caught the light at
-    every sunrise, reflecting weird patterns upon the desert sands. The temple housed
-    the Solstice Flame, a fire said to burn forever. It was here that the earliest
-    scholars deciphered the sky\u2019s movements, etching their knowledge into Scarab
-    Cores now lost to time."
+  m_text: "Carved from giant pieces of limestone, its towering spires once caught
+    the light at every sunrise, reflecting weird patterns upon the desert sands.
+    The temple housed the Solstice Flame, a fire said to burn forever. It was here
+    that the earliest scholars deciphered the sky\u2019s movements, etching their
+    knowledge into Scarab Cores now lost to time."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb7f46c94942b2b4eb20e935998fec2f, type: 2}
   m_sharedMaterial: {fileID: -4410014955813652257, guid: eb7f46c94942b2b4eb20e935998fec2f,
@@ -83,7 +80,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -139,6 +136,6 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}

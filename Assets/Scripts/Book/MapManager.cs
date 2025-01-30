@@ -11,11 +11,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject map;
     [SerializeField] private RectTransform mapRect;
     private Transform player;
-    private Vector2 worldBoundsMin;
-    private Vector2 worldBoundsMax;
 
     [Header("Settings")]
-    [SerializeField] private float detectionRadius = 150f;
+    [SerializeField] private float detectionRadius = 250f;
 
     [HideInInspector] public List<GameObject> visitedStructures = new List<GameObject> ();
     private List<GameObject> icons = new List<GameObject> ();
@@ -54,10 +52,11 @@ public class MapManager : MonoBehaviour
 
         foreach (var structure in GameObject.FindGameObjectsWithTag("Structure"))
         {   
-           
             if (visitedStructures.Contains (structure)) continue;
-            else if (Vector3.Distance(player.position, structure.transform.position) < detectionRadius) visitedStructures.Add (structure);
-            
+            else if (Vector3.Distance(player.position, structure.transform.position) > detectionRadius) 
+            {
+                visitedStructures.Add (structure);
+            }
         }
 
         foreach (var structure in visitedStructures)
