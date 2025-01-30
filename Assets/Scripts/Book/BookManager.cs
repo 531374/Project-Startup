@@ -4,10 +4,11 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BookManager : MonoBehaviour
 {
-    public static BookManager instance;
+    [HideInInspector] public static BookManager instance;
 
     [Header("References")]
     [SerializeField] private GameObject book;
@@ -17,6 +18,18 @@ public class BookManager : MonoBehaviour
     [SerializeField] private GameObject settings;
     [SerializeField] private AudioClip switchSound; // Reference to the sound clip
     [SerializeField] private AudioSource audioSource; // Reference to the AudioSource
+    [SerializeField] private Button journalButton;
+    [SerializeField] private Button mapButton;
+    [SerializeField] private Button inventoryButton;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Sprite journalSelectedButton;
+    [SerializeField] private Sprite mapSelectedButton;
+    [SerializeField] private Sprite inventorySelectedButton;
+    [SerializeField] private Sprite settingsSelectedButton;
+    [SerializeField] private Sprite journalImage;
+    [SerializeField] private Sprite mapImage;
+    [SerializeField] private Sprite inventoryImage;
+    [SerializeField] private Sprite settingsImage;
     public bool isBookOpened;
     [HideInInspector] public bool isPaused = false;
 
@@ -99,6 +112,11 @@ public class BookManager : MonoBehaviour
         DisableMap();
         DisableSettings();
         PauseGame ();
+        if (!EventSystem.current.currentSelectedGameObject == journalButton)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            journalButton.image.sprite = journalSelectedButton;
+        }
     }
 
     public void setInventory()
@@ -109,6 +127,11 @@ public class BookManager : MonoBehaviour
         DisableMap();
         DisableSettings();
         PauseGame ();
+        if (!EventSystem.current.currentSelectedGameObject == inventoryButton)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            inventoryButton.image.sprite = inventorySelectedButton;
+        }
     }
     public void setMap()
     {
@@ -118,6 +141,11 @@ public class BookManager : MonoBehaviour
         DissableInventory ();
         DisableSettings();
         PauseGame ();
+        if (!EventSystem.current.currentSelectedGameObject == mapButton)
+        {   
+            EventSystem.current.SetSelectedGameObject(null);
+            mapButton.image.sprite = mapSelectedButton;
+        }
     }
 
     public void setSettings()
@@ -128,11 +156,18 @@ public class BookManager : MonoBehaviour
         DisableJournal();
         DisableMap();
         PauseGame ();
+        if (!EventSystem.current.currentSelectedGameObject == settingsButton)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            settingsButton.image.sprite = settingsSelectedButton;
+        }
+
     }
 
     private void DisableJournal()
     {
         if (journal.activeSelf == true) journal.SetActive(false);
+        journalButton.image.sprite = journalImage;
     }
 
     private void EnableJournal()
@@ -148,11 +183,13 @@ public class BookManager : MonoBehaviour
     private void DissableInventory ()
     {
         if (inventory.activeSelf == true) inventory.SetActive (false);
+        inventoryButton.image.sprite = inventoryImage;
     }
 
     private void DisableMap()
     {
         if (miniMap.activeSelf == true) miniMap.SetActive(false);
+        mapButton.image.sprite = mapImage;
     }
 
     private void EnableMap()
@@ -163,6 +200,7 @@ public class BookManager : MonoBehaviour
     private void DisableSettings()
     {
         if (settings.activeSelf == true) settings.SetActive(false);
+        settingsButton.image.sprite = settingsImage;
     }
 
     private void EnableSettings()

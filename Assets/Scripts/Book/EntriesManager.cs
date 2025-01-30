@@ -70,12 +70,12 @@ public class EntriesManager : MonoBehaviour
         }
 
 
-        if (height != rectTransformParent.rect.height)
-        {
-            Vector2 sizeDelta = rectTransformParent.sizeDelta;
-            sizeDelta.y = height;
-            rectTransformParent.sizeDelta = sizeDelta;
-        }
+        // if (height != rectTransformParent.rect.height)
+        // {
+        //     Vector2 sizeDelta = rectTransformParent.sizeDelta;
+        //     sizeDelta.y = height;
+        //     rectTransformParent.sizeDelta = sizeDelta;
+        // }
 
     }
 

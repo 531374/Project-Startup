@@ -11,6 +11,7 @@ public class CollectablesInventoryUI : MonoBehaviour
     Inventory inventory;
     InventorySlot[] slots;
     private InventorySlot displayingSlot = null;
+    [SerializeField] private Image itemDescriptionImage;
 
     private void OnEnable()
     {
@@ -27,11 +28,6 @@ public class CollectablesInventoryUI : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Reinitialize the UI references
-        InitializeUI();
-    }
-
-    void Start()
-    {
         InitializeUI();
     }
 
@@ -59,6 +55,8 @@ public class CollectablesInventoryUI : MonoBehaviour
             itemDescription.gameObject.SetActive(false);
             itemName.text = "";
             itemDescription.text = "";
+            itemDescriptionImage.sprite = null;
+            itemDescriptionImage.enabled = false;
             displayingSlot = null;
             return;
         }
@@ -69,6 +67,8 @@ public class CollectablesInventoryUI : MonoBehaviour
             itemDescription.gameObject.SetActive(true);
             itemName.text = slot.item.name;
             itemDescription.text = slot.item.description;
+            itemDescriptionImage.enabled = true;
+            itemDescriptionImage.sprite = slot.item.itemDiscription;
             slot.GetComponent<Button>().Select();
             displayingSlot = slot;
         }
@@ -78,7 +78,8 @@ public class CollectablesInventoryUI : MonoBehaviour
             itemDescription.gameObject.SetActive(false);
             itemName.text = "";
             itemDescription.text = "";
-
+            itemDescriptionImage.sprite = null;
+            itemDescriptionImage.enabled = false;
             // Deselect the button
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
             displayingSlot = null;

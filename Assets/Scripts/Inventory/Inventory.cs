@@ -29,6 +29,11 @@ public class Inventory : MonoBehaviour
     public OnItemChanged onCollectableItemChangedCallback;
     public OnWeaponChanged onWeaponChangedCallback;
 
+    void Start ()
+    {
+        onCollectableItemChangedCallback.Invoke ();
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
