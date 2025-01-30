@@ -414,6 +414,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Terrain"))
