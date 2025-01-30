@@ -88,24 +88,24 @@ public class ShipController : MonoBehaviour
     private void Update()
     {
         ShowKeyCap();
-        if (!isEnabled) return;
+        // if (!isEnabled) return;
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            player.SetActive(true);
-            playerCanvas.SetActive(true);
-            this.isEnabled = false;
-            player.GetComponent<PlayerController>().isEnabled = true;
+        // if (Input.GetKeyDown(KeyCode.B))
+        // {
+        //     player.SetActive(true);
+        //     playerCanvas.SetActive(true);
+        //     this.isEnabled = false;
+        //     player.GetComponent<PlayerController>().isEnabled = true;
 
-            if (Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
-            {
-                player.transform.position = hit.distance > 15.0f ? transform.position + (transform.right * 15.0f) : hit.point;
-            }
-            else
-            {
-                player.transform.position = transform.position + (transform.right * 15.0f);
-            }
-        }
+        //     if (Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
+        //     {
+        //         player.transform.position = hit.distance > 15.0f ? transform.position + (transform.right * 15.0f) : hit.point;
+        //     }
+        //     else
+        //     {
+        //         player.transform.position = transform.position + (transform.right * 15.0f);
+        //     }
+        // }
 
         GetInput();
         Interact();
