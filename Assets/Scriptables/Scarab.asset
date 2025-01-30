@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2959253f4d9155548b75e26c95b94b5d, type: 3}
   m_Name: Scarab
   m_EditorClassIdentifier: 
-  name: Scarab
-  description: 
-  icon: {fileID: 0}
-  selectedIcon: {fileID: 0}
-  itemDiscription: {fileID: 0}
+  name: Fourth Scarab Core
+  description: Hardened over centuries, this iridescent shell reflects shifting patterns
+    when held to the sun. The locals seemed to use it for communication, perhaps
+    like a form of mail. It shows symbols I cannot yet decipher. Discovered near
+    the Collapsed Veneration Temple.
+  icon: {fileID: -1128762280, guid: 949837c0e4593334bbeba1b9b2a3e754, type: 3}
+  selectedIcon: {fileID: -421307269, guid: 69607911d09a5414587928aeca0fd864, type: 3}
+  itemDiscription: {fileID: 21300000, guid: 19becef4d9f69814ca8572112c6e25d7, type: 3}

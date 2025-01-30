@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2959253f4d9155548b75e26c95b94b5d, type: 3}
   m_Name: Key
   m_EditorClassIdentifier: 
-  name: The Key
-  description: This is a key how amazing
+  name: Clockwork Key
+  description: A delicate yet unbreakable key, polished smooth by centuries of desert
+    winds. It hums faintly when near something ancient. Feels like it opens more
+    than just a door. Found in the "Temple of The First Sun", guarded by a strange
+    creature.
   icon: {fileID: -1694674747, guid: e6dee8902bb16ec45a9a12cd0ca63e4e, type: 3}
-  selectedIcon: {fileID: 0}
+  selectedIcon: {fileID: 1193911449, guid: b1c63b383fff2234082f260901c6f374, type: 3}
   itemDiscription: {fileID: 21300000, guid: 4ad490c792926784caa62b58df7e7b28, type: 3}
