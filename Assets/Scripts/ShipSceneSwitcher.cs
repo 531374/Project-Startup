@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ShipSceneSwitcher : InteractableObject
 {
     [SerializeField] private float sceneLoadingRange;
-    private Transform player;
+    //private Transform player;
 
     private void Start ()
     {

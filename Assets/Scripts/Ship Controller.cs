@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class ShipController : MonoBehaviour
 {
+
+    static bool initialized = false;
+
     public float forwardForce = 10.0f;
     public float steeringTorque = 10.0f;
 
@@ -20,8 +23,8 @@ public class ShipController : MonoBehaviour
 
     [SerializeField] private Transform leftThing;
     [SerializeField] private Transform rightThing;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject playerCanvas;
+    //[SerializeField] private GameObject player;
+    //[SerializeField] private GameObject playerCanvas;
     [SerializeField] private GameObject keyCapPrefab;
 
     private Rigidbody rb;
@@ -55,6 +58,21 @@ public class ShipController : MonoBehaviour
     private bool isMoving = false;
     private float movementThreshold = 0.1f;
 
+    private void Awake()
+    {
+        if (!initialized)
+        {
+            transform.position = new Vector3(-485.7816f, 17.17063f, 529.4454f);
+
+            PlayerPrefs.SetFloat("PlayerX", transform.position.x);
+            PlayerPrefs.SetFloat("PlayerY", transform.position.y);
+            PlayerPrefs.SetFloat("PlayerZ", transform.position.z);
+            PlayerPrefs.Save();
+
+            initialized = true;
+        }
+    }
+
     private void Start()
     {
         points = new List<GameObject>();
@@ -76,19 +94,21 @@ public class ShipController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         mask = LayerMask.GetMask("Ground");
-        camTransform.position = transform.position + camOffset;
 
         isEnabled = true;
 
         transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
-        player.GetComponent<PlayerController>().isEnabled = false;
-        player.SetActive(false);
-        playerCanvas.SetActive(false);
+        camTransform.position = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
+        camTransform.rotation = transform.rotation;
+
+        //player.GetComponent<PlayerController>().isEnabled = false;
+        //player.SetActive(false);
+        //playerCanvas.SetActive(false);
     }
 
     private void Update()
     {
-        ShowKeyCap();
+        //ShowKeyCap();
         // if (!isEnabled) return;
 
         // if (Input.GetKeyDown(KeyCode.B))
@@ -247,20 +267,20 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    private void ShowKeyCap()
-    {
-        if (isEnabled) return;
-        if (keyCap == null && Vector3.Distance(transform.position, player.transform.position) < 15.0f)
-        {
-            keyCap = Instantiate(keyCapPrefab, transform.position + new Vector3(0, 10.0f, 0), Quaternion.identity, transform);
-        }
-        else if (keyCap != null && Vector3.Distance(player.transform.position, transform.position) > 150.0f)
-        {
-            Destroy(keyCap);
-        }
+    //private void ShowKeyCap()
+    //{
+    //    if (isEnabled) return;
+    //    if (keyCap == null && Vector3.Distance(transform.position, player.transform.position) < 15.0f)
+    //    {
+    //        keyCap = Instantiate(keyCapPrefab, transform.position + new Vector3(0, 10.0f, 0), Quaternion.identity, transform);
+    //    }
+    //    else if (keyCap != null && Vector3.Distance(player.transform.position, transform.position) > 150.0f)
+    //    {
+    //        Destroy(keyCap);
+    //    }
 
-        if (keyCap != null) keyCap.transform.LookAt(Camera.main.transform.position);
-    }
+    //    if (keyCap != null) keyCap.transform.LookAt(Camera.main.transform.position);
+    //}
 
     private void OnDrawGizmosSelected()
     {
