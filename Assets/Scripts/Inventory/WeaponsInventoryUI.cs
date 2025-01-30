@@ -14,6 +14,10 @@ public class WeaponsInventoryUI : MonoBehaviour
     InventorySlot[] slots;
     private InventorySlot displayingSlot = null;
 
+    private void Start()
+    {
+        inventory = Inventory.instance;
+    }
 
     void OnEnable ()
     {
@@ -21,6 +25,7 @@ public class WeaponsInventoryUI : MonoBehaviour
         slots = itemsParent.GetComponentsInChildren<InventorySlot>();
         inventory.onWeaponChangedCallback += UpdateUI;
     }
+
     void OnDisable ()
     {
         inventory.onWeaponChangedCallback -= UpdateUI;
@@ -73,11 +78,5 @@ public class WeaponsInventoryUI : MonoBehaviour
                 slots[i].ClearSlot();
             }
         }
-    }
-
-    public void PressRight ()
-    {
-        if (Input.GetKey (KeyCode.LeftArrow))
-        animator.Play("InventoryAnim", 0, 0.5f);
     }
 }

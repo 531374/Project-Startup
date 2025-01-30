@@ -25,8 +25,13 @@ public class Interactable : MonoBehaviour
     {
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player")?.transform ?? GameObject.FindGameObjectWithTag("Ship").transform;
+            //player = GameObject.FindGameObjectWithTag("Player")?.transform ?? GameObject.FindGameObjectWithTag("Ship").transform;
+            player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            if (player == null) player = GameObject.FindGameObjectWithTag("Ship")?.transform;
+            if (player == null) return;
+            Debug.Log (player);
         }
+
 
         Interact ();
         ShowKeyCap ();
@@ -41,7 +46,8 @@ public class Interactable : MonoBehaviour
     {   
         if (keyCap == null && Vector3.Distance (transform.position, player.position) < radius)
         {
-            keyCap = Instantiate (keyCapPrefab, transform.position + offset, Quaternion.identity, transform.GetChild(0).transform);
+            Vector3 worldPosition = transform.position + transform.TransformDirection(offset);
+            keyCap = Instantiate(keyCapPrefab, worldPosition, Quaternion.identity, transform.GetChild(0));
         } else if (keyCap != null && Vector3.Distance (player.position, transform.position) > radius)
         {
             Destroy (keyCap);

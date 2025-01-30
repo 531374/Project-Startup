@@ -26,7 +26,9 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent;
 
     float lastAttack;
-    bool isAttacking;
+    public bool isAttacking;
+
+
 
 
     // Start is called before the first frame update
@@ -38,7 +40,6 @@ public class EnemyController : MonoBehaviour
         detectedPlayer = false;
         agent.speed = speed;
 
-        EventBus<SwordHitEvent>.OnEvent += CheckHit;
 
         health = GetComponent<EnemyHealthMananger>();
 
@@ -51,6 +52,9 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(isAttacking + " " + PlayerController.instance.canBeHit);
+        if (player == null) return;
+
         if (!detectedPlayer && playerInAttackRange)
         {
             detectedPlayer = true;
@@ -73,16 +77,15 @@ public class EnemyController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo))
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo) && playerInAttackRange)
             {
                 if (hitInfo.transform.name == "Player")
                 {
-                    anim.SetTrigger("Swing");
+                    AttackLogic();
                 }
             }
         }
 
-        AttackLogic();
         AnimationLogic();
 
     }
@@ -91,7 +94,7 @@ public class EnemyController : MonoBehaviour
     {
         if(!isAttacking && Time.time - lastAttack >= attackCooldown)
         {
-            isAttacking = true;
+            //isAttacking = true;
             int random = Random.Range(0, 2);
 
             if (random == 0) anim.SetTrigger("Sting");
@@ -99,9 +102,20 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void SwitchLegs()
+    {
+        player.canBeHit = true;
+    }
+
+    public void StartAttack()
+    {
+        isAttacking = true;
+    }
+
     public void StopAttack()
     {
         isAttacking = false;
+        player.canBeHit = true;
         lastAttack = Time.time;
     }
 
@@ -126,22 +140,6 @@ public class EnemyController : MonoBehaviour
         anim.SetFloat("Move", agent.velocity.magnitude);
     }
 
-    void CheckHit(SwordHitEvent pEvent)
-    {
-        // if (pEvent.hitTransform == this.transform)
-        // {
-        //     health.TakeDamage(10f);
-        //     if (health.currentHealth <= 0f)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        // }
-    }
-
-    private void OnDisable()
-    {
-        EventBus<SwordHitEvent>.OnEvent -= CheckHit;
-    }
 
     private void OnDrawGizmos()
     {

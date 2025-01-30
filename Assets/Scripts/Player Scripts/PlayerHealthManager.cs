@@ -35,7 +35,7 @@ public class PlayerHealthManager : MonoBehaviour
 
     private void Die ()
     {
-        if (currentHealth <= 0 )
+        if (slider.value <= 0 )
         {
            Destroy (gameObject);
         }

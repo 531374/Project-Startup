@@ -13,6 +13,9 @@ public class ShipController : MonoBehaviour
     public float desiredHeight = 1.0f;
     public float spring = 100.0f;
     public float damp = 10.0f;
+
+    float test = 4.0f;
+
     [SerializeField] private float pickupRange;
 
     [SerializeField] private Transform leftThing;
@@ -57,6 +60,7 @@ public class ShipController : MonoBehaviour
         points = new List<GameObject>();
         Vector3 origin = -transform.localScale / 2f;
 
+        //Create points along the bottom side of the ship, which are used for keeping it "floating"
         for (int x = 0; x < numPointsPerAxis; x++)
         {
             for (int z = 0; z < numPointsPerAxis; z++)
@@ -85,24 +89,24 @@ public class ShipController : MonoBehaviour
     private void Update()
     {
         ShowKeyCap();
-        if (!isEnabled) return;
+        // if (!isEnabled) return;
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            player.SetActive(true);
-            playerCanvas.SetActive(true);
-            this.isEnabled = false;
-            player.GetComponent<PlayerController>().isEnabled = true;
+        // if (Input.GetKeyDown(KeyCode.B))
+        // {
+        //     player.SetActive(true);
+        //     playerCanvas.SetActive(true);
+        //     this.isEnabled = false;
+        //     player.GetComponent<PlayerController>().isEnabled = true;
 
-            if (Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
-            {
-                player.transform.position = hit.distance > 15.0f ? transform.position + (transform.right * 15.0f) : hit.point;
-            }
-            else
-            {
-                player.transform.position = transform.position + (transform.right * 15.0f);
-            }
-        }
+        //     if (Physics.Raycast(transform.position, transform.right, out RaycastHit hit))
+        //     {
+        //         player.transform.position = hit.distance > 15.0f ? transform.position + (transform.right * 15.0f) : hit.point;
+        //     }
+        //     else
+        //     {
+        //         player.transform.position = transform.position + (transform.right * 15.0f);
+        //     }
+        // }
 
         GetInput();
         Interact();
@@ -111,16 +115,20 @@ public class ShipController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Apply a force to many points on the bottom side of the ship
         for (int i = 0; i < points.Count; i++)
         {
             if (Physics.Raycast(points[i].transform.position, -transform.up, out RaycastHit hitInfo, 5.0f, mask))
             {
+                //Negate gravity (a bit)
                 Vector3 cancelGravity = rb.mass * Physics.gravity * 0.2f;
 
+                //Calculate force to give
                 float yDifference = (hitInfo.point.y + desiredHeight) - points[i].transform.position.y;
                 float force = yDifference * spring;
                 force -= rb.GetPointVelocity(points[i].transform.position).y * damp;
 
+                //At it to the location of the point on the ship
                 rb.AddForceAtPosition(cancelGravity + force * transform.up, points[i].transform.position);
             }
         }
@@ -168,13 +176,15 @@ public class ShipController : MonoBehaviour
 
     void MoveCamera()
     {
+        if (BookManager.instance.isBookOpened) return;
+
         Vector3 camPos = camTransform.position;
         Vector3 desiredPos = transform.position + transform.right * camOffset.x + transform.up * camOffset.y + transform.forward * camOffset.z;
         camTransform.position = Vector3.Lerp(camPos, desiredPos, camSpeed * Time.deltaTime);
 
+        //Camera follows direction or ship forward
         Quaternion camRotation = camTransform.rotation;
-        Vector3 lookDirection = rb.velocity.magnitude > 5f ? rb.velocity.normalized : transform.forward;
-        if (moveBackward) lookDirection = transform.forward;
+        Vector3 lookDirection = moveForward ? rb.velocity.normalized : transform.forward;
         Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
         camTransform.rotation = Quaternion.Slerp(camRotation, desiredRotation, camRotationSpeed * Time.deltaTime);
     }
@@ -206,7 +216,6 @@ public class ShipController : MonoBehaviour
             foreach (var collider in colliders)
             {
                 Interactable interactable = collider.gameObject.GetComponent<Interactable>();
-
                 if (interactable != null && Vector3.Distance(transform.position, interactable.transform.position) < interactable.radius)
                 {
                     interactable.interacted = true;

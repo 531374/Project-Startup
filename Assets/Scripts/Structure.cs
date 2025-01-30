@@ -36,11 +36,6 @@ public class Structure : InteractableObject
     protected override void Update ()
     {
         base.Update ();
-        if (keyCap != null && keyCap.transform.position != transform.GetChild (1).transform.position) 
-        {
-            keyCap.transform.position = transform.GetChild (1).transform.position;
-            keyCap.transform.localScale = new Vector3 (2f, 2f, 2f);
-        }
         triggerAnimation ();
         interaction ();
     }
@@ -49,6 +44,7 @@ public class Structure : InteractableObject
     {
         if (interacted)
         {
+            Debug.Log ("asd");
             if (interiorPrefab != null)
             {
                 PlayerPrefs.SetFloat("PlayerX", player.position.x);
@@ -135,9 +131,9 @@ public class Structure : InteractableObject
         return JournalEntry;
     }
 
-    private void OnDrawGizmosSelected ()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube (this.transform.position + new Vector3 (0, height / 2, 0), new Vector3 (detectionRange, detectionRange, detectionRange));
-    }
+    // private void OnDrawGizmosSelected ()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawCube (this.transform.position + new Vector3 (0, height / 2, 0), new Vector3 (detectionRange, detectionRange, detectionRange));
+    // }
 }

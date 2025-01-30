@@ -20,19 +20,16 @@ public class SwordController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {   
-        if (!anim.GetBool("isAttacking") && !other.isTrigger && !other.gameObject.CompareTag ("Enemy")) return;
+        if (!anim.GetBool("isAttacking") && !other.isTrigger) return;
 
         SwordHitEvent hitEvent = new SwordHitEvent(other.transform, playerController.transform);
 
-        if (anim.GetBool ("CanCollide") && anim.GetBool ("isAttacking")) 
+        if (anim.GetBool ("CanCollide") && anim.GetBool ("isAttacking") && other.CompareTag("Enemy")) 
         {
             other.GetComponent <EnemyHealthMananger> ().TakeDamage (playerController.damage);
-            Debug.Log ("asd");
+            Debug.Log(playerController.damage);
             anim.SetBool ("CanCollide", false);
         }
-
-
-       // EventBus<SwordHitEvent>.Publish(hitEvent);
     }
 }
 

@@ -11,6 +11,8 @@ TagManager:
   - Ship
   - Weapon
   - GameManager
+  - Leg
+  - Stinger
   layers:
   - Default
   - TransparentFX

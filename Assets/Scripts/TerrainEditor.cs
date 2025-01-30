@@ -47,6 +47,7 @@ public class TerrainEditor : MonoBehaviour
     {
         List<Vector2Int> removedItems = new List<Vector2Int>();
 
+        //After 2.5 seconds the terrain will be reset back to its original height
         foreach(KeyValuePair<Vector2Int, float> coord in changedTerrainCoords)
         {
             if (Time.time - coord.Value > 2.5f) 
@@ -70,27 +71,32 @@ public class TerrainEditor : MonoBehaviour
     {
         Vector3 terrainPosition = terrain.transform.position;
         Vector3 terrainSize = terrainData.size;
+        int resolution = terrainData.heightmapResolution;
         
+        //Get the coordinate of the relative to terrain (0.0 - 1.0)
         float terrainX = (point.x - terrainPosition.x) / terrainData.size.x;
         float terrainZ = (point.z - terrainPosition.z) / terrainData.size.z;
 
-        int testX = Mathf.RoundToInt(terrainX * (terrainData.heightmapResolution));
-        int testZ = Mathf.RoundToInt(terrainZ * (terrainData.heightmapResolution));
+        //Convert it to terrain coords (0 - resolution)
+        int testX = Mathf.RoundToInt(terrainX * resolution);
+        int testZ = Mathf.RoundToInt(terrainZ * resolution);
 
         Vector2Int coord = new Vector2Int(testX, testZ);
 
-        int resolution = terrainData.heightmapResolution;
 
         if (coord.x < 0 || coord.x >= resolution || coord.y < 0 || coord.y >= resolution)
         {
             return;
         }
 
+
+        //Check if the coord is already changed
         if (changedTerrainCoords.ContainsKey(coord)) return;
 
+        //Otherwise lower the terrain and keep track of it
         changedTerrainCoords.Add(coord, Time.time);
         float[,] newHeight = new float[1, 1];
-        newHeight[0,0] = terrainData.GetHeights(coord.x, coord.y, 1, 1)[0,0] - 0.0012f;
+        newHeight[0,0] = terrainData.GetHeights(coord.x, coord.y, 1, 1)[0,0] - 0.0020f;
         terrainData.SetHeights(coord.x, coord.y, newHeight);
     }
 

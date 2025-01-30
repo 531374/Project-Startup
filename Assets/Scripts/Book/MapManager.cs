@@ -32,6 +32,8 @@ public class MapManager : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Ship").transform;
         }
+
+        Debug.Log (player);
         foreach (Transform child in map.transform)
         {
             icons.Add (child.gameObject);

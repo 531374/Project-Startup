@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-
 [RequireComponent(typeof(PlayerHealthManager))]
 public class PlayerController : MonoBehaviour
 {
@@ -21,7 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpStrength;
     [SerializeField] private float rotationSpeed;
 
-    [Header ("Attack Setting")]
+    [Header("Attack Setting")]
+    [SerializeField] private float baseDamage = 10.0f;
+    [SerializeField] private float heavyAttackDamageModifier = 1.5f;
     [SerializeField] private float normalAttackStaminaCost = 5f;
     [SerializeField] private float heavyAttackStaminaCost = 10f;
 
@@ -41,13 +42,15 @@ public class PlayerController : MonoBehaviour
     [Header ("Interactable Settings")]
     [SerializeField] public float pickupRange;
 
-    public float damage = 10f;
+    public float damage;
 
     private float defaultFov; 
 
     Rigidbody rb;
 
     public static PlayerController instance;
+
+    private PlayerHealthManager health;
 
 
     private bool isGrounded;
@@ -56,11 +59,11 @@ public class PlayerController : MonoBehaviour
     public bool isAttacking;
 
     public bool isEnabled;
+    public bool canBeHit;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        EventBus<SwordHitEvent>.OnEvent += TakeHit;
 
         defaultFov = cam.fieldOfView;
 
@@ -75,10 +78,15 @@ public class PlayerController : MonoBehaviour
         if (ship != null)
         isEnabled = !ship.GetComponent<ShipController>().isEnabled;
 
+        canBeHit = true;
+
+        damage = baseDamage;
+
     }
 
     private void Awake()
     {
+        health = GetComponent<PlayerHealthManager>();
         if (instance == null) instance = this;
     }
 
@@ -110,29 +118,19 @@ public class PlayerController : MonoBehaviour
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFov, Time.deltaTime * fovChangeSpeed);
         }
-
-        AnimatorTransitionInfo transitionInfo = anim.GetAnimatorTransitionInfo(0);
-
-        if (anim.IsInTransition (0) && anim.GetBool ("isAttacking"))
-        {
-            isAttacking = false;
-        }
     }
 
 
-    //Delete after 
+    //Now dont delete this
     private void ShowHideCursor ()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (BookManager.instance.isBookOpened && Cursor.lockState == CursorLockMode.Locked)
         {
-            if(Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (!BookManager.instance.isBookOpened && Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -151,6 +149,8 @@ public class PlayerController : MonoBehaviour
 
     public void StartLightAttack()
     {
+        damage = baseDamage;
+        anim.applyRootMotion = true;
         stamina.TakeStamina (normalAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
@@ -159,6 +159,8 @@ public class PlayerController : MonoBehaviour
 
     public void StartHeavyAttack()
     {
+        damage = baseDamage * heavyAttackDamageModifier;
+        anim.applyRootMotion = true;
         stamina.TakeStamina (heavyAttackStaminaCost);
         isAttacking = true;
         anim.SetBool("isAttacking", isAttacking);
@@ -167,6 +169,8 @@ public class PlayerController : MonoBehaviour
 
     public void StopAttack()
     {
+        damage = baseDamage;
+        anim.applyRootMotion = false;
         isAttacking = false;
         anim.SetBool("isAttacking", isAttacking);
     }
@@ -183,10 +187,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool ("CanCollide", true);
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        transform.position = new Vector3(PlayerPrefs.GetFloat("PlayerX"), PlayerPrefs.GetFloat("PlayerY"), PlayerPrefs.GetFloat("PlayerZ"));
-    }
+    
 
     private void Interact()
     {
@@ -247,7 +248,6 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Roll");
         stamina.TakeStamina(rollStaminaCost);
 
-        
 
         isRolling = true;
         canDash = false;
@@ -308,6 +308,8 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (BookManager.instance.isBookOpened) return;
+
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         input.Normalize();
 
@@ -379,16 +381,6 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Movement", input.magnitude * speedModifier);
     }
 
-    void TakeHit(SwordHitEvent pEvent)
-    {
-
-    }
-
-    private void OnDisable()
-    {
-        EventBus<SwordHitEvent>.OnEvent -= TakeHit;
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Terrain"))
@@ -400,6 +392,31 @@ public class PlayerController : MonoBehaviour
                 anim.SetTrigger("Land");
             }
         }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isRolling) return;
+
+        if (other.transform.CompareTag("Leg"))
+        {
+            if (other.transform.GetComponentInParent<EnemyController>().isAttacking && canBeHit)
+            {
+                health.TakeDamage(10);
+                canBeHit = false;
+            }
+        }
+
+        if (other.transform.CompareTag("Stinger"))
+        {
+            if (other.transform.GetComponentInParent<EnemyController>().isAttacking && canBeHit)
+            {
+                health.TakeDamage(25);
+                canBeHit = false;
+            }
+        }
+
     }
 
     private void OnCollisionExit(Collision collision)
