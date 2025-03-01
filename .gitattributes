@@ -4,3 +4,5 @@
 *.fbx filter=lfs diff=lfs merge=lfs -text
 Builds/Project[[:space:]]Startup_Data/*.resS filter=lfs diff=lfs merge=lfs -text
 Builds/Project[[:space:]]Startup_Data/*assets.resS filter=lfs diff=lfs merge=lfs -text
+Builds/Project[[:space:]]Startup_Data/sharedassets1.assets.resS filter=lfs diff=lfs merge=lfs -text
+Builds/Project[[:space:]]Startup_Data/sharedassets2.assets.resS filter=lfs diff=lfs merge=lfs -text
