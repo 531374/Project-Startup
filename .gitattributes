@@ -2,3 +2,4 @@
 * text=auto
 *.unity filter=lfs diff=lfs merge=lfs -text
 *.fbx filter=lfs diff=lfs merge=lfs -text
+Builds/Project[[:space:]]Startup_Data/*.resS filter=lfs diff=lfs merge=lfs -text
